@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""End-to-end test of Creator Studio on one machine, the way a new buyer meets it: the setup starter on a
+"""End-to-end test of Reel Lab on one machine, the way a new buyer meets it: the setup starter on a
 computer with nothing installed for the Studio, then a named style, one full edit with custom motion, the self
 checks, the study of an example, saving the style, and a second reel that picks the style up by itself.
 
 It runs on GitHub's Windows, Intel Mac and Apple Silicon machines (.github/workflows/studio-e2e.yml) and on a Mac
-by hand:  python3 ci/e2e.py --state /tmp/somewhere/video-studio  (the folder name must end in video-studio; leave
+by hand:  python3 ci/e2e.py --state /tmp/somewhere/reel-lab  (the folder name must end in reel-lab; leave
 --state out on a CI machine so the real per-user folder is used, exactly like a buyer).
 
 No footage of anyone ships with this: the test clip is a generated test picture with the computer's own text to
@@ -20,7 +20,7 @@ import sys
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SK = os.path.join(ROOT, 'video-studio', 'skills', 'video-studio')
+SK = os.path.join(ROOT, 'reel-lab', 'skills', 'reel-lab')
 WIN = platform.system() == 'Windows'
 OUT = os.path.abspath(os.environ.get('E2E_OUT') or os.path.join(ROOT, 'ci', 'out'))
 LINE = ('Now if you want the link to get all the video effects that Claude can create for you, '
@@ -300,7 +300,7 @@ def main():
 
     # 8b. carousels: the setup a buyer meets on their first carousel, the 3 base looks, a look of their own, then a
     # carousel from the reel above (transcript, stills, every kind of slide), rendered to PNGs and a PDF
-    CS = os.path.join(ROOT, 'video-studio', 'skills', 'carousel-studio', 'scripts', 'carousel.py')
+    CS = os.path.join(ROOT, 'reel-lab', 'skills', 'carousel-lab', 'scripts', 'carousel.py')
     carousels = os.path.join(OUT, 'carousels')
     run('carousel: check before setup', [py, CS, 'check'], must=r'STATUS carousel profile MISSING[\s\S]*browser OK')
     run('carousel: profile', [py, CS, 'profile', '--handle', 'e2e_test', '--name', 'E2E', '--dir', carousels],

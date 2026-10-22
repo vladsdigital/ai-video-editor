@@ -1,8 +1,8 @@
-# Creator Studio
+# Reel Lab
 
 You film your clips. Claude edits the reel.
 
-This is the plugin for buyers of Creator Studio. The walkthrough videos and support are in your portal: https://portal.tenfoldmarketing.com
+This is the plugin for buyers of Reel Lab. The walkthrough videos and support are in your portal: https://portal.tenfoldmarketing.com
 
 ## Install in the Claude desktop app
 
@@ -12,14 +12,14 @@ This is the plugin for buyers of Creator Studio. The walkthrough videos and supp
 4. Paste this link and click **Sync**:
 
 ```
-https://github.com/tenfoldmarc/studio-plugin
+https://github.com/vladsdigital/reel-lab
 ```
 
-5. Install **Creator Studio** from the list.
+5. Install **Reel Lab** from the list.
 6. Start a new chat and type:
 
 ```
-/video-studio setup
+/reel-lab setup
 ```
 
 Setup asks where your clips land, then builds your editing style with you: send links to reels whose editing you love (or describe it, or pick from the Studio's built-in looks), and name it. It downloads its tools in the background while you do that. Your first edit dials the style in, and after that you just drop clips in and say: edit these in [your style].
@@ -29,16 +29,16 @@ Setup asks where your clips land, then builds your editing style with you: send 
 Only if you use Claude Code in Terminal (Mac) or PowerShell (Windows). Run these yourself, not inside Claude. Each line is one paste.
 
 ```bash
-claude plugin marketplace add tenfoldmarc/studio-plugin
+claude plugin marketplace add vladsdigital/reel-lab
 ```
 
 ```bash
-claude plugin install video-studio@creator-studio
+claude plugin install reel-lab@reel-lab
 ```
 
 On Windows this route needs [Git for Windows](https://git-scm.com/downloads) installed first.
 
-Then open Claude Code and type `/video-studio setup`.
+Then open Claude Code and type `/reel-lab setup`.
 
 ## Carousels
 
@@ -69,11 +69,11 @@ update the Studio
 **From a terminal instead:** each line is one paste.
 
 ```bash
-claude plugin marketplace update creator-studio
+claude plugin marketplace update reel-lab
 ```
 
 ```bash
-claude plugin update video-studio@creator-studio
+claude plugin update reel-lab@reel-lab
 ```
 
 Start a new chat after an update so Claude loads the new version.
@@ -84,4 +84,4 @@ Email info@tenfoldmarketing.com. Say what you were doing and what happened. A sc
 
 ---
 
-© Ten Fold Marketing. For buyers of Creator Studio, under the terms you agreed to at purchase. Not affiliated with or endorsed by Anthropic or Instagram.
+© Ten Fold Marketing. For buyers of Reel Lab, under the terms you agreed to at purchase. Not affiliated with or endorsed by Anthropic or Instagram.
