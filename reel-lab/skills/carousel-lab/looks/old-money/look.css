@@ -146,7 +146,7 @@
 .chrome .count b { font-weight: 500; }
 .chrome.bottom { justify-content: center; }
 .chrome .who { gap: 0; }
-.chrome .who .hn::before { content: "A note from "; }
+.chrome .who .hn::before { content: "Poruka od "; }
 .chrome .swipe { position: absolute; right: 0; bottom: -6px; gap: 6px; color: var(--ink-dim); }
 .chrome .swipe .st { font: 400 40px/1 var(--font-script); letter-spacing: 0; text-transform: none; }
 .chrome .swipe svg { width: 26px; height: 26px; }

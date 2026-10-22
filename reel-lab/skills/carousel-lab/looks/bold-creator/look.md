@@ -10,7 +10,7 @@ talking-head creators in AI, tech, business, design, money and fitness.
 - **Colour:** white type. One warm orange accent (`--accent`) for the hit word, the step numbers, the check marks and
   the panel behind a cut-out. A light "screenshot" paper (`--paper`) for the thing to keep and the keyword.
 - **Type:** Archivo at its heaviest weight and wide width (900, 110 to 125%), all caps, tight lines, every line sized to fill the
-  width (short punchy lines go big, long ones smaller, so stacks look like "STOP / COLLECTING / AI TOOLS").
+  width (short punchy lines go big, long ones smaller, so stacks look like "STOP / SKUPLJANJU / AI ALATA").
   Inter for reading text. JetBrains Mono for the handle, labels, captions and small print. Instrument Serif
   (regular, sentence case) for the quiet `((...))` line, the kicker and quotes: the "editorial title" moment.
 - **Hierarchy:** one loud headline, then very little. Body text is short. Labels are small mono pills.
@@ -22,8 +22,8 @@ talking-head creators in AI, tech, business, design, money and fitness.
 - **Blocks:** list rows and bullets are dark glass panels (blurred over photos). The thing to keep (payload) is a
   light app window with three dots and a title bar. Pictures in the middle are rounded like dropped-in screenshots.
   The CTA keyword sits on a white slab.
-- **Copy feel:** short, direct, spoken. Headlines of 2 to 4 short lines, 1 to 3 words a line works best ("Pick your
-  lane", "Ignore the noise", "Stop trying everything"). Sub lines of one sentence. No emojis, no hashtags.
+- **Copy feel:** short, direct, spoken. Headlines of 2 to 4 short lines, 1 to 3 words a line works best ("Izaberi
+  pravac", "Ignoriši buku", "Ne probaj sve"). Sub lines of one sentence. No emojis, no hashtags.
 
 ## Photo slide recipes
 
@@ -50,5 +50,7 @@ talking-head creators in AI, tech, business, design, money and fitness.
 - Always mark the face (`"face": "x,y,w,h"`, forehead to chin, in % of the photo) so the render keeps the type off
   it. The headline may overlap the hair or a cap, never the face.
 - Dark or moody backgrounds look best; bright outdoor photos work too because of the top and foot fades.
+
+Example copy here is in Serbian; slides are written in the buyer's language and script (SKILL.md, "Language").
 
 ## Standing notes

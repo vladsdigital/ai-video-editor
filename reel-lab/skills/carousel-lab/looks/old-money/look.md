@@ -11,8 +11,8 @@ Quiet luxury. Reads like an invitation, a magazine page and a handwritten note a
 - Type: Bodoni Moda in caps for the loud line (high contrast, hairline serifs), Pinyon Script for the flowing line
   that floats over it, small tracked Bodoni caps for labels and chrome, Inter for reading text, La Belle Aurore
   for handwritten notes.
-- Hierarchy: a `((script line))` over a CAPS line is the signature: `"((Make it look))\nexpensive"`. An inline
-  `((word))` puts script inside a caps line: `"((Step)) three"`. `[[accent]]` turns a word into the serif italic in
+- Hierarchy: a `((script line))` over a CAPS line is the signature: `"((Neka izgleda))\nskupo"`. An inline
+  `((word))` puts script inside a caps line: `"((Korak)) tri"`. `[[accent]]` turns a word into the serif italic in
   burgundy (blush on dark). One script line per headline is plenty.
 - Class `script` sets the whole headline in the script (a quote-like statement; pairs well with `lace`).
 - Layouts: centred like an invitation on paper; left aligned like a magazine on a full photo. Words on a photo sit
@@ -24,9 +24,9 @@ Quiet luxury. Reads like an invitation, a magazine page and a handwritten note a
 - Lists: bullets with small diamonds in the serif; steps and rows with italic numerals between hairlines; compare
   shows the old line small and struck with the new line in the serif italic under it; grid cards are double-ruled
   ivory cards (the `hot` one in burgundy); versus columns get script titles.
-- Chrome: the label in small tracked caps, the count in serif italic top right, "A note from @handle" centred at
-  the bottom, "Swipe" in script bottom right. No progress bar, no avatar.
-- CTA: the keyword in widely spaced caps between two rules, "Comment the word" in script (serif italic when the
+- Chrome: the label in small tracked caps, the count in serif italic top right, "Poruka od @handle" centred at
+  the bottom, "Prevuci" in script bottom right. No progress bar, no avatar.
+- CTA: the keyword in widely spaced caps between two rules, "Komentariši reč" in script (serif italic when the
   slide has a headline).
 - Copy feel: few words, unhurried, warm and sure of itself. Sentence case in the copy, the look sets the caps. No
   exclamation marks, no emoji, no hype words.
@@ -37,5 +37,7 @@ Quiet luxury. Reads like an invitation, a magazine page and a handwritten note a
 - At 4:5, use a smaller `share` on half photos (about 0.42) so the headline keeps its size.
 - Stickers: the kit is restyled to this hand (handwriting and script in burgundy or ivory, ivory paper). A small
   script `hand` line beside a stack of prints on burgundy is the move; keep stickers few.
+
+Example copy here is in Serbian; slides are written in the buyer's language and script (SKILL.md, "Language").
 
 ## Standing notes

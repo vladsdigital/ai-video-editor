@@ -6,7 +6,7 @@ a sticker must never cover the words or a face by accident.
 
 ```json
 "stickers": [
-  {"type": "bubble", "side": "left", "x": 8, "y": 30, "text": "how do you post every day??"},
+  {"type": "bubble", "side": "left", "x": 8, "y": 30, "text": "kako stigneš da objavljuješ svaki dan??"},
   {"type": "circle", "x": 50, "y": 22, "w": 380, "anchor": "center", "color": "red"}
 ]
 ```
@@ -31,39 +31,42 @@ Slide space: 1080 x 1440. The look's handle/counter sit at the top (y under ~8%)
 ## iPhone UI (real talk, DMs, "what my clients ask me", lifestyle, story-style carousels)
 
 **bubble**: an iMessage bubble. `text`, `side` (`left` = grey, them; `right` = blue, you), `tone: "green"`,
-`tail` (default true), `meta` (small line under: "Delivered", "Read 9:41"), `max` (max width, 720).
-`variant: "typing"` the three dots. `variant: "reply"` the text field: `text` or `placeholder` ("Type your text here").
+`tail` (default true), `meta` (small line under: "Isporučeno", "Pročitano 9:41"), `max` (max width, 720).
+`variant: "typing"` the three dots. `variant: "reply"` the text field: `text` or `placeholder` (default "Napiši poruku").
 ```json
-{"type": "bubble", "side": "right", "x": 94, "y": 45, "anchor": "top-right", "text": "I batch it on Sundays", "meta": "Delivered"}
+{"type": "bubble", "side": "right", "x": 94, "y": 45, "anchor": "top-right", "text": "Snimim sve nedeljom", "meta": "Isporučeno"}
 ```
+All the default texts below are Serbian. Write the sticker words in the buyer's language, like the rest of the slide.
 Stack a conversation top to bottom, left bubbles at x 6-8, right ones anchored `top-right` at x 92-94, ~7% apart.
 
-**notification**: the lock-screen banner. `app`, `title`, `text`, `time` ("now"), `icon` (`message mail bell heart
+**notification**: the lock-screen banner. `app`, `title`, `text`, `time` ("sada"), `icon` (`message mail bell heart
 cash bank camera music calendar star sparkle`, anything else = the app's first letter), `icon_color`, `icon_src`
-(their own logo file), `day`/`date` (calendar icon), `dark`. `variant: "message"`: the white "New Message" card with
+(their own logo file), `day`/`date` (calendar icon), `dark`. `variant: "message"`: the white "Nova poruka" card with
 a blue dot (`app` = the header, `title` = sender). Default width 920.
 ```json
-{"type": "notification", "x": 7, "y": 6, "app": "Messages", "title": "Sarah", "text": "ok wait, how did you get 40 new clients??", "icon": "message"}
+{"type": "notification", "x": 7, "y": 6, "app": "Poruke", "title": "Jelena", "text": "čekaj, kako si dobila 40 novih klijenata??", "icon": "message"}
 ```
 
-**notes**: an iPhone Notes card ("< Notes" bar with share and more icons). `title`, `text`, `date`,
-`checklist` (`["[x] 10 min walk", "film one reel"]`), `back`, `dark`, `color` (the yellow).
+**notes**: an iPhone Notes card ("< Beleške" bar with share and more icons). `title`, `text`, `date`,
+`checklist` (`["[x] šetnja 10 min", "snimi jedan rils"]`), `back`, `dark`, `color` (the yellow).
 ```json
-{"type": "notes", "x": 6, "y": 8, "w": 620, "date": "14 May 2026 at 09:37", "title": "Morning routine", "checklist": ["[x] walk", "write 3 hooks"]}
+{"type": "notes", "x": 6, "y": 8, "w": 620, "date": "14. maj 2026. u 09:37", "title": "Jutarnja rutina", "checklist": ["[x] šetnja", "napiši 3 udice"]}
 ```
 
 **search**: a search bar. `text` (with a blinking-style caret; `cursor: false` to hide) or `placeholder`,
 `variant` `ios` (grey field + mic, default) | `google` (white pill, round arrow button) | `glass` (on photos) | `dark`,
 `button` (round arrow), `color` (the button). Default width 820.
 ```json
-{"type": "search", "variant": "google", "x": 6, "y": 80, "text": "best pilates studio near me"}
+{"type": "search", "variant": "google", "x": 6, "y": 80, "text": "najbolji pilates studio u blizini"}
 ```
 
-**menu**: the long-press menu. `items`: `["Save", "Copy", "Share", "-", "Delete"]` (`-` = group gap; icons and red
-come from the word: save, copy, share, more, delete, edit, reply, forward, pin, like, link, report) or
-`{"text": "Book now", "icon": "calendar", "red": false}`. `dark`. Default width 540.
+**menu**: the long-press menu. `items`: `["Sačuvaj", "Kopiraj", "Podeli", "-", "Obriši"]` (`-` = group gap; icons and
+red come from the first word, in Serbian, Croatian, Bosnian or English: sačuvaj/spremi/save, kopiraj/copy,
+podeli/podijeli/share, više/more, obriši/izbriši/delete, izmeni/uredi/edit, odgovori/reply, prosledi/forward,
+zakači/pin, sviđa/like, link, prijavi/report) or `{"text": "Zakaži termin", "icon": "calendar", "red": false}`.
+`dark`. Default width 540.
 
-**camera**: `variant` `modes` (SLO-MO VIDEO PHOTO PORTRAIT SQUARE, `active` in yellow; `modes` to change),
+**camera**: `variant` `modes` (USPORENO VIDEO FOTO PORTRET KVADRAT, `active` in yellow; `modes` to change),
 `focus` (the yellow focus square, `w`, `sun: false` to drop the exposure sun), `zoom` (`levels` [".5","1×","3"],
 `active`), `shutter` (the white button, `w`).
 
@@ -79,18 +82,18 @@ heart, comment, send, save; `counts` ["2.4k","118","56"], `liked`, `dark`).
 **location**: a pin + place pill. `text`, `variant` `glass` (default, on photos) | `white` (accent gradient text) |
 `dark` | `accent` | `plain` (no pill). Caps by itself.
 ```json
-{"type": "location", "x": 6, "y": 6, "text": "Paris"}
+{"type": "location", "x": 6, "y": 6, "text": "Beograd"}
 ```
 
-**stamp**: a date/time line. `variant` `ui` (small iPhone-style text, white unless `color`; `bold`: "Today", `text`: "9:41 AM"),
-`film` (orange LCD date of a film camera, digits: `"'26 05 14"`), `rubber` (inked rubber stamp: "Approved", "Sold out").
+**stamp**: a date/time line. `variant` `ui` (small iPhone-style text, white unless `color`; `bold`: "Danas", `text`: "9:41"),
+`film` (orange LCD date of a film camera, digits: `"'26 05 14"`), `rubber` (inked rubber stamp: "Odobreno", "Rasprodato").
 
 ## Paper and scrapbook (journal, lifestyle, wellness, "my week", behind the scenes; best on Paper)
 
 **polaroid**: a photo in a white instant-film frame. `src`, `caption` (hand font), `font`, `focus`, `ratio`
 (`square` | `portrait` | `wide`), `tape: true` (+ `tape_color`, `tape_pattern`). Default width 440; rotate it 3-6°.
 ```json
-{"type": "polaroid", "src": "assets/me.jpg", "x": 6, "y": 6, "w": 420, "rotate": -5, "caption": "day one", "tape": true}
+{"type": "polaroid", "src": "assets/me.jpg", "x": 6, "y": 6, "w": 420, "rotate": -5, "caption": "prvi dan", "tape": true}
 ```
 
 **tape**: a strip of washi/masking tape with torn ends. `color` (`beige kraft pink mint blue yellow lilac white clear
@@ -100,32 +103,32 @@ the corners of a photo at ±35-45°.
 **sticky**: a sticky note. `text` (hand font), `color` (`yellow pink blue green orange lilac mint white`), `font`,
 `ink`, `align: "left"`, `tape`. Default 400 square; text size follows `w`.
 
-**receipt**: a diner guest check. `title` ("Guest Check"), `number`, `date`, `table`, `guests`, `server`,
-`lines` (`"text"` or `{"qty": "1", "text": "consistency", "price": "$0"}`), `rows` (blank rows to show), `total`,
-`footer`, `paper`, `ink`. A playful "the bill for success" list.
+**receipt**: a diner guest check. `title` ("Račun"), `number`, `date`, `table`, `guests`, `server`,
+`lines` (`"text"` or `{"qty": "1", "text": "doslednost", "price": "0 din"}`), `rows` (blank rows to show), `total`,
+`footer` ("Hvala, dođite ponovo"), `paper`, `ink`. A playful "račun za uspeh" list.
 ```json
-{"type": "receipt", "x": 56, "y": 5, "w": 420, "rotate": 3, "lines": [{"qty": "1", "text": "patience", "price": "∞"}], "total": "100%"}
+{"type": "receipt", "x": 56, "y": 5, "w": 420, "rotate": 3, "lines": [{"qty": "1", "text": "strpljenje", "price": "∞"}], "total": "100%"}
 ```
 
 **card**: a paper card with a title and words, for the "old money" feel. `variant` `simple` | `lace` (scalloped edge
 with eyelets) | `invite` (double rule frame with corner scrolls, centred, caps title) | `torn` (torn top and bottom).
 `title`, `text`, `sign` (a script signature), `paper`, `ink`. Default width 620.
 ```json
-{"type": "card", "variant": "invite", "x": 52, "y": 12, "w": 460, "title": "You're invited", "text": "to stop playing small", "sign": "Vlada"}
+{"type": "card", "variant": "invite", "x": 52, "y": 12, "w": 460, "title": "Pozvana si", "text": "da prestaneš da se umanjuješ", "sign": "Vlada"}
 ```
 
 **clip**: a paperclip (`color` silver | gold | rosegold | pink | black), clipped on a photo or note edge.
 
 **folder**: a desktop folder icon with its name under it. `color` (pink default, blue yellow green purple grey black
 orange red beige), `label`, `selected` (blue name highlight), `cursor: true` (the arrow pointer). Default width 240.
-Good for "my folders": `2026 goals`, `Clients`, `Content ideas`.
+Good for "moji folderi": `Ciljevi 2026`, `Klijenti`, `Ideje za sadržaj`.
 
 ## Hand-drawn marks (point at things; work on every look)
 
 **hand**: handwritten words. `text`, `font` (`hand` default, `pen` loose pen, `marker` bold marker, `script`
 elegant signature, `serif`, `type` typewriter), `color` (the slide's ink if left out), `size` (64), `align`.
 ```json
-{"type": "hand", "x": 8, "y": 88, "text": "my advice inside...", "color": "white", "size": 76}
+{"type": "hand", "x": 8, "y": 88, "text": "moj savet je unutra...", "color": "white", "size": 76}
 ```
 
 **circle**: a scribbled loop around a word. `w`, `h` (0.42 × w), `stroke` (7), `brush` (`pen` tapered | `marker`),
@@ -143,10 +146,10 @@ up-right` or degrees), `curve` (-1 to 1, 0.45), `variant` `curve` | `loop` | `zi
 `size` (44), `w` (where it wraps). `variant: "strip"`: typed words on white paper strips, one per line
 (`color` = the strip).
 ```json
-{"type": "highlight", "x": 6, "y": 6, "w": 760, "text": "the one habit that changed my business", "size": 54}
+{"type": "highlight", "x": 6, "y": 6, "w": 760, "text": "jedna navika koja mi je promenila biznis", "size": 54}
 ```
 
-**label**: a rounded chip: "SWIPE", "TIP OF THE DAY", "25% OFF BOOKINGS THIS WEEK". `text`, `variant` `solid`
+**label**: a rounded chip: "PREVUCI" (the default), "SAVET DANA", "25% POPUSTA NA TERMINE OVE NEDELJE". `text`, `variant` `solid`
 (accent) | `white` | `dark` | `outline` | `glass` | `soft`, `icon` (`arrow sparkle heart star pin check link lock
 bell music calendar flag dot`), `icon_side: "left"`, `shape: "square"`, `color`.
 
@@ -154,7 +157,7 @@ bell music calendar flag dot`), `icon_side: "left"`, `shape: "square"`, `color`.
 
 - Paper, beige, serif, "old money": card (invite, lace), polaroid, tape in beige/kraft, receipt, hand in `script`, stamp rubber.
 - Pastel, lifestyle, pilates, wellness: sticky (pink, blue, mint), tape with patterns, hearts and sparkles gloss, label soft, folder pink.
-- Bold, Poster, hot takes: circle, arrow, underline in the accent, highlight, label solid, notification ("this DM made me...").
+- Bold, Poster, hot takes: circle, arrow, underline in the accent, highlight, label solid, notification ("ova poruka me je...").
 - Dark looks (Horizon) and photos: glass location / label / search, white hand text, white or yellow marks.
 - Two to six stickers a slide. One hero piece (a bubble thread, a polaroid, a notes card) plus small marks. Tilt
   paper bits 2-6°, never UI pieces.

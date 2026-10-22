@@ -134,3 +134,31 @@ and `layout.py` again, or correct `head` and `bands` in `layout.json` by hand. T
 
 Tall styles (Cool Girl, Cool Dude, Weight Shift, Terminal, Outline) stack three lines from about 70px above
 `Y_CHEST`. On a `tight` chest band tell the buyer and use a one-line style for that reel.
+
+## Fonts for custom caption specs
+
+Every family below is in `assets/fonts/fonts.css` (weights listed are the declared ones). All cover
+č ć š ž đ unless marked. Cyr = Serbian Cyrillic (љ њ џ ђ ћ ј) included. For Cyrillic captions pick a Cyr face:
+a face without it falls back to a system font for those letters.
+
+| Role | Family: weights | Cyr |
+|---|---|---|
+| Sans | Inter 300 500, Inter Tight 500i 700 800 900, Montserrat 500 700 800 900, Arimo 400 500 700, Manrope 600 800, Onest 500 800, Rubik 700 900 | yes |
+| Sans | Figtree 500 600, Poppins 600 700, Archivo 800 900 900i (expanded) | no |
+| Wide / heavy display | Unbounded 700 900, Russo One 400, Dela Gothic One 400 | yes |
+| Wide / heavy display | Archivo Black 400 | no |
+| Condensed | Oswald 500 700, Roboto Condensed 500 800, Fira Sans Extra Condensed 700 900 | yes |
+| Condensed | Bebas Neue 400, Barlow Condensed 500 600 | no |
+| Rounded | Nunito 800 900 | yes |
+| Serif | Playfair Display 500i 600i 700, Lora 500 500i, Cormorant Garamond 600 500i | yes |
+| Serif | Instrument Serif 400 400i, DM Serif Display 400 400i, Newsreader 400 500 500i 600i | no |
+| Script / hand | Caveat 600, Marck Script 400, Bad Script 400, Pacifico 400, Lobster 400, Pangolin 400 (marker), Amatic SC 700 | yes |
+| Script / hand | Covered By Your Grace 400 (no đ Đ), Elsie Swash Caps 400 900 (no č ć đ), Permanent Marker 400 (Latin only, no č ć đ; file `PermanentMarker-400-normal.woff2`, not in fonts.css) | no |
+| Mono / pixel | JetBrains Mono 500 | yes |
+| Mono / pixel | Pixelify Sans 500 600 700 (basic Cyrillic, no ђ ћ љ њ џ) | partly |
+
+Cyrillic stand-ins for the faces without it: Archivo expanded or Archivo Black -> Unbounded or Dela Gothic One;
+Bebas Neue -> Oswald 700; Barlow Condensed -> Roboto Condensed; Poppins or Figtree -> Montserrat or Onest;
+Instrument Serif or DM Serif Display -> Playfair Display or Cormorant Garamond; Newsreader -> Lora;
+Permanent Marker or Covered By Your Grace -> Pangolin or Caveat. A face that is not here: `get_font.py`
+(it reports whether the face has č ć š ž đ and Cyrillic).

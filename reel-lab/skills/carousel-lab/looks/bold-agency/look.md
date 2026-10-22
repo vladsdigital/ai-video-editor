@@ -16,7 +16,7 @@ circled by hand, on moody warm photos or flat blocks of cream, rust and oxblood.
   a portrait cropped into a blob, colour-block statements, text-only slides with a circled word, an editorial
   table of rows or steps with serif italic numbers and hairline rules.
 - Chrome: handle top-left in tiny caps, a stack of 1 to 3 short words top-right (the carousel "tag", or the
-  slide's label, one word per line: "Brand\nContent\nGrowth"), a thin long arrow bottom-right, and the carousel
+  slide's label, one word per line: "Brend\nSadržaj\nRast"), a thin long arrow bottom-right, and the carousel
   "footer" as a small caps stack bottom-left on slides with nothing at the bottom. A slide's "note" takes that
   bottom-left corner instead. No counter, no avatar.
 - Slide classes: `rust`, `wine`, `ink`, `cream` change the ground (statements default to wine, the CTA to rust);
@@ -25,12 +25,14 @@ circled by hand, on moody warm photos or flat blocks of cream, rust and oxblood.
   the top half); `blob` crops a middle picture into the blob shape (fit "cover" does it on its own).
 - The CTA: a rust block (or a photo with "low"), the headline loud, the keyword huge and circled by hand.
 - Copy feel: short, sure of itself, a little dry. Headlines are 2 or 3 short lines that end with a period
-  ("ideas build brands."), one word or phrase accented. No exclamation marks, no emojis, no hashtags on slides.
-  Write in normal case; the look lowercases headlines (so "I" shows as "i": that is the style).
+  ("ideje grade brendove."), one word or phrase accented. No exclamation marks, no emojis, no hashtags on slides.
+  Write in normal case; the look lowercases headlines (so "Ja" shows as "ja": that is the style).
 - Photos: moody and warm. Low window light, deep shadows, browns, burgundy, rust, cream; people working, hands,
   coffee, laptops, notebooks, a tote bag, a studio corner. Avoid bright white offices, blue light, stock smiles.
   Crop tight and let the photo run edge to edge. A face goes in the half without text: on a cover with a face up
   top use "low" and the "face" field; with a face low in the frame keep the headline at the top (the default).
   Collages: 2 to 4 photos with the same light. A close portrait works best in the blob.
+
+Example copy here is in Serbian; slides are written in the buyer's language and script (SKILL.md, "Language").
 
 ## Standing notes

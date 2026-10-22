@@ -1,9 +1,17 @@
-The font files in this folder come from Google Fonts. All of them except Permanent Marker are licensed under the
-SIL Open Font License, Version 1.1, reproduced in full below: Archivo, Arimo, Barlow Condensed, Bebas Neue, Caveat,
-Covered By Your Grace, DM Serif Display, Elsie Swash Caps, Figtree, Instrument Serif, Inter, Inter Tight,
-JetBrains Mono, Marck Script, Montserrat, Newsreader, Pixelify Sans, Playfair Display, Poppins.
+The font files in this folder come from the Google Fonts repository (https://github.com/google/fonts). All of them
+except Permanent Marker are licensed under the SIL Open Font License, Version 1.1, reproduced in full below:
+Amatic SC, Archivo, Archivo Black, Arimo, Bad Script, Barlow Condensed, Bebas Neue, Caveat, Cormorant Garamond,
+Covered By Your Grace, Dela Gothic One, DM Serif Display, Elsie Swash Caps, Figtree, Fira Sans Extra Condensed,
+Instrument Serif, Inter, Inter Tight, JetBrains Mono, Lobster, Lora, Manrope, Marck Script, Montserrat, Newsreader,
+Nunito, Onest, Oswald, Pacifico, Pangolin, Pixelify Sans, Playfair Display, Poppins, Roboto Condensed, Rubik,
+Russo One, Unbounded.
 Copyright belongs to each family's authors: the copyright notice of every family is on its page at
 https://fonts.google.com and in its folder at https://github.com/google/fonts/tree/main/ofl
+
+Most files are Modified Versions of the upstream fonts: cut down to the Latin, Latin Extended and Cyrillic
+characters and, for some, fixed to one weight or width. The families whose copyright notice names a Reserved Font
+Name (Elsie Swash Caps, Lobster, Lora, Marck Script, Playfair Display, Russo One) are the unmodified upstream fonts,
+only packed as WOFF2.
 
 Permanent Marker is NOT under the Open Font License. It is licensed under the Apache License, Version 2.0
 (https://www.apache.org/licenses/LICENSE-2.0). Copyright (c) 2010 by Font Diner, Inc. All rights reserved.

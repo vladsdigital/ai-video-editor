@@ -65,12 +65,29 @@ def main():
                  '(PY get_font.py --list), and tell the buyer which face stands in.')
     except (urllib.error.URLError, OSError) as e:
         sys.exit(f'could not reach Google Fonts ({e}). Check the connection, or use a face the skill ships (--list).')
-    # the css lists one block per script; the plain Latin one is marked /* latin */ (take the last block otherwise)
+    # the css lists one block per script (/* latin */, /* latin-ext */, /* cyrillic */ ...): that tells what the family covers
     blocks = re.findall(r'/\*\s*([\w-]+)\s*\*/\s*@font-face\s*\{[^}]*?src:\s*url\(([^)]+)\)', css)
-    pick = next((u for name, u in blocks if name == 'latin'), None) or (blocks[-1][1] if blocks else None)
-    if not pick:
-        m = re.search(r'src:\s*url\(([^)]+)\)', css)
-        pick = m.group(1) if m else None
+    subsets = {name for name, _ in blocks}
+    # One file for Latin + Serbian/Croatian/Bosnian Latin (č ć š ž đ) + Cyrillic: ask Google for exactly these characters
+    # (a text= request returns a single file with whatever of them the family has; layout features and kerning kept).
+    # Keep this set short: Google ignores text= when the URL gets too long.
+    want = ''.join(map(chr, [*range(0x20, 0x7F), *range(0xA0, 0x180), *range(0x400, 0x460),
+                             0x2013, 0x2014, 0x2018, 0x2019, 0x201A, 0x201C, 0x201D, 0x201E, 0x2026, 0x20AC, 0x2116]))
+    pick = None
+    try:
+        tcss = urllib.request.urlopen(urllib.request.Request(f'{url}&text={urllib.parse.quote(want)}',
+                                                             headers={'User-Agent': UA}), timeout=30).read().decode('utf-8', 'replace')
+        found = re.findall(r'src:\s*url\(([^)]+)\)', tcss)
+        if len(found) == 1:
+            pick = found[0]
+    except (urllib.error.URLError, OSError):
+        pass
+    if not pick:   # fallback: the plain Latin block (marked /* latin */; the last block otherwise)
+        pick = next((u for name, u in blocks if name == 'latin'), None) or (blocks[-1][1] if blocks else None)
+        if not pick:
+            m = re.search(r'src:\s*url\(([^)]+)\)', css)
+            pick = m.group(1) if m else None
+        subsets = {'latin'}
     if not pick:
         sys.exit(f'Google Fonts answered, but with no font file for "{family}" {weight}. Try another weight.')
     dest_dir = skillenv.my_fonts_dir()
@@ -84,6 +101,8 @@ def main():
         fh.write(data)
     print(f'fetched {family} {weight}{" italic" if italic else ""} ({len(data) // 1024} KB, open licence, from Google Fonts)')
     print(f'file    {skillenv.shell_path(dest)}')
+    print('letters č ć š ž đ: ' + ('yes' if 'latin-ext' in subsets else 'NO, pick another face for Serbian/Croatian/Bosnian Latin')
+          + ' | Cyrillic: ' + ('yes' if 'cyrillic' in subsets else 'NO, pick another face for Cyrillic captions'))
     print(f'use it  "font": "{family}", "weight": {weight}, "file": "{name}"' + (', "italic": true' if italic else '')
           + '   in the caption spec, or in a layer\'s css with @font-face and url(\'assets/fonts/' + name + '\')')
 

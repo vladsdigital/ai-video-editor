@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="sr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Carousel preview</title>
+<title>Pregled karusela</title>
 <style>
   :root { --bg: #f2f2f0; --card: #fff; --ink: #121212; --dim: #6b6b6b; --line: #e3e3e0; --dot: #c9c9c6; --blue: #0095f6; }
   @media (prefers-color-scheme: dark) { :root { --bg: #0b0b0b; --card: #000; --ink: #f5f5f5; --dim: #a8a8a8; --line: #262626; --dot: #555; } }
@@ -48,8 +48,8 @@
   <header class="head"><span id="av"></span><span class="hn" id="hn"></span><span class="more">&middot;&middot;&middot;</span></header>
   <div class="stage" id="stage">
     <div class="track" id="track"></div>
-    <button class="nav prev" id="prev" aria-label="Previous">&#8249;</button>
-    <button class="nav next" id="next" aria-label="Next">&#8250;</button>
+    <button class="nav prev" id="prev" aria-label="Prethodni">&#8249;</button>
+    <button class="nav next" id="next" aria-label="Sledeći">&#8250;</button>
     <span class="count" id="count"></span>
   </div>
   <div class="bar">
@@ -63,13 +63,13 @@
 </article>
 <aside class="side">
   <h2 id="title"></h2>
-  <p>Swipe, use the arrow keys, or click a slide. The files are in <code id="folder"></code></p>
+  <p>Prevuci, koristi strelice na tastaturi ili klikni na slajd. Fajlovi su u <code id="folder"></code></p>
   <div class="grid" id="grid"></div>
 </aside>
 <script>
 const D = /*DATA*/null;
 document.documentElement.style.setProperty('--ratio', D.ratio);
-document.title = D.title + ' | preview';
+document.title = D.title + ' | pregled';
 document.getElementById('title').textContent = D.title;
 document.getElementById('folder').textContent = D.folder;
 document.getElementById('hn').textContent = (D.handle || '').replace(/^@/, '');
@@ -80,7 +80,7 @@ if (D.caption) document.getElementById('cap').innerHTML = '<b></b>', document.qu
 const track = document.getElementById('track'), dots = document.getElementById('dots'), grid = document.getElementById('grid');
 const bust = '?v=' + Date.now();
 D.slides.forEach((src, k) => {
-  const im = new Image(); im.src = src + bust; im.alt = 'Slide ' + (k + 1); track.append(im);
+  const im = new Image(); im.src = src + bust; im.alt = 'Slajd ' + (k + 1); track.append(im);
   dots.append(document.createElement('i'));
   const g = new Image(); g.src = src + bust; g.onclick = () => go(k); grid.append(g);
 });

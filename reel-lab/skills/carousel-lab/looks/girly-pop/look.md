@@ -14,7 +14,7 @@ a handwritten note beside them, and little iPhone pieces on top. Fun, current, c
   ((line)) in a headline.
 - Hierarchy: one loud headline (2 to 4 short lines), one handwritten note, small UI pieces. Nothing else competes.
 - The parts, and what each field becomes:
-  - label = the handwritten note ("come with me!", "tip 01", "step 2", "bonus"), tilted.
+  - label = the handwritten note ("pođi sa mnom!", "savet 01", "korak 2", "bonus"), tilted.
   - hook sub = a message being typed in a white pill with a pink send button.
   - sub accent [[...]] = a highlighted phrase, like text selected on a phone.
   - callout = a selected line with the Copy / Select All / Look Up bar over it (the punchline people screenshot).
@@ -27,21 +27,23 @@ a handwritten note beside them, and little iPhone pieces on top. Fun, current, c
   - big = a huge pastel number.
   - image (frame) = the photo inside a little camera window (three dots, shutter button). Collage frame "card" =
     photo-picker tiles with blue check marks; "polaroid" captions are handwritten.
-  - CTA = a message thread: "Comment the word" (grey), the keyword in a big pink sent bubble, the promise in a pink
-    bubble, the follow line under it like "Delivered".
+  - CTA = a message thread: "Komentariši reč" (grey), the keyword in a big pink sent bubble, the promise in a pink
+    bubble, the follow line under it like "Isporučeno".
 - Chrome: handle in a glass pill top left, a small counter pill top right, the swipe cue as a white pill with a pink
   arrow button bottom right (hidden on the last slide). A sparkle and a heart sit on the cover and CTA headlines.
 - Layouts: on a full photo the words sit low (faces are usually high); "text-top" or "text-middle" move them when the
   face is low. The cover stacks the headline on the right with the note on the left; "stagger" steps the lines across
-  ("day / in / my / life"); "left", "right", "center" align. Words-only slides are one centred group. A half photo
+  ("dan / iz / mog / života"); "left", "right", "center" align. Words-only slides are one centred group. A half photo
   ("fit": "half") ends in a rounded sheet edge and the words sit on the tiles under it.
-- Copy feel: how she texts her best friend. Short, lowercase-friendly headlines ("day in my life", "what I wish I
-  knew"), real and specific, a bit of fun ("friends!!"), no corporate words, no hashtags or emojis on slides. The
+- Copy feel: how she texts her best friend. Short, lowercase-friendly headlines ("dan iz mog života", "šta treba da
+  znaš"), real and specific, a bit of fun ("društvo!!"), no corporate words, no hashtags or emojis on slides. The
   handwritten note is 1 to 3 words.
 - Photos: candid phone photos of her real day (mirror selfies, coffee in hand, at a cafe table with the laptop,
   walking the street, the desk from above). Warm natural light, soft neutrals (cream, beige, denim), a little grain.
   Portrait, with the face in the upper half and calm space below it for the words. Give "face" on every photo with a
   person; if the check says TEXT OVER THE FACE, use "text-top" or pick a photo where the face is higher. Flat lays
   and coffee shots work for half photos and collages. Avoid busy bright-white backgrounds behind the headline.
+
+Example copy here is in Serbian; slides are written in the buyer's language and script (SKILL.md, "Language").
 
 ## Standing notes

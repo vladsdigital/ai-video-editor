@@ -169,14 +169,14 @@ def cmd_looks():
 
 
 FALLBACK_SAMPLE = [
-    {'layout': 'hook', 'label': 'The starter list', 'headline': '5 things I wish\n[[I knew]]\nbefore I started',
-     'sub': 'The short list nobody gave me.'},
-    {'label': 'Tip 01', 'headline': 'Start before\n[[you feel ready.]]',
-     'sub': 'Ready is a feeling that shows up [[after]] you start, not before.',
-     'items': ['Pick the smallest version you can finish **this week.**', 'Show it to **three real people.**',
-               'Fix what they actually **tripped on.**']},
-    {'headline': 'Want the\n[[full list?]]', 'sub': 'Save this. Then comment the word below.',
-     'keyword': 'LIST', 'keywordPost': "and I'll send you all 5."},
+    {'layout': 'hook', 'label': 'Lista za početak', 'headline': '5 stvari koje\n[[treba da znaš]]\npre početka',
+     'sub': 'Kratka lista koju mi niko nije dao.'},
+    {'label': 'Savet 01', 'headline': 'Ne čekaj\n[[savršen trenutak.]]',
+     'sub': 'Osećaj da si spreman dolazi [[posle]] početka, ne pre.',
+     'items': ['Izaberi najmanju verziju koju možeš da završiš **ove nedelje.**',
+               'Pokaži je **ljudima kojima je namenjena.**', 'Popravi ono **na čemu su zapeli.**']},
+    {'headline': 'Hoćeš\n[[celu listu?]]', 'sub': 'Sačuvaj ovo. Pa komentariši reč ispod.',
+     'keyword': 'LISTA', 'keywordPost': 'i poslaću ti svih 5.'},
 ]
 SAFE_FACE = '30,8,40,34'
 
@@ -239,7 +239,7 @@ def cmd_preview_looks():
         for k in (1, 2, 3):
             p = photos[(k - 1) % len(photos)] if photos else ''
             text = text.replace(f'{{photo{k}}}', p.replace('\\', '/')).replace(f'{{face{k}}}', faces.get(k, SAFE_FACE))
-        text = text.replace('{handle}', prof.get('handle') or '@yourhandle')
+        text = text.replace('{handle}', prof.get('handle') or '@tvoj_nalog')
         if opt('--topic'):
             slides = json.loads(text)
             slides[0]['headline'] = opt('--topic')
@@ -248,7 +248,7 @@ def cmd_preview_looks():
         os.makedirs(proj, exist_ok=True)
         R.write_json(os.path.join(proj, 'carousel.json'), {'title': l['name'], 'slug': l['key'], 'look': l['folder'],
                                                           'slides': json.loads(text),
-                                                          'profile': {'handle': prof.get('handle') or '@yourhandle'}})
+                                                          'profile': {'handle': prof.get('handle') or '@tvoj_nalog'}})
         res = R.render(proj, quiet=True)
         # their photos are new to the sample: a sticker that lands on a face is dropped and the slide made again
         hit = [i for i, _, q in res if i and any(n.startswith('TEXT OVER THE FACE') for n in q.get('notes', []))]
@@ -269,15 +269,15 @@ def cmd_preview_looks():
     sections = ''.join(
         f'<section><h2>{k}. {html_escape(l["name"])}</h2><p>{html_escape(l["about"])}</p><div class="row">'
         + ''.join(f'<img src="{R.uri(p)}">' for p in pngs) + '</div></section>' for k, (l, pngs, _) in enumerate(shown, 1))
-    page = ('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
-            '<title>Pick your carousel look</title><style>*{box-sizing:border-box;margin:0}body{background:#f2f2f0;color:#151515;'
+    page = ('<!doctype html><html lang="sr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
+            '<title>Izaberi izgled karusela</title><style>*{box-sizing:border-box;margin:0}body{background:#f2f2f0;color:#151515;'
             'font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:32px 16px}'
             '@media(prefers-color-scheme:dark){body{background:#0e0e0e;color:#f2f2f2}}h1{font-size:28px;margin:0 auto 6px;max-width:1180px}'
             '.lead{max-width:1180px;margin:0 auto 28px;opacity:.7}section{max-width:1180px;margin:0 auto 40px}h2{font-size:20px}'
             'section p{opacity:.7;margin:4px 0 14px;max-width:760px}.row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}'
             '.row img{width:100%;border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.15)}</style></head><body>'
-            '<h1>Pick your carousel look</h1><p class="lead">Each look on three sample slides'
-            + (', made with your photos' if photos else '') + '. Tell Claude the number or the name. You can change anything after.</p>'
+            '<h1>Izaberi izgled karusela</h1><p class="lead">Svaki izgled na tri probna slajda'
+            + (', napravljena sa tvojim fotkama' if photos else '') + '. Reci Claudeu broj ili naziv. Posle možeš da promeniš šta god hoćeš.</p>'
             + sections + '</body></html>')
     gallery = os.path.join(root, 'looks.html')
     with open(gallery, 'w', encoding='utf-8') as f:

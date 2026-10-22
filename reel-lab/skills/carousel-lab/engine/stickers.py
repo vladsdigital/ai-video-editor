@@ -380,7 +380,7 @@ def place(st, kind, inner, cls='', css='', size=None, width=None):
 # ------------------------------------------------------------------ the stickers
 def k_location(st, ctx):
     style = st.get('look') or st.get('variant') or 'glass'
-    text = _md(st.get('text', 'Paris'))
+    text = _md(st.get('text', 'Beograd'))
     return place(st, 'location', f'<span class="s-pinwrap">{icon("pin")}</span><span class="s-tx">{text}</span>',
                  f'v-{style}', size=34)
 
@@ -388,7 +388,7 @@ def k_location(st, ctx):
 def k_search(st, ctx):
     v = st.get('variant') or st.get('look') or 'ios'
     text = st.get('text', '')
-    ph = st.get('placeholder', 'Search')
+    ph = st.get('placeholder', 'Pretraga')
     tx = (f'<span class="s-tx">{_md(text)}' + ('<i class="s-caret"></i>' if st.get('cursor', True) else '') + '</span>'
           if text else f'<span class="s-tx s-ph">{_md(ph)}</span>')
     right = ''
@@ -410,7 +410,7 @@ def k_bubble(st, ctx):
     tone = str(st.get('tone', 'green' if st.get('sms') else '')).lower()
     if v == 'reply':
         text = st.get('text', '')
-        tx = f'<span class="s-tx">{_md(text)}</span>' if text else f'<span class="s-tx s-ph">{_md(st.get("placeholder", "Type your text here"))}</span>'
+        tx = f'<span class="s-tx">{_md(text)}</span>' if text else f'<span class="s-tx s-ph">{_md(st.get("placeholder", "Napiši poruku"))}</span>'
         return place(st, 'bubble', f'<span class="s-plus">{icon("plus")}</span><span class="s-field">{tx}'
                      f'<span class="s-send">{icon("up")}</span></span>', 'v-reply', size=36, width=820)
     tail = TAIL if st.get('tail', True) else ''
@@ -419,7 +419,7 @@ def k_bubble(st, ctx):
                  + ('<em class="s-t1"></em><em class="s-t2"></em>' if tail else '') + '</span>')
         return place(st, 'bubble', inner, f'v-typing side-{side}', size=40)
     meta = f'<span class="s-meta">{_md(st["meta"])}</span>' if st.get('meta') else ''
-    inner = f'<span class="s-b">{_md(st.get("text", "Hey! Did you see this?"))}{tail}</span>{meta}'
+    inner = f'<span class="s-b">{_md(st.get("text", "Ćao! Vidi ovo."))}{tail}</span>{meta}'
     return place(st, 'bubble', inner, f'side-{side} tone-{tone}' + ('' if tail else ' no-tail'), size=40,
                  css=f'max-width:{fmt(num(st.get("max"), 720))}px;' if not st.get('w') else '')
 
@@ -437,7 +437,7 @@ def app_icon(st, ctx):
         return f'<span class="s-app s-img"><img src="{esc(_src(st["icon_src"], ctx))}" alt=""></span>'
     name = str(st.get('icon', 'message')).lower()
     if name == 'calendar':
-        return ('<span class="s-app s-cal"><b>' + esc(st.get('day', 'MON')) + '</b><span>' + esc(st.get('date', '14'))
+        return ('<span class="s-app s-cal"><b>' + esc(st.get('day', 'PON')) + '</b><span>' + esc(st.get('date', '14'))
                 + '</span></span>')
     if name in APP_ICONS:
         g, bg = APP_ICONS[name]
@@ -452,15 +452,15 @@ def app_icon(st, ctx):
 def k_notification(st, ctx):
     v = st.get('variant') or st.get('look') or 'banner'
     dark = ' is-dark' if st.get('dark') else ''
-    time = esc(st.get('time', 'now'))
+    time = esc(st.get('time', 'sada'))
     if v == 'message':
         frm = f'<b class="s-ti">{_md(st["title"])}</b>' if st.get('title') else ''
         return place(st, 'notification',
-                     f'<div class="s-hd"><i class="s-dot"></i><b>{_md(st.get("app", "New Message"))}</b><span class="s-tm">{time}</span></div>'
+                     f'<div class="s-hd"><i class="s-dot"></i><b>{_md(st.get("app", "Nova poruka"))}</b><span class="s-tm">{time}</span></div>'
                      f'{frm}<div class="s-txt">{_md(st.get("text", ""))}</div>', 'v-message' + dark, size=36, width=900)
     title = f'<b class="s-ti">{_md(st["title"])}</b>' if st.get('title') else ''
     return place(st, 'notification',
-                 f'{app_icon(st, ctx)}<div class="s-main"><div class="s-top">{title or "<b class=ti>" + _md(st.get("app", "Messages")) + "</b>"}'
+                 f'{app_icon(st, ctx)}<div class="s-main"><div class="s-top">{title or "<b class=ti>" + _md(st.get("app", "Poruke")) + "</b>"}'
                  f'<span class="s-tm">{time}</span></div><div class="s-txt">{_md(st.get("text", ""))}</div></div>',
                  'v-banner' + dark, size=36, width=920)
 
@@ -477,14 +477,14 @@ def k_notes(st, ctx):
     date = f'<div class="s-date">{_md(st["date"])}</div>' if st.get('date') else ''
     title = f'<div class="s-ti">{_md(st["title"])}</div>' if st.get('title') else ''
     text = f'<div class="s-txt">{_md(st["text"])}</div>' if st.get('text') else ''
-    head = (f'<div class="s-bar"><span class="s-back">{icon("chevron")}<span>{_md(st.get("back", "Notes"))}</span></span>'
+    head = (f'<div class="s-bar"><span class="s-back">{icon("chevron")}<span>{_md(st.get("back", "Beleške"))}</span></span>'
             f'<span class="s-acts">{icon("share")}{icon("more")}</span></div>')
     return place(st, 'notes', head + date + title + text + (f'<ul class="s-cl">{rows}</ul>' if rows else ''),
                  'is-dark' if st.get('dark') else '', size=36, width=800)
 
 
 def k_receipt(st, ctx):
-    lines = st.get('lines') or st.get('items') or ['1 good idea', '2 big plans']
+    lines = st.get('lines') or st.get('items') or ['1 dobra ideja', '2 velika plana']
     rows = ''
     count = max(int(num(st.get('rows'), 0)), len(lines) + 1)
     for i in range(count):
@@ -492,19 +492,19 @@ def k_receipt(st, ctx):
         x = x if isinstance(x, dict) else {'text': x}
         rows += (f'<div class="s-row"><span class="s-q">{_md(x.get("qty", ""))}</span><span class="s-it">{_md(x.get("text", ""))}</span>'
                  f'<span class="s-pr">{_md(x.get("price", ""))}</span></div>')
-    total = (f'<div class="s-row s-tot"><span class="s-q"></span><span class="s-lb">Total</span><span class="s-pr">{_md(st["total"])}</span></div>'
+    total = (f'<div class="s-row s-tot"><span class="s-q"></span><span class="s-lb">Ukupno</span><span class="s-pr">{_md(st["total"])}</span></div>'
              if st.get('total') else '')
     paper = color(st.get('paper'))
     ink = color(st.get('ink'))
     css = (f'--rc-paper:{paper};' if paper else '') + (f'--rc-ink:{ink};' if ink else '')
     no = esc(st.get('number', '0' + str(4200 + rng_for(st).randint(10, 99))))
     return place(st, 'receipt',
-                 f'<div class="s-pad"><div class="s-hd"><span class="s-ti">{_md(st.get("title", "Guest Check"))}</span>'
-                 f'<span class="s-no">No. <b>{no}</b></span></div>'
-                 f'<div class="s-grid"><span><i>Date</i>{_md(st.get("date", ""))}</span><span><i>Table</i>{_md(st.get("table", ""))}</span>'
-                 f'<span><i>Guests</i>{_md(st.get("guests", ""))}</span><span><i>Server</i>{_md(st.get("server", ""))}</span></div>'
+                 f'<div class="s-pad"><div class="s-hd"><span class="s-ti">{_md(st.get("title", "Račun"))}</span>'
+                 f'<span class="s-no">Br. <b>{no}</b></span></div>'
+                 f'<div class="s-grid"><span><i>Datum</i>{_md(st.get("date", ""))}</span><span><i>Sto</i>{_md(st.get("table", ""))}</span>'
+                 f'<span><i>Gosti</i>{_md(st.get("guests", ""))}</span><span><i>Konobar</i>{_md(st.get("server", ""))}</span></div>'
                  f'<div class="s-rows">{rows}{total}</div>'
-                 f'<div class="s-ft">{_md(st.get("footer", "Thank you, come again"))}</div></div>', '', css=css, size=32, width=560)
+                 f'<div class="s-ft">{_md(st.get("footer", "Hvala, dođite ponovo"))}</div></div>', '', css=css, size=32, width=560)
 
 
 def k_polaroid(st, ctx):
@@ -573,7 +573,7 @@ def k_hand(st, ctx):
     css = f'font-family:{font(st.get("font"), "hand")};' + (f'color:{ink};' if ink else '')
     if st.get('align'):
         css += f'text-align:{css_value(st["align"])};'
-    return place(st, 'hand', _md(st.get('text', 'my advice inside...')), css=css, size=64, width=st.get('w', 'auto'))
+    return place(st, 'hand', _md(st.get('text', 'moj savet je unutra...')), css=css, size=64, width=st.get('w', 'auto'))
 
 
 def mark(st, strokes, kind, stroke_w, brush):
@@ -682,11 +682,11 @@ def k_highlight(st, ctx):
     ink = color(st.get('ink'), '#151515')
     if v == 'strip':
         css = f'--strip:{c};font-family:{fnt};color:{ink};'
-        lines = ''.join(f'<span class="s-ln"><span>{_md(x)}</span></span>' for x in lines_of(st.get('text', 'a little note')))
+        lines = ''.join(f'<span class="s-ln"><span>{_md(x)}</span></span>' for x in lines_of(st.get('text', 'mala beleška')))
         return place(st, 'highlight', lines, 'v-strip', css=css, size=40, width=st.get('w', 'auto'))
     bg = marker_bg(c, rng_for(st))
     css = f'font-family:{fnt};color:{ink};'
-    return place(st, 'highlight', f'<span class="s-hl-tx" style="background-image:{esc(bg)}">{_md(st.get("text", "the part that matters"))}</span>',
+    return place(st, 'highlight', f'<span class="s-hl-tx" style="background-image:{esc(bg)}">{_md(st.get("text", "ono što je bitno"))}</span>',
                  'v-marker', css=css, size=44, width=st.get('w', 'auto'))
 
 
@@ -705,7 +705,7 @@ def k_label(st, ctx):
         i_html = icon(n, fill=f)
     elif ic == 'dot':
         i_html, lead = '<i class="s-dot"></i>', True
-    tx = f'<span class="s-tx">{_md(st.get("text", "Swipe"))}</span>'
+    tx = f'<span class="s-tx">{_md(st.get("text", "Prevuci"))}</span>'
     inner = (i_html + tx) if lead else (tx + i_html)
     return place(st, 'label', inner, f'v-{v}' + (' is-square' if st.get('shape') == 'square' else ''), size=28)
 
@@ -774,11 +774,18 @@ def k_card(st, ctx):
 
 MENU_ICONS = {'save': 'save', 'download': 'save', 'copy': 'copy', 'share': 'share', 'more': 'more', 'delete': 'trash',
               'remove': 'trash', 'edit': 'edit', 'reply': 'reply', 'forward': 'forward', 'pin': 'pin-tack', 'like': 'heart',
-              'love': 'heart', 'favorite': 'star', 'favourite': 'star', 'link': 'link', 'report': 'flag', 'lock': 'lock'}
+              'love': 'heart', 'favorite': 'star', 'favourite': 'star', 'link': 'link', 'report': 'flag', 'lock': 'lock',
+              # Serbian / Croatian / Bosnian menu words
+              'sačuvaj': 'save', 'spremi': 'save', 'preuzmi': 'save', 'kopiraj': 'copy', 'podeli': 'share',
+              'podijeli': 'share', 'više': 'more', 'obriši': 'trash', 'izbriši': 'trash', 'ukloni': 'trash',
+              'izmeni': 'edit', 'uredi': 'edit', 'odgovori': 'reply', 'prosledi': 'forward', 'proslijedi': 'forward',
+              'zakači': 'pin-tack', 'prikvači': 'pin-tack', 'sviđa': 'heart', 'omiljeno': 'star', 'prijavi': 'flag',
+              'zaključaj': 'lock'}
+MENU_RED = ('delete', 'remove', 'report', 'obriši', 'izbriši', 'ukloni', 'prijavi')
 
 
 def k_menu(st, ctx):
-    items = st.get('items') or ['Save', 'Copy', 'More']
+    items = st.get('items') or ['Sačuvaj', 'Kopiraj', 'Više']
     rows = ''
     for x in items:
         if x in ('-', '---', None):
@@ -787,8 +794,8 @@ def k_menu(st, ctx):
         x = x if isinstance(x, dict) else {'text': x}
         t = str(x.get('text', ''))
         key = t.lower().split(' ')[0] if t else ''
-        ic = x.get('icon') or MENU_ICONS.get(key, 'more' if key.startswith('more') else '')
-        red = ' s-red' if x.get('red') or key in ('delete', 'remove', 'report') else ''
+        ic = x.get('icon') or MENU_ICONS.get(key, 'more' if key.startswith(('more', 'više')) else '')
+        red = ' s-red' if x.get('red') or key in MENU_RED else ''
         rows += f'<div class="s-it{red}"><span>{_md(t)}</span>{icon(ic) if ic else ""}</div>'
     return place(st, 'menu', rows, 'is-dark' if st.get('dark') else '', size=38, width=540)
 
@@ -806,8 +813,8 @@ def k_camera(st, ctx):
         act = str(st.get('active', levels[min(1, len(levels) - 1)]))
         return place(st, 'camera', ''.join(f'<span class="s-z{" s-on" if str(l) == act else ""}">{esc(l)}</span>' for l in levels),
                      'v-zoom', size=30)
-    modes = st.get('modes') or ['Slo-mo', 'Video', 'Photo', 'Portrait', 'Square']
-    act = str(st.get('active', 'Photo')).lower()
+    modes = st.get('modes') or ['Usporeno', 'Video', 'Foto', 'Portret', 'Kvadrat']
+    act = str(st.get('active', 'Foto')).lower()
     return place(st, 'camera', ''.join(f'<span class="s-m{" s-on" if str(m).lower() == act else ""}">{esc(m)}</span>' for m in modes),
                  'v-modes', size=30)
 
@@ -903,7 +910,7 @@ def seven_seg(text, h=60.0):
 
 def k_stamp(st, ctx):
     v = st.get('variant') or st.get('look') or 'ui'
-    text = st.get('text', "'26 05 14" if v == 'film' else ('Approved' if v == 'rubber' else 'Today 9:41 AM'))
+    text = st.get('text', "'26 05 14" if v == 'film' else ('Odobreno' if v == 'rubber' else 'Danas 9:41'))
     if v == 'ui' and st.get('bold'):
         inner = f'<b>{_md(st["bold"])}</b> {_md(text)}'
     else:
@@ -932,8 +939,8 @@ def k_player(st, ctx):
     art = f'<img src="{esc(_src(st["src"], ctx))}" alt="">' if st.get('src') else ''
     p = max(0, min(1, num(st.get('progress'), 0.38)))
     return place(st, 'player',
-                 f'<div class="s-top"><span class="s-art">{art}</span><span class="s-meta"><b>{_md(st.get("title", "Song title"))}</b>'
-                 f'<span>{_md(st.get("artist", "Artist"))}</span></span></div>'
+                 f'<div class="s-top"><span class="s-art">{art}</span><span class="s-meta"><b>{_md(st.get("title", "Naziv pesme"))}</b>'
+                 f'<span>{_md(st.get("artist", "Izvođač"))}</span></span></div>'
                  f'<div class="s-bar"><i style="width:{p * 100:.0f}%"></i><b style="left:{p * 100:.0f}%"></b></div>'
                  f'<div class="s-times"><span>{esc(st.get("time", "1:12"))}</span><span>-{esc(st.get("left", "2:04"))}</span></div>'
                  f'<div class="s-ctl">{icon("prev", fill=True)}{icon("pause" if st.get("playing", True) else "play", "s-pp", fill=True)}{icon("next", fill=True)}</div>',

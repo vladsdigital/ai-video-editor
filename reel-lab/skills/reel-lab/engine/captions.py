@@ -14,6 +14,7 @@ per-reel text come from <project>/plan.json, written by the editing Claude from 
 import html
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -137,6 +138,58 @@ def set_language(language=None, script=None):
     return LANG, SCRIPT
 
 
+# Families whose upstream font has no Cyrillic (or no Serbian letters ђ ћ љ њ џ), and the shipped family that stands in
+# for their Cyrillic letters only. Latin letters keep the original face: the stand-in is a second @font-face of the SAME
+# family limited to the Cyrillic unicode-range, written into the reel's own page (never into fonts.css, which several
+# effects parse and expect one face per family and weight).
+CYR_STANDIN = {'Archivo': 'Unbounded', 'Archivo Black': 'Unbounded', 'Barlow Condensed': 'Roboto Condensed',
+               'Bebas Neue': 'Oswald', 'Figtree': 'Montserrat', 'Poppins': 'Montserrat', 'Instrument Serif': 'Playfair Display',
+               'DM Serif Display': 'Playfair Display', 'Newsreader': 'Lora', 'Elsie Swash Caps': 'Playfair Display',
+               'Covered By Your Grace': 'Pangolin', 'Pixelify Sans': 'Russo One'}
+CYR_RANGE = 'U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116'
+
+
+def font_faces(css_path=None):
+    """[(family, weight, style, file)] from the shipped fonts.css"""
+    try:
+        with open(css_path or os.path.join(HERE, 'fonts', 'fonts.css'), encoding='utf-8') as fh:
+            css = fh.read()
+    except OSError:
+        return []
+    out = []
+    for block in re.findall(r'@font-face\s*\{(.*?)\}', css, re.S):
+        fam = re.search(r"font-family:\s*['\"]([^'\"]+)", block)
+        src = re.search(r"url\(['\"]?([^'\")]+)", block)
+        if not (fam and src):
+            continue
+        w = re.search(r'font-weight:\s*(\d+)', block)
+        st = re.search(r'font-style:\s*(\w+)', block)
+        sx = re.search(r'font-stretch:\s*([^;]+);', block)
+        out.append((fam.group(1), int(w.group(1)) if w else 400, st.group(1) if st else 'normal', src.group(1),
+                    sx.group(1).strip() if sx else ''))
+    return out
+
+
+def cyrillic_fallback_css():
+    """Cyrillic captions: give every Latin-only face a stand-in for its Cyrillic letters (nearest weight, same style
+    when the stand-in has it). Empty in Latin."""
+    if SCRIPT != 'cyrillic':
+        return ''
+    faces = font_faces()
+    rules = []
+    for fam, weight, style, _, stretch in faces:
+        sub = CYR_STANDIN.get(fam)
+        cands = [f for f in faces if f[0] == sub]
+        if not cands:
+            continue
+        best = min(cands, key=lambda f: (f[2] != style, abs(f[1] - weight)))
+        # same weight, style AND stretch as the original face, or the browser never picks the stand-in
+        sx = f'font-stretch:{stretch};' if stretch else ''
+        rules.append(f"@font-face{{font-family:'{fam}';font-weight:{weight};font-style:{style};{sx}font-display:block;"
+                     f"src:url('assets/fonts/{best[3]}') format('woff2');unicode-range:{CYR_RANGE}}}")
+    return '\n'.join(rules) + '\n'
+
+
 def keep_latin(words, plan):
     """what stays in Latin in Cyrillic captions: the reel's own acronyms (2-5 capitals in words.json, not the comment
     keyword: a keyword is upper-cased for show and is still a Serbian word) and plan.json "keep_latin" """
@@ -200,8 +253,9 @@ def chunk(words, max_words, max_chars, solo=(), scale=True):
         if not cur:
             return
         tail = []
-        if carry and len(cur) > 1 and bare(cur[-1]['text']).lower() in WEAK and cur[-1]['text'][-1] not in ',.?!':
-            tail = [cur.pop()]
+        # every weak word at the end moves on, not just the last one: Serbian clitics come in runs ("a ti", "da se")
+        while carry and len(cur) > 1 and bare(cur[-1]['text']).lower() in WEAK and cur[-1]['text'][-1] not in ',.?!':
+            tail.insert(0, cur.pop())
         groups.append(cur)
         cur = tail
 
@@ -1586,7 +1640,7 @@ def document(b, footage, safe=False, audio_track=9):
 <meta name="viewport" content="width=1080, height=1920" />
 <link rel="stylesheet" href="assets/fonts/fonts.css" />
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-<style>{BASE_CSS}{''.join(b.css)}
+<style>{cyrillic_fallback_css()}{BASE_CSS}{''.join(b.css)}
 </style>
 </head>
 <body>

@@ -5,6 +5,11 @@ Nanum Pen Script, Space Grotesk.
 Copyright belongs to each family's authors: the copyright notice of every family is on its page at
 https://fonts.google.com and in its folder at https://github.com/google/fonts/tree/main/ofl
 
+Most files are Modified Versions of the upstream fonts, cut down to the Latin, Latin Extended and Cyrillic
+characters (Nanum Pen Script is the Google Fonts web subset). IBM Plex Mono and Mrs Saint Delafield, whose notices
+name a Reserved Font Name, are the unmodified upstream fonts, only packed as WOFF2. The carousel can also use every
+face in the Studio's engine/fonts folder (see the OFL.txt there).
+
 Example of a notice, as it stands in the Inter Tight project:
 
 Copyright 2022 The Inter Project Authors (https://github.com/rsms/inter-tight)

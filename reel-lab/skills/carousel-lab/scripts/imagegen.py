@@ -525,7 +525,7 @@ def read_secret(provider):
             raise SystemExit('STATUS key FAILED: could not read the clipboard on this computer')
     if sys.stdin is not None and sys.stdin.isatty():
         import getpass
-        return getpass.getpass(f'Paste the {PROVIDERS[provider]["name"]} key (it stays hidden) and press Enter: ').strip()
+        return getpass.getpass(f'Nalepi {PROVIDERS[provider]["name"]} ključ (ostaje skriven) i pritisni Enter: ').strip()
     return (sys.stdin.read() if sys.stdin else '').strip()
 
 

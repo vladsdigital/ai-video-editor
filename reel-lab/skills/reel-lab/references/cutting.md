@@ -25,8 +25,8 @@ People repeat a line until it lands. Rebuild what they meant to say from the tak
 - Two segments in a row from the same angle: punch one in (zoom 1.3 to 1.9, `cx` / `cy` on the chest). Sharp when
   the source is 4K, soft above about 1.4 on a 1080 source.
 - Not sure about a name or the comment keyword: transcribe just that snippet again with the names in the prompt
-  (`PY "SK/scripts/speech.py" test "<snippet>" "<names>"` uses the buyer's language and engine; for an English reel
-  also `WhisperModel('medium.en', device='cpu', compute_type='int8')`; never leave the device on 'auto', see gotchas.md).
+  (`PY "SK/scripts/speech.py" test "<snippet>" "<names>"`: the buyer's language and engine. Never call WhisperModel
+  directly; speech.py keeps the device on 'cpu', see gotchas.md).
 
 ```json
 [{"id": "hook", "clip": "c1", "in": 12.66, "out": 15.72, "zoom": 1.0, "cx": 0.5, "cy": 0.5, "line": "Everybody's talking about..."},
@@ -60,9 +60,13 @@ Then mark the words: `PY "SK/scripts/marks.py" "<project>"` and the rule in `ref
 and after every cut, side by side) and a 720p phone copy. Every "after" frame must show the new shot cleanly.
 The render may be written the short way (`renders/<file>.mp4`): both check scripts look inside the project.
 
-The last line it prints is the audio level (peak and average). The reel keeps the level the clip was recorded at:
-nothing in the edit raises or lowers the voice. A peak of -6 dB or higher is fine. A lower peak is a quiet
-recording: say so in the delivery note and offer a louder copy. To make one, raise it by the missing amount (peak
--8.6 dB -> `volume=5dB` brings it to about -3.6) with the ffmpeg from `.platform.json`, picture untouched:
-`"<ffmpeg>" -i "<project>/renders/<file>.mp4" -af volume=5dB -c:v copy -c:a aac -b:a 192k "<project>/renders/<file>-louder.mp4"`
-Never raise it so far that the peak goes above -1 dB.
+The last line it prints is the loudness of the render in LUFS, the way Instagram, TikTok and YouTube measure it,
+and what to do. Talking-head reels play at about -14 LUFS. The edit keeps the level the clip was recorded at.
+- "fine" or "louder than the platforms play": nothing to do.
+- "quieter than other reels" (below about -16.5 LUFS, common with a phone or lavalier recorded too low): say so in
+  the delivery note in one line and offer the louder copy. On yes, run the same command again with `--loud`: it
+  writes `renders/<file>-loud.mp4` at -14 LUFS (two passes, one even gain for the whole reel so the voice keeps its
+  natural dynamics, true peak under -1 dB, picture copied untouched). Deliver that one, and make the phone copy
+  from it (`check_cuts.py ... "renders/<file>-loud.mp4" --phone`).
+Buyer line: "Snimak ti je dosta tih u odnosu na druge rilsove. Napravio sam i glasniju verziju, ista je samo se
+bolje čuje. Hoćeš nju?"

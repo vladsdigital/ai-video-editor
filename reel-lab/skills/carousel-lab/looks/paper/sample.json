@@ -1,5 +1,5 @@
 [
- {"layout": "hook", "label": "The starter list", "headline": "5 things I wish\n[[I knew]]\nbefore I started", "sub": "The short list nobody gave me."},
- {"label": "Tip 01", "ghost": "01", "headline": "Start before\n[[you feel ready.]]", "sub": "Ready is a feeling that shows up [[after]] you start, not before.", "items": ["Pick the smallest version you can finish **this week.**", "Show it to **three real people.**", "Fix what they actually **tripped on.**"], "callout": "Done and shown beats perfect and hidden."},
- {"headline": "Want the\n[[full list?]]", "sub": "Save this. Then comment the word below.", "keyword": "LIST", "keywordPost": "and I'll send you all 5."}
+ {"layout": "hook", "label": "Lista za početak", "headline": "5 stvari koje\n[[treba da znaš]]\npre početka", "sub": "Kratka lista koju mi niko nije dao."},
+ {"label": "Savet 01", "ghost": "01", "headline": "Ne čekaj\n[[savršen trenutak.]]", "sub": "Osećaj da si spreman dolazi [[posle]] početka, ne pre.", "items": ["Izaberi najmanju verziju koju možeš da završiš **ove nedelje.**", "Pokaži je **ljudima kojima je namenjena.**", "Popravi ono **na čemu su zapeli.**"], "callout": "Gotovo i pokazano je bolje od savršenog i skrivenog."},
+ {"headline": "Hoćeš\n[[celu listu?]]", "sub": "Sačuvaj ovo. Pa komentariši reč ispod.", "keyword": "LISTA", "keywordPost": "i poslaću ti svih 5."}
 ]
