@@ -73,8 +73,8 @@ mouth or chin: move it lower or make it smaller in that trial's folder, then ren
        proposes a mix -> <project>/variations.json and prints it
 3. the buyer said what each one should change? Use that (--change, or edit variations.json).
    They did not? Show the proposed mix as a short numbered list and ask in ONE message, for example:
-   "Here's the mix I'd test: 3 different hooks, 3 caption styles, one with no effects, one in your Hype style.
-    Want that, or should they all test the hook?" Wait for the answer, then change variations.json to match.
+   "Predlažem ovakvu kombinaciju: 3 različita hooka, 3 stila titlova, jedna verzija bez efekata i jedna u tvom
+    Hype stilu. Može tako, ili da sve testiraju samo hook?" Wait for the answer, then change variations.json to match.
 4. PY "SK/scripts/variations.py" make "<project>"
        one working copy per variation in <project>/work/variations/<trial name>/. Read every CHECK line and do it
        in that trial's folder (fix new words, add an effect, write a new title) before rendering.
@@ -133,26 +133,27 @@ own speed and copies it into `<project>/trial-reels/` as `trial-01-<id>.mp4`, `t
 
 ## What the buyer hears
 
-- Asking: "Here's the mix I'd test: [the list]. Want that, or should they all test the hook?"
-- Starting: "On it. I'm making 8 versions, then rendering them one at a time so your computer doesn't choke. That
-  takes about 20 minutes. I'll tell you when they're ready."
-- Delivery: "Your 8 trial reels are in the trial-reels folder. Same clips, one thing different in each, and each one
-  has its own speed, framing and colour so none of them is a copy of another:" then the list, one line per file,
-  for example:
+- Asking: "Predlažem ovakvu kombinaciju: [the list]. Može tako, ili da sve testiraju samo hook?"
+- Starting: "Krećem. Pravim 8 verzija, pa ih renderujem jednu po jednu da ti se računar ne zaguši. To traje oko 20
+  minuta. Javiću ti kad budu gotove."
+- Delivery: "Tvojih 8 trial rilsova je u folderu trial-reels. Isti klipovi, u svakom je jedna stvar drugačija, a
+  svaki ima i svoju brzinu, kadar i boju, pa nijedan nije kopija drugog:" then the list, one line per file, in the
+  buyer's language (the file names stay as they are), for example:
 
 ```
-trial-01-hook-take-2.mp4        Hook: opens on your other take of the first line
-trial-02-captions-karaoke.mp4   Captions: Karaoke captions
-trial-03-effects-none.mp4       Effects: no effects
-trial-04-style-hype.mp4         Style: in your Hype style
+trial-01-hook-take-2.mp4        Hook: počinje tvojim drugim snimkom prve rečenice
+trial-02-captions-karaoke.mp4   Titlovi: Karaoke titlovi
+trial-03-effects-none.mp4       Efekti: bez efekata
+trial-04-style-hype.mp4         Stil: u tvom Hype stilu
 ```
 
-  Then: "Post them as trial reels and keep the one that wins. Want me to post them for you? I can put them out a few
-  minutes apart, on TikTok too." Yes: references/posting.md (`post.py new "<project>/posting.json"
+  Then: "Objavi ih kao trial reels i zadrži onaj koji prođe najbolje. Hoćeš da ih ja objavim umesto tebe? Mogu da
+  ih pustim sa po par minuta razmaka, i na TikTok." Yes: references/posting.md (`post.py new "<project>/posting.json"
   "<project>/trial-reels" --trial --every 5m`). Each one that goes to Instagram is marked posted by itself.
-  Later: "Tell me which one won and I'll make it your default."
-- They posted one: "Got it. Trial 3 stays exactly as you posted it, and anything new I make stays different from it."
+  Later: "Javi mi koji je prošao najbolje, pa ću ga postaviti kao tvoj podrazumevani."
+- They posted one: "Važi. Trial 3 ostaje tačno onakav kakav je objavljen, a sve novo što napravim biće drugačije od
+  njega."
   (`variations.py posted`).
-- Never: "these won't get flagged". Say what was done instead (above).
+- Never: "ovi neće biti označeni" ("these won't get flagged"). Say what was done instead (above).
 - The buyer says which won: a hook is a lesson for the next scripts and edits (say it in one line); captions, effects
   or a style can become their default (`my_styles.py save` / `default`, references/my-styles.md).

@@ -78,6 +78,13 @@ SFX_GAIN = 0.75
 SFX_LEN = {'whoosh-short': .57, 'pop': .72, 'sparkle': 1.8, 'click': .3, 'click-soft': .37, 'impact-bass-1': 1.0}
 INK = '#1F1E1D'
 JOINERS = {'AND', 'OR', 'BUT', 'SO', 'THE', 'A', 'AN', 'TO', 'OF', 'IN', 'ON', 'FOR', 'WITH', 'MY', 'YOUR', "I'LL", 'IS'}
+try:                       # the reel's language (lang.py, put in the slot by fx_new.py): its own words a line must not end on
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import lang
+    if lang.current()['language'] != 'en':
+        JOINERS = {w.upper() for w in lang.lang_data()['weak']}
+except Exception:          # noqa: BLE001: no lang.py (an older slot) = the English list
+    pass
 SAFE_GUIDE = ('<div style="position:absolute;inset:0;z-index:99;pointer-events:none">'
               '<div style="position:absolute;left:0;right:0;top:0;height:220px;background:rgba(255,0,0,.28)"></div>'
               '<div style="position:absolute;left:0;right:0;top:1470px;bottom:0;background:rgba(255,0,0,.28)"></div>'
@@ -152,7 +159,7 @@ def captions(words, nfr, t_hide):
     """caption groups from words.json: up to 3 words, a new group at every pause or punctuation mark"""
     groups, cur = [], []
     for w in words:
-        key = re.sub(r"[^a-z0-9']", '', w['text'].lower())
+        key = re.sub(r"[^\w']", '', w['text'].lower())      # \w: Serbian letters (č ć š ž đ) stay in the key
         txt = CAPTION_FIX.get(key, w['text'])
         if txt == '':
             continue

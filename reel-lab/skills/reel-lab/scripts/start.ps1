@@ -25,7 +25,7 @@ $PyVersion = '3.12.15'
 $PyRelease = '20261009'
 $PySha256  = '194c8f0d9e0de6f1c4576e5dfa67819a48c764be87608b74b8ad43387a57b93b'
 $PyUrl     = "https://github.com/astral-sh/python-build-standalone/releases/download/$PyRelease/cpython-$PyVersion%2B$PyRelease-x86_64-pc-windows-msvc-install_only.tar.gz"
-$Restart   = 'then quit Claude Code completely, reopen it and run the skill again'
+$Restart   = 'onda potpuno zatvori Claude Code, otvori ga ponovo i pokreni Reel Lab opet'   # ASCII only: Windows PowerShell 5.1 reads this file as ANSI
 
 $Here = Split-Path -Parent $MyInvocation.MyCommand.Path
 

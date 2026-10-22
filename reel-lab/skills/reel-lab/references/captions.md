@@ -47,6 +47,17 @@ designed instead of typed.
 The rule:
 1. Run `PY "SK/scripts/marks.py" "<project>"` AFTER fixing mishearings. It guesses `num` (digits and number words),
    `cta` (the word after "comment") and `key` (capitalised words that do not start a sentence). It never guesses `emph`.
+   It reads the word lists of the reel's language (config.json `language`; all lists live in `SK/engine/lang.py`,
+   sr / hr / bs share one set, en is the original English one):
+   - `num`: digits, plus "dva / dve / dvije, tri, pet, deset, dvadeset, sto, hiljadu / tisuću, milion / milijun,
+     pola, duplo" and their common forms. "jedan / jedna / jedno" are never guessed (like English "one": usually an
+     article), and neither are ordinals ("prvi put").
+   - `cta`: the first word after "komentariši / komentarišite / komentiraj(te)" (or English "comment"), skipping
+     "reč / riječ, ispod, dole / dolje, u komentaru, mi, samo ...": "komentariši reč ŠABLON" -> `ŠABLON`. After a
+     generic verb ("napiši(te), ukucaj(te), upiši(te), pošalji(te), javi(te), ostavi(te), stavi(te)") only a word
+     in capitals or quotes, or one after "reč / riječ / komentar", counts: "napiši mi u komentaru VODIČ" -> `VODIČ`,
+     but "pošalji mi poruku" marks nothing. Never across the end of a sentence.
+   - `key`: the same rule in every language (Serbian, Croatian and Bosnian also capitalise only names).
 2. Then go through the transcript sentence by sentence:
    - at most ONE of `num` / `emph` per sentence (they are the punch; two punches fight). Keep the one the
      sentence is about and remove the other. A long sentence counts part by part: a comma, "and", "then" or "so"
@@ -56,7 +67,7 @@ The rule:
    - `key` on every name, as many as there are. Check sentence openers by hand: the script cannot tell a name that
      starts a sentence from a normal word (it lists them).
    - add `emph` where a sentence has no punch yet and one word clearly carries it. Not every sentence needs one.
-   - never mark filler ("the", "and", "so", "that", "for").
+   - never mark filler ("the", "and", "so", "that", "for"; "i", "da", "je", "znači", "ovaj", "evo", "pa").
 3. A short reel (under 10 seconds) usually ends up with 2 to 5 marks. More than one mark every 4 words is too many.
 
 Example: "Everybody's talking about Claude editing videos, so here are seven video effects that Claude created
@@ -65,6 +76,24 @@ for me." -> `Claude` key, `seven` num (write it as `7` if the buyer's style show
 ```json
 {"text": "seven", "start": 3.18, "end": 3.52, "e": "num"}
 ```
+
+## Phrases and script (Latin or Cyrillic)
+
+Every style breaks the words into phrases the same way (`chunk` in `SK/engine/captions.py`): on length, on
+punctuation, on a pause, and a line never ends on a weak word of the reel's language (sr / hr / bs: "i, a, u, na,
+da, je, se, za, od, sa, ili, ali, što, kao, taj, ovaj, moj, svoj ..."; the full list is `weak` in
+`SK/engine/lang.py`). For sr / hr / bs every built-in style allows 12% more characters per line than its English
+tuning (their words are longer); a custom spec's `chars` is used as written.
+
+Cyrillic: config.json `"script": "cyrillic"` (`PY "SK/scripts/speech.py" script cyrillic`) shows every caption,
+title and style text in Serbian Cyrillic. It is display only: `words.json`, `plan.json` and every mark stay in
+Latin, so write and fix them in Latin as usual. Stays in Latin: brands and names in `KEEP_LATIN` (Claude, ChatGPT,
+Instagram, TikTok, YouTube, Reel Lab ...), any CamelCase word, words with q / w / x / y, URLs, @handles, #hashtags,
+anything with a digit, known acronyms in capitals (AI, GPT, CEO, SEO, PDF ...) and any word of 2 to 5 capitals in
+`words.json` that is not the comment keyword. Add the reel's own with plan.json `"keep_latin": ["Acme", "Bojan
+Studio"]`. Layer html you write yourself (`layers`) and effect slots are not converted: write layer text in
+Cyrillic. "dj" is never read as "ђ" (write "đ"); nad- / pod- / od- words such as "nadživeti", "podžupan",
+"odžaliti" keep д+ж.
 
 ## Titles come from the hook
 

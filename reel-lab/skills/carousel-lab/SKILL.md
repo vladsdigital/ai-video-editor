@@ -1,6 +1,6 @@
 ---
 name: carousel-lab
-description: "Reel Lab carousels. Makes finished Instagram (and LinkedIn) carousels in the creator's own look: from a topic or idea, from scratch, or from a video (a reel the Studio edited, any video file, or a link). Writes the copy for every slide first and waits for approval, then renders the slides as PNGs and opens a swipe-through preview. Pictures from their own photos, a connected drive, their video, or an image generator. First carousel only: a short setup (handle, look built from carousels they love or picked from the Studio's looks shown with their own photos). Use when the user says 'make a carousel', 'carousel about X', 'turn this video / my last reel into a carousel', 'repurpose this into a carousel', 'carousel from this transcript', 'redo slide 3', 'make a new carousel look', 'copy this carousel style', 'change my carousel look', 'set up carousels', or runs /carousel-lab."
+description: "Reel Lab carousels. Makes finished Instagram (and LinkedIn) carousels in the creator's own look: from a topic or idea, from scratch, or from a video (a reel the Studio edited, any video file, or a link). Writes the copy for every slide first and waits for approval, then renders the slides as PNGs and opens a swipe-through preview. Pictures from their own photos, a connected drive, their video, or an image generator. First carousel only: a short setup (handle, look built from carousels they love or picked from the Studio's looks shown with their own photos). Talks to the buyer in Serbian by default (Latin script, ekavian, informal ti), and Croatian, Bosnian or English when they write in it. Use when the user says 'napravi karusel', 'napravi karusel o ...', 'karusel o X', 'pretvori ovaj video u karusel', 'pretvori moj poslednji rils u karusel', 'napravi karusel od ovog transkripta', 'prepravi slajd 3', 'promeni slajd 3', 'napravi novi izgled za karusele', 'kopiraj ovaj stil karusela', 'promeni izgled karusela', 'podesi karusele', 'napravi vrtuljak' (Croatian), or in English 'make a carousel', 'carousel about X', 'turn this video / my last reel into a carousel', 'repurpose this into a carousel', 'carousel from this transcript', 'redo slide 3', 'make a new carousel look', 'copy this carousel style', 'change my carousel look', 'set up carousels', or runs /carousel-lab."
 ---
 
 # Reel Lab: carousels (carousel-lab)
@@ -15,6 +15,20 @@ Read before the first carousel in a chat: `references/craft.md` (what makes a ca
 hierarchy, photos) and `references/slides.md` (every slide field). Read `references/looks.md` when building or
 changing a look, `references/from-video.md` when the source is a video, `references/stickers.md` when the look or
 the slide uses phone-screen, paper or hand-drawn pieces, `references/images.md` before generating any picture.
+
+## Language
+
+- Talk to the buyer in Serbian by default: Latin script, ekavian, informal "ti", short plain sentences, correct
+  diacritics (č ć š ž đ). Switch to Croatian, Bosnian or English when they write in it, and stay in it.
+- Slide copy is in the buyer's language (the language they write to you in, or the one in their profile), always
+  with correct diacritics, never "c" for "č/ć". If their config says the script is Cyrillic, the slides are in
+  Cyrillic (the chat can stay in Latin unless they write in Cyrillic).
+- Serbian copy runs about 15 to 20% longer than English: plan fewer words per slide, not smaller type
+  (craft.md, "Serbian, Croatian, Bosnian copy").
+- No anglicisms when a natural word exists ("sačuvaj", not "sejvuj"; "pratioci", not "followeri"; "sadržaj", not
+  "kontent"). Words the audience really uses stay (rils, AI, prompt, link).
+- A CTA keyword is written exactly as it was said in the reel or as the buyer gave it, same spelling and case.
+- The quoted lines in this skill are what the buyer hears. Say them in the buyer's language; the Serbian is given.
 
 ## The buyer's look and voice win
 
@@ -44,15 +58,15 @@ Talk to the buyer in plain words. Never show them STATUS lines, file names of th
 
 Only when `profile MISSING`. Short: they came to make a carousel, so get them there.
 
-1. Say: "Quick setup for carousels, one time: your handle and your look. Then we make it."
+1. Say: "Kratko podešavanje za karusele, samo jednom: tvoj nalog i tvoj izgled. Onda ga pravimo."
 2. Ask in ONE message: their handle as it should show on the slides, and (optional) a profile picture file for the
    corner of every slide. Where finished carousels go: `~/Carousels` unless they say otherwise.
    `PY "CS/scripts/carousel.py" profile --handle "<handle>" [--name "<name>"] [--avatar "<file>"] [--dir "<folder>"]`
    (`--verified yes` only if they ask for the tick.)
 3. The look, in ONE message:
-   > "Now your look. Two ways: send me 1 to 3 screenshots of carousels whose design you love (yours or anyone's)
-   > and I'll rebuild that style for you. Or I'll show you the looks the Studio comes with, made with YOUR photos:
-   > drop 2 or 3 photos of you (or of what you post about) and tell me what your account is about."
+   > "Sad tvoj izgled. Dva načina: pošalji mi 1 do 3 skrinšota karusela čiji ti se dizajn sviđa (tvojih ili tuđih)
+   > i ja ću ti napraviti taj stil. Ili ću ti pokazati izglede koje Studio već ima, napravljene sa TVOJIM fotkama:
+   > ubaci 2 ili 3 svoje fotke (ili fotke onoga o čemu objavljuješ) i reci mi o čemu je tvoj nalog."
    - Screenshots, files, links or a description: build it (`references/looks.md`), show the 3 sample slides,
      adjust once or twice, ask what to call it, then `look default "<name>"`.
    - The Studio's looks: `PY "CS/scripts/carousel.py" looks` lists them (who each suits, its niches, photo-led or
@@ -63,14 +77,14 @@ Only when `profile MISSING`. Short: they came to make a carousel, so get them th
      --faces "<from faces>"`. It opens a gallery page with each look on 3 sample slides made with their photos
      and their handle. Text that lands on a face is moved off it by itself; a `NOTE ... TEXT OVER THE FACE` line
      means it could not be: run it again with the photos in another order (the one with the most empty space above
-     or below the face goes where that look's slide has the most text), or other photos, before they see it. Say one line on each and "or I can show you all of them" (run it again with every look).
+     or below the face goes where that look's slide has the most text), or other photos, before they see it. Say one line on each and "ili mogu da ti pokažem sve" (run it again with every look).
      No photos yet: show the type-led looks (Horizon, Paper, Poster need none) and mention that the photo looks
      come alive with their photos or with generated pictures.
    - They pick, or pick and tweak ("Soft Studio but in my green": `look new "<name>" --from soft-studio` with the
      change). `look default "<name>"`.
 4. Then straight into the carousel they asked for.
 
-A buyer who asks for the setup again ("set up carousels again", "change my carousel look", "new carousel look"):
+A buyer who asks for the setup again ("podesi karusele ponovo", "promeni izgled karusela", "novi izgled karusela"):
 show what they have in two plain lines (handle, looks, default) and change only what they ask. Never delete a look.
 
 ## Making a carousel
@@ -123,37 +137,37 @@ Plain text, one block per slide, in the order it will post. What the slide SAYS 
 field names or JSON. The loud part in CAPS only if the look uses caps.
 
 ```
-Slide 1 (cover)
-  Big: 8 free sites that make Claude a design genius
-  Small line: Stop shipping websites that look AI-made.
-  Picture: you, mid-sentence, from 0:12 of the reel
+Slajd 1 (naslovni)
+  Veliko: 8 besplatnih sajtova koji od Claudea prave dizajnera
+  Mali red: Prestani da praviš sajtove koji izgledaju kao da ih je pravio AI.
+  Slika: ti, usred rečenice, iz 0:12 rilsa
 
-Slide 2
-  Label: Site 01
-  Big: Animated sites as copy-paste prompts.
-  Under it: Animated 3D websites, and every one comes with the prompt.
-  To copy: [Paste the motionsites prompt here] Build this for my business...
+Slajd 2
+  Oznaka: Sajt 01
+  Veliko: Animirani sajtovi kao promptovi za kopiranje.
+  Ispod: Animirani 3D sajtovi, i uz svaki ide prompt.
+  Za kopiranje: [Ovde nalepi motionsites prompt] Napravi ovo za moj biznis...
 
 ...
 
-Slide 9 (last)
-  Big: Want all 8 websites + the prompts?
-  Comment the word: DESIGN
-  Then: and I'll send you the full guide.
+Slajd 9 (poslednji)
+  Veliko: Hoćeš svih 8 sajtova + promptove?
+  Komentariši reč: DIZAJN
+  Onda: i poslaću ti ceo vodič.
 ```
 
-End with one line: "Want any changes, or should I make it?" Also offer a post caption once (2 to 4 short lines in
+End with one line: "Hoćeš neke izmene, ili da ga napravim?" Also offer a post caption once (2 to 4 short lines in
 their voice plus the CTA; hashtags only if they use them). The caption is shown on the preview page.
 
 ### Notes after they see it
 
-- "Change slide 3": edit carousel.json, `render ... --only 3`. Show the slide.
+- "Promeni slajd 3": edit carousel.json, `render ... --only 3`. Show the slide.
 - Copy changes on several slides: show the new copy first if it is more than a word or two, then render.
-- "Bigger", "more space", "different colour": a one-off goes in the slide's `css` or the carousel's `css`; a change
-  they want "always" goes into their look (look.css / look.json) and a line in look.md "Standing notes", then render.
-- "Make it in Paper instead": `render ... --look paper` (or change `look` in carousel.json).
-- "For LinkedIn too": `render ... --pdf` (a PDF document post, one page per slide). Size 4:5 or 1:1 on request.
-- "Open the folder": open `<carousel folder>/slides` (Mac `open`, Windows `explorer`).
+- "Veće", "više prostora", "druga boja": a one-off goes in the slide's `css` or the carousel's `css`; a change
+  they want "uvek" goes into their look (look.css / look.json) and a line in look.md "Standing notes", then render.
+- "Napravi ga u Paper izgledu": `render ... --look paper` (or change `look` in carousel.json).
+- "I za LinkedIn": `render ... --pdf` (a PDF document post, one page per slide). Size 4:5 or 1:1 on request.
+- "Otvori folder": open `<carousel folder>/slides` (Mac `open`, Windows `explorer`).
 
 ## Hard rules
 
@@ -170,11 +184,12 @@ their voice plus the CTA; hashtags only if they use them). The caption is shown 
 
 ## What the buyer hears
 
-- Start: "On it. I'll write the copy for each slide first so you can check it before I design anything."
-- Copy ready: the slide blocks, then "Want any changes, or should I make it?"
-- Rendering: "Making it now."
-- Done: "It's open in your browser: swipe through it like the real post. The slides are in Carousels/<name>/slides.
-  Tell me anything you'd change."
-- From a video: "I pulled the main points from your reel and kept your best lines. Here's the copy."
-- First look built from their examples: "Here's your look on three sample slides: what matches, and what I could
-  not match. Tell me what to change, then I'll save it as <name>."
+- Start: "Krećem. Prvo pišem tekst za svaki slajd da ga proveriš pre nego što bilo šta dizajniram."
+- Copy ready: the slide blocks, then "Hoćeš neke izmene, ili da ga napravim?"
+- Rendering: "Pravim ga sad."
+- Done: "Otvoren je u tvom pregledaču: prelistaj ga kao pravu objavu. Slajdovi su u Carousels/<naziv>/slides.
+  Reci mi šta god želiš da promeniš."
+- From a video: "Izvukao sam glavne poente iz tvog rilsa i zadržao tvoje najbolje rečenice. Evo teksta."
+- First look built from their examples: "Evo tvog izgleda na tri probna slajda: šta se poklapa, a šta nisam uspeo
+  da pogodim. Reci šta da promenim, pa ću ga sačuvati kao <naziv>."
+- Mac, done: "Mogu da ti otvorim folder pa da ih AirDropom prebaciš na telefon."

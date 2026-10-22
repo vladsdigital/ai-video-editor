@@ -2,12 +2,12 @@
 """Register raw clips for a reel-lab project, make contact sheets, transcribe every clip.
 
 Usage (run with PY, the skill's Python from .platform.json; it has faster-whisper):
-  PY ingest.py <project_dir> <clip files or one folder> [--newest N]
+  PY ingest.py <project_dir> <clip files or one folder> [--newest N] [--terms "names, brand words"]
 
 Writes into <project_dir>:
   sources.json             {"c1": "/abs/original.MP4", ...}  (ordered oldest -> newest by file time)
   work/sheet_cN.jpg        8 frames across each clip; work/sheets.jpg stacks them (look at it: setups, angles)
-  words_cN.json            word timestamps per clip (small.en)
+  words_cN.json            word timestamps per clip (speech.py: Soniox with a saved key, else offline Whisper)
   transcript.txt           per-clip segment transcript + speech regions (silencedetect) for picking takes
 Originals are never modified. Everything is read straight from them (no proxies).
 """
@@ -16,11 +16,10 @@ import os
 import subprocess
 import sys
 
-from faster_whisper import WhisperModel
-
 sys.dont_write_bytecode = True   # no __pycache__ next to the scripts (a plugin's folder is not ours to write in)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import skillenv  # noqa: E402
+import speech  # noqa: E402
 
 FF, FP = skillenv.tool('ffmpeg'), skillenv.tool('ffprobe')
 VIDEO_EXT = ('.mp4', '.mov', '.m4v')
@@ -45,7 +44,9 @@ def speech_regions(f):
 def main():
     skillenv.utf8_stdio()
     proj, args = skillenv.path_arg(sys.argv[1]), sys.argv[2:]
-    newest = None
+    newest, terms = None, None
+    if '--terms' in args:
+        i = args.index('--terms'); terms = speech.parse_terms(args[i + 1]); args = args[:i] + args[i + 2:]
     if '--newest' in args:
         i = args.index('--newest'); newest = int(args[i + 1]); args = args[:i] + args[i + 2:]
     files = []
@@ -74,23 +75,16 @@ def main():
     stack = ['-filter_complex', f'vstack={len(sheets)}'] if len(sheets) > 1 else []
     subprocess.run([FF, '-loglevel', 'error', '-y', *ins, *stack, os.path.join(work, 'sheets.jpg')], check=True)
 
-    # device='cpu': the default 'auto' picks CUDA on any PC with an NVIDIA card and then dies on the first clip with
-    # "Library cublas64_12.dll is not found" unless the CUDA toolkit happens to be installed
-    m = WhisperModel('small.en', device='cpu', compute_type='int8')
+    # speech.py picks the engine (Soniox with a saved key, else offline Whisper) and the buyer's language
     lines = []
     for cid, f in sources.items():
         wav = os.path.join(work, f'{cid}.wav')
         subprocess.run([FF, '-loglevel', 'error', '-y', '-i', f, '-vn', '-ac', '1', '-ar', '16000', wav], check=True)
-        segs, _ = m.transcribe(wav, word_timestamps=True, vad_filter=False)
-        words = []
-        lines.append(f'===== {cid}  {os.path.basename(f)}')
+        segs, engine = speech.transcribe(wav, tier='fast', terms=terms)
+        words = speech.flat(segs)
+        lines.append(f'===== {cid}  {os.path.basename(f)}  ({engine})')
         for s in segs:
-            lines.append(f'[{s.start:6.2f}-{s.end:6.2f}] {s.text.strip()}')
-            for w in s.words:
-                t = w.word.strip()
-                if words and t[:1] in '-.' and len(t) > 1 and t[1:2].isdigit():   # "GPT" "-6" / "5" ".1"
-                    words[-1]['text'] += t; words[-1]['end'] = round(w.end, 3); continue
-                words.append({'text': t, 'start': round(w.start, 3), 'end': round(w.end, 3)})
+            lines.append(f"[{s['start']:6.2f}-{s['end']:6.2f}] {s['text']}")
         with open(os.path.join(proj, f'words_{cid}.json'), 'w', encoding='utf-8') as fh:
             json.dump(words, fh, indent=1)
         lines.append('words: ' + ' '.join(f"{w['text']}@{w['start']:.2f}" for w in words))

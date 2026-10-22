@@ -5,8 +5,9 @@ Usage:  PY prefetch.py            run it (in the background: it takes minutes, t
         PY prefetch.py --again    check every part again, also the ones marked done
         PY prefetch.py --status   one line per part: DONE, RUNNING, FAILED or NOT STARTED, and a total line
 
-What it gets, one time each (about 3 GB in all, how long depends on their connection):
-  speech      the two speech models (about 0.5 GB and 1.4 GB): the transcript of the raw clips and of the cut
+What it gets, one time each (about 3.2 GB in all, how long depends on their connection):
+  speech      the two speech models for the buyer's language (sr/hr/bs: small about 0.5 GB and large-v3-turbo about
+              1.6 GB; English: small.en and medium.en about 1.4 GB): the transcript of the raw clips and of the cut
   renderer    HyperFrames (about 0.4 GB) and the browser it draws and records frames with (about 0.1 to 0.2 GB),
               by building and rendering a one-second test page
   cutout      the quick person cutout model (about 170 MB), by cutting out one test frame
@@ -89,9 +90,13 @@ def logged(cmd, cwd=None, env=None, timeout=3600):
 
 
 def speech():
+    # the models for the buyer's language (speech.py): small + large-v3-turbo for sr/hr/bs, small.en + medium.en for
+    # English. Downloaded even when a Soniox key is saved: Whisper is the fallback when offline or out of credit.
+    import speech as sp
+    models = sp.whisper_models()
     code = logged([sys.executable, '-c',
                    "from faster_whisper import WhisperModel\n"
-                   "for m in ('small.en', 'medium.en'):\n"
+                   f"for m in {tuple(models)!r}:\n"
                    "    WhisperModel(m, device='cpu', compute_type='int8')\n"
                    "    print('ready', m, flush=True)\n"])
     return code == 0, '' if code == 0 else 'the speech models did not download'

@@ -70,7 +70,7 @@ if '--env' in sys.argv:
     for i in range(0, len(db), 2):
         print(f'{i / 100:5.2f} {db[i]:6.1f} ' + '#' * int(max(0, db[i] + 60) / 1.5))
 res = {'duration': round(len(db) / 100, 2)}
-words = json.load(open('words.json')) if os.path.exists('words.json') else []
+words = json.load(open('words.json', encoding='utf-8')) if os.path.exists('words.json') else []
 ons = []
 print('word            whisper   audio onset   frame')
 for i, wd in enumerate(words):
@@ -81,24 +81,35 @@ for i, wd in enumerate(words):
 print('(* = moved to the energy onset; no star = no clear attack found, check it with --env)')
 res['onsets'] = ons
 
-# paste-ready times, if the line has the usual shape "... comment KEYWORD and I'll send you the THING"
-low = [o['text'].lower().strip('.,!?') for o in ons]
-ic = next((i for i, w in enumerate(low) if w.startswith('comment')), None)
-if ic is not None and ic + 1 < len(ons):
-    kw = ons[ic + 1]
+# paste-ready times, if the line has the usual shape "... comment KEYWORD and I'll send you the THING" /
+# "... komentariši reč KLJUČ i poslaću ti ..." (the reel's language: lang.py, put in the slot by fx_new.py)
+low = [o['text'].lower().strip('.,!?"“”„') for o in ons]
+try:
+    import lang
+    LW = lang.lang_data()
+    hits = lang.cta_targets([o['text'] for o in ons], LW)
+    ik = hits[0] if hits else None
+    ic = next((i for i in range(ik - 1, -1, -1) if lang.is_cta_verb(ons[i]['text'], LW)), None) if ik is not None else None
+    SEND, LINK_SKIP = LW['send'], LW['weak'] | LW['pronouns'] | {'over'}
+except Exception:          # noqa: BLE001: no lang.py (an older slot): the English rule
+    ic = next((i for i, w in enumerate(low) if w.startswith('comment')), None)
+    ik = ic + 1 if ic is not None else None
+    SEND, LINK_SKIP = {'send'}, {'you', 'the', 'a', 'my', 'it', 'over'}
+if ic is not None and ik is not None and ik < len(ons):
+    kw = ons[ik]
     letters = sum(ch.isalnum() for ch in kw['text'])
     t_focus = ons[ic]['onset']
     t_type = round(kw['onset'] - .03, 2)
-    kw_end = max(word_end(db, words[ic + 1]['end']), kw['onset'] + .15)
+    kw_end = max(word_end(db, words[ik]['end']), kw['onset'] + .15)
     gap = round(min(.11, max(.05, (kw_end - t_type - .1) / max(1, letters - 1))), 3)
     t_send = round(max(kw_end, t_type + (letters - 1) * gap + .1), 2)
-    isend = next((i for i in range(ic + 2, len(ons)) if low[i].startswith('send')), None)
+    isend = next((i for i in range(ik + 1, len(ons)) if any(low[i].startswith(x) for x in SEND)), None)
     t_reply = round((ons[isend]['onset'] if isend is not None else t_send + .5) - .03, 2)
     t_reply = max(t_reply, round(t_send + .32, 2))             # the post needs 0.3s before the reply can land
     t_dots = round(min(max(t_send + .2, t_reply - .2), t_reply - .12), 2)
     ilink = None
     if isend is not None:
-        ilink = next((i for i in range(isend + 1, len(ons)) if low[i] not in ('you', 'the', 'a', 'my', 'it', 'over')), None)
+        ilink = next((i for i in range(isend + 1, len(ons)) if low[i] not in LINK_SKIP), None)
     t_link = round((ons[ilink]['onset'] - .03) if ilink is not None else t_reply + .35, 2)
     t_link = max(t_link, round(t_reply + .28, 2))
     print('\nsuggested CLIP times (check them against the table above, then paste):')
@@ -108,7 +119,7 @@ if ic is not None and ic + 1 < len(ons):
           + (f"      # on \"{ons[ilink]['text']}\"" if ilink is not None else ''))
     print(f'(keyword sounds {kw["onset"]:.2f} to {kw_end:.2f}; slot is {res["duration"]:.2f}s, {res["duration"] - t_link:.2f}s after the chip lands)')
 else:
-    print('\nno "comment <keyword>" found in words.json: set the times by hand from the table')
+    print('\nno "comment <keyword>" / "komentariši <reč>" found in words.json: set the times by hand from the table')
 
 
 # ---------------------------------------------------------------------------------------------------- head + chin

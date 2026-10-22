@@ -134,6 +134,29 @@ In a photo-led look the photo IS the hook: the face, the place, the vibe stop th
 - Cut every word the slide survives without. Then read it out loud once: it should sound like the buyer.
 - Caps or sentence case is the look's choice. The copy is written in normal case either way: the look decides.
 
+## Serbian, Croatian, Bosnian copy
+
+The examples in this file are in English; the slides are written in the buyer's language (SKILL.md, "Language").
+- **Plan for 15 to 20% more text.** Serbian words run longer and short ones are rare ("sačuvaj" for "save",
+  "besplatno" for "free"). Budget fewer words per slide from the start: a 6-word English headline is a 5-word
+  Serbian one. Cut words or split the slide; never shrink the type to make it fit.
+- **Long words in big type.** A headline word of 12+ letters ("najjednostavniji", "zaboravljate") can force a
+  huge headline onto extra lines. Pick a shorter word when there is one, or put the long word on its own line.
+- **Natural words over anglicisms.** "Sačuvaj" not "sejvuj", "pratioci" not "followeri", "sadržaj" not
+  "kontent", "objava" not "postovanje". Words the audience really uses stay as they are: rils, AI, prompt, link,
+  Instagram, ChatGPT. When unsure, write it the way the buyer said it in their video or messages.
+- **Diacritics always.** č ć š ž đ, never "c", "s", "z", "dj". Caps keep them too (ŠTA, ČEKAJ, ĐAK).
+- **Cyrillic** only when the buyer's config says so (or they ask). Then every slide, label and CTA is Cyrillic;
+  the CTA keyword is exactly what they said in the reel, in that script.
+- **The CTA keyword is never translated or respelled.** If the reel says "komentariši VODIČ", the slide says VODIČ.
+  If the reel used an English keyword (DESIGN), the slide keeps DESIGN.
+- **Numbers and money the local way:** 1.000 and 10.000 (period for thousands), 2,5 (comma for decimals), the
+  currency the buyer uses (din, €, KM). Keep "$" only when the buyer's numbers are in dollars.
+- **Ti, not Vi**, unless the buyer writes to their audience with Vi. Short, spoken sentences.
+- Labels and small lines in Serbian: "Nalepi ovo" (Paste this), "Kako da ponudiš" (How to pitch it), "Reci ovo
+  umesto toga" (Say this instead), "Prevuci za 8 rešenja" (Swipe for 8 fixes), "Sačuvaj za kasnije" (Save this),
+  "Savet 01" (TIP 01), "Korak 2" (STEP 2), "Komentariši reč DIZAJN i poslaću ti svih 8 linkova".
+
 ## From a video to a carousel
 
 A reel is heard; a carousel is read. The idea, the order and the buyer's best lines stay; the talking goes.

@@ -47,27 +47,27 @@ SFX_NAMES = ['whoosh-short', 'pop', 'sparkle', 'click', 'click-soft', 'impact-ba
              'whoosh', 'whoosh-cinematic', 'impact-bass-2', 'riser', 'chime', 'notification', 'ping',
              'key-press', 'typing', 'error', 'glitch-1', 'glitch-2', 'glitch-3']
 SFX_URL = 'https://raw.githubusercontent.com/heygen-com/hyperframes/main/skills/media-use/audio/assets/sfx'
-RESTART = 'then quit Claude Code completely, reopen it and run the skill again'
+RESTART = 'onda potpuno zatvori Claude Code, otvori ga ponovo i pokreni Reel Lab još jednom'
 
 
 def fix(what, osn):
     """How to install `what` on this OS, in steps a person who has never used a terminal can follow. Every command
     here was checked against its own source (formulae.brew.sh, the winget-pkgs manifests, nodejs.org, python.org)."""
-    brew = ('if you have Homebrew, paste this into the Terminal app: {cmd} . No Homebrew: step 1, open https://brew.sh '
-            'and paste the one line at the top of that page into the Terminal app (it installs Homebrew). '
-            'Step 2, paste: {cmd} . Then run the skill again')
+    brew = ('ako imaš Homebrew, nalepi ovo u aplikaciju Terminal: {cmd} . Nemaš Homebrew: korak 1, otvori https://brew.sh '
+            'i nalepi onaj jedan red sa vrha te stranice u aplikaciju Terminal (on instalira Homebrew). '
+            'Korak 2, nalepi: {cmd} . Onda pokreni Reel Lab ponovo')
     table = {
         'ffmpeg': {'macos': brew.format(cmd='brew install ffmpeg'),
                    'linux': 'sudo apt install ffmpeg',
-                   'windows': 'step 1, open PowerShell from the Start menu and paste: winget install --id Gyan.FFmpeg -e . '
-                              f'Step 2, {RESTART}'},
-        'node': {'macos': 'step 1, download the macOS installer from https://nodejs.org (the LTS button) and run it. '
-                          'Step 2, run the skill again. (With Homebrew instead: brew install node)',
-                 'linux': 'install Node 22 LTS from https://nodejs.org (or: nvm install 22). apt\'s own nodejs is often too old',
-                 'windows': 'step 1, open PowerShell from the Start menu and paste: winget install --id OpenJS.NodeJS.LTS -e . '
-                            f'Step 2, {RESTART}'},
-        'python': {'macos': f'step 1, download Python 3.12 from {skillenv.OWN_PY_MAC_PKG} and open it to install. '
-                            'Step 2, run the skill again. (With Homebrew instead: brew install python@3.12)',
+                   'windows': 'korak 1, otvori PowerShell iz Start menija i nalepi: winget install --id Gyan.FFmpeg -e . '
+                              f'Korak 2, {RESTART}'},
+        'node': {'macos': 'korak 1, skini instalaciju za macOS sa https://nodejs.org (dugme LTS) i pokreni je. '
+                          'Korak 2, pokreni Reel Lab ponovo. (Ili preko Homebrew-a: brew install node)',
+                 'linux': 'instaliraj Node 22 LTS sa https://nodejs.org (ili: nvm install 22). nodejs iz apt-a je često prestar',
+                 'windows': 'korak 1, otvori PowerShell iz Start menija i nalepi: winget install --id OpenJS.NodeJS.LTS -e . '
+                            f'Korak 2, {RESTART}'},
+        'python': {'macos': f'korak 1, skini Python 3.12 sa {skillenv.OWN_PY_MAC_PKG} i otvori ga da se instalira. '
+                            'Korak 2, pokreni Reel Lab ponovo. (Ili preko Homebrew-a: brew install python@3.12)',
                    'linux': 'sudo apt install python3 python3-venv',
                    'windows': f'winget install --id Python.Python.3.12 -e   ({RESTART})'},
         'venv': {'macos': 'brew install python@3.12',

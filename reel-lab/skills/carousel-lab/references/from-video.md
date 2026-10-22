@@ -2,7 +2,7 @@
 
 The source can be a reel the Studio edited (its project folder, the best source: the words were already fixed by
 hand during the edit and there is a clean cut without captions), any video file on the computer, or a link to a
-post (Instagram, TikTok, YouTube). "Turn my last reel into a carousel" = the newest folder in `projectsDir`
+post (Instagram, TikTok, YouTube). "Pretvori moj poslednji rils u karusel" = the newest folder in `projectsDir`
 (`config.json` in the Studio state folder).
 
 ```
@@ -40,7 +40,11 @@ post (Instagram, TikTok, YouTube). "Turn my last reel into a carousel" = the new
   thing to keep in its own block.
 - Anything they SHOWED (a screen, a website, a result) can be a still from the video, labelled.
 - The CTA keyword stays the same as the reel's so both posts lead to the same resource. No CTA in the reel: ask
-  what they want people to do, or end on "Save this" with a short reason.
+  what they want people to do, or end on "Sačuvaj ovo" with a short reason.
+- The keyword is copied exactly as they said it in the reel: same word, same spelling, same script. A Serbian reel
+  that says "komentariši VODIČ" gets VODIČ on the slide, never a translation or a version without diacritics.
+- Transcripts of Serbian, Croatian or Bosnian speech: check names, brands and anglicisms the transcriber spelled
+  phonetically ("čet dži pi ti" is ChatGPT), and restore diacritics before writing a word.
 - Stills from a Studio edit come from the clean cut (`assets/aroll.mp4`, no captions burned in). From a finished
   reel file the captions show in the still: prefer the raw clip, or use a moment without a caption.
 - A video with no speech (music only, a screen recording): ask what the carousel should say, use stills.

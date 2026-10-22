@@ -1,32 +1,38 @@
 # Reel Lab
 
-You film your clips. Claude edits the reel.
+Ti snimiš klipove. Claude montira rils.
 
-This is the plugin for buyers of Reel Lab. The walkthrough videos and support are in your portal: https://portal.tenfoldmarketing.com
+Reel Lab je dodatak (plugin) za Claude koji od sirovih klipova pravi gotov Instagram rils u tvom stilu montaže:
+bira najbolje snimke, izbacuje pauze, pravi titlove na srpskom, hrvatskom, bosanskom ili engleskom (latinicom ili
+ćirilicom), dodaje efekte, pravi varijacije za trial reels i može sam da objavi umesto tebe.
 
-## Install in the Claude desktop app
+## Instalacija u Claude aplikaciji
 
-1. Open the Claude desktop app and go to the **Code** tab.
-2. Click the **+** next to the message box, then **Plugins**, then **Browse plugins**.
-3. Click **Add** in the top right, then **Add marketplace**, then **Add from a repository**.
-4. Paste this link and click **Sync**:
+1. Otvori Claude aplikaciju na računaru i idi na karticu **Code**.
+2. Klikni **+** pored polja za poruku, pa **Plugins**, pa **Browse plugins**.
+3. Gore desno klikni **Add**, pa **Add marketplace**, pa **Add from a repository**.
+4. Nalepi ovaj link i klikni **Sync**:
 
 ```
 https://github.com/vladsdigital/reel-lab
 ```
 
-5. Install **Reel Lab** from the list.
-6. Start a new chat and type:
+5. Sa liste instaliraj **Reel Lab**.
+6. Otvori novi čet i ukucaj:
 
 ```
 /reel-lab setup
 ```
 
-Setup asks where your clips land, then builds your editing style with you: send links to reels whose editing you love (or describe it, or pick from the Studio's built-in looks), and name it. It downloads its tools in the background while you do that. Your first edit dials the style in, and after that you just drop clips in and say: edit these in [your style].
+Podešavanje te pita gde ti stižu klipovi, na kom jeziku pričaš i da li titlovi idu latinicom ili ćirilicom. Onda
+zajedno pravimo tvoj stil montaže: pošalješ linkove do rilsova čija ti se montaža sviđa (ili opišeš izgled, ili
+izabereš neki od ugrađenih stilova) i daš mu ime. Dok to radiš, alati se skidaju u pozadini (oko 3,2 GB, samo
+jednom). Na prvoj montaži doterujemo stil, a posle samo ubaciš klipove i kažeš: montiraj u [ime tvog stila].
 
-## Install from a terminal instead
+## Instalacija iz terminala (ako ti je tako lakše)
 
-Only if you use Claude Code in Terminal (Mac) or PowerShell (Windows). Run these yourself, not inside Claude. Each line is one paste.
+Samo ako koristiš Claude Code u Terminalu (Mac) ili PowerShell-u (Windows). Ove komande pokrećeš sam, ne unutar
+Claude-a. Svaki red nalepi posebno.
 
 ```bash
 claude plugin marketplace add vladsdigital/reel-lab
@@ -36,37 +42,58 @@ claude plugin marketplace add vladsdigital/reel-lab
 claude plugin install reel-lab@reel-lab
 ```
 
-On Windows this route needs [Git for Windows](https://git-scm.com/downloads) installed first.
+Na Windowsu za ovaj put prvo treba da instaliraš [Git for Windows](https://git-scm.com/downloads).
 
-Then open Claude Code and type `/reel-lab setup`.
+Onda otvori Claude Code i ukucaj `/reel-lab setup`.
 
-## Carousels
+## Tačniji titlovi uz Soniox (opciono)
 
-The Studio makes carousels too, in your own look. In any chat, say:
+Reel Lab pravi transkript besplatno, na tvom računaru, bez interneta. Ako hoćeš primetno tačnije titlove na našem
+jeziku (imena, padeži, naši izrazi), možeš da povežeš Soniox. Plaća se po korišćenju, oko par centi po rilsu.
 
-```
-make a carousel about [your topic]
-```
+1. Napravi nalog na [console.soniox.com](https://console.soniox.com).
+2. U delu **API Keys** napravi novi ključ i kopiraj ga.
+3. U četu reci Claude-u: "poveži Soniox". Ključ uzima direktno iz kopiranog, ne moraš da ga lepiš u čet.
 
-or
+Ključ ostaje samo na tvom računaru. Ako se predomisliš, reci: "vrati besplatno prepoznavanje govora".
 
-```
-turn my last reel into a carousel
-```
+## Karuseli
 
-The first time, it asks for your handle and your look: send screenshots of carousels you love and it rebuilds that style, or pick one of the 3 looks it comes with. Then it writes the copy for every slide, waits for your OK, designs the slides and opens a preview you can swipe through like the real post. The slides land in a Carousels folder in your home folder, ready to post.
-
-## Getting updates
-
-Fixes and new effects arrive as updates to this plugin. Your picks and your own style are kept.
-
-**The easy way:** when there is a new version, Claude tells you and asks if you want it. Say yes. You can also say this at any time:
+Reel Lab pravi i karusele, u tvom izgledu. U bilo kom četu reci:
 
 ```
-update the Studio
+napravi karusel o [tvoja tema]
 ```
 
-**From a terminal instead:** each line is one paste.
+ili
+
+```
+napravi karusel od mog poslednjeg rilsa
+```
+
+Prvi put te pita za tvoj Instagram nalog i izgled: pošalješ skrinšotove karusela koji ti se sviđaju pa Claude
+napravi taj stil, ili izabereš jedan od 3 gotova izgleda. Onda napiše tekst za svaki slajd, sačeka tvoje "može",
+dizajnira slajdove i otvori pregled koji listaš kao pravu objavu. Slajdovi završe u folderu Carousels u tvom
+korisničkom folderu, spremni za objavu.
+
+## Objavljivanje
+
+Kad je rils gotov, reci "objavi ovo" ili "objavi moje trial rilsove". Reel Lab objavljuje na Instagram (kao običan
+rils ili trial reel), TikTok, YouTube Shorts i Facebook: odmah, u vreme koje izabereš, ili sa razmakom od par
+minuta. Ide preko servisa Zernio, besplatno za prva 2 povezana naloga. Ništa ne ide napolje dok ne kažeš "može".
+
+## Ažuriranja
+
+Popravke i novi efekti stižu kao ažuriranja. Tvoji izbori i tvoji stilovi ostaju sačuvani.
+
+**Lakši način:** kad izađe nova verzija, Claude ti javi i pita da li hoćeš da je instalira. Reci da. Možeš i sam
+da kažeš bilo kad:
+
+```
+ažuriraj Reel Lab
+```
+
+**Iz terminala:** svaki red nalepi posebno.
 
 ```bash
 claude plugin marketplace update reel-lab
@@ -76,12 +103,13 @@ claude plugin marketplace update reel-lab
 claude plugin update reel-lab@reel-lab
 ```
 
-Start a new chat after an update so Claude loads the new version.
+Posle ažuriranja otvori novi čet, da Claude učita novu verziju.
 
-## Help
+## Pomoć
 
-Email info@tenfoldmarketing.com. Say what you were doing and what happened. A screenshot helps.
+<!-- TODO(Vladimir): podrska@vladsdigital.com je privremena adresa, zameni je pravom. -->
+Piši na podrska@vladsdigital.com. Napiši šta si radio ili radila i šta se desilo. Snimak ekrana mnogo pomaže.
 
 ---
 
-© Ten Fold Marketing. For buyers of Reel Lab, under the terms you agreed to at purchase. Not affiliated with or endorsed by Anthropic or Instagram.
+© Vladsdigital. Zasnovano na Creator Studio (Marc Cleroux), uz dozvolu autora. Nije povezano sa Anthropic-om ni Instagramom.

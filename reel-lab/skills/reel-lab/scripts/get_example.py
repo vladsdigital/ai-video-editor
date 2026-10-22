@@ -188,8 +188,8 @@ def from_link(src, name=None):
             'Windows lock it, and Safari needs Full Disk Access on a Mac). Try Firefox if they use it, or ask the buyer '
             'to download the video and drop the file in.')
     elif any(x in err for x in ('login', 'log in', 'cookies', 'rate-limit', 'rate limit')):
-        say('STATUS example FAILED LOGIN: this post only shows to someone logged in. Ask the buyer: "Can I use your '
-            'browser\'s login to fetch it? Nothing is saved." On yes, run again with --browser <their browser> '
+        say('STATUS example FAILED LOGIN: this post only shows to someone logged in. Ask the buyer: "Ovaj post vide samo prijavljeni. '
+            'Mogu li da ga skinem preko prijave iz tvog pregledača? Ništa se ne čuva." On yes, run again with --browser <their browser> '
             '(on Windows, Firefox works best: Chrome and Edge lock their login there). Or they download the video '
             'themselves and drop the file in.')
     elif any(x in err for x in gone):

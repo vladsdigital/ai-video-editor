@@ -73,7 +73,7 @@ fi
 
 missing() {   # $1 = why
   case "$OS" in
-    Darwin) steps='step 1, download Python 3.12 from https://www.python.org/ftp/python/3.12.10/python-3.12.10-macos11.pkg and open it to install. Step 2, run the skill again' ;;
+    Darwin) steps='korak 1, skini Python 3.12 sa https://www.python.org/ftp/python/3.12.10/python-3.12.10-macos11.pkg i otvori ga da se instalira. Korak 2, pokreni Reel Lab ponovo' ;;
     *)      steps='sudo apt install python3 python3-venv' ;;
   esac
   echo "STATUS python MISSING ($1) -> $steps"

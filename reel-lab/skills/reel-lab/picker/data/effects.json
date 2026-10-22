@@ -12,7 +12,7 @@
    "key": "orbit",
    "name": "Orbit",
    "job": "Hook",
-   "line": "Your own reels circle around you.",
+   "line": "Tvoji rilsi kruže oko tebe.",
    "preview": "previews/effects/orbit.mp4"
   },
   {
@@ -20,7 +20,7 @@
    "key": "couch-wall",
    "name": "Couch Wall",
    "job": "Explain",
-   "line": "Your reel covers become a grid on the wall behind you.",
+   "line": "Naslovne slike tvojih rilsova postanu mreža na zidu iza tebe.",
    "preview": "previews/effects/couch-wall.mp4"
   },
   {
@@ -28,7 +28,7 @@
    "key": "ui-world",
    "name": "UI World",
    "job": "Explain",
-   "line": "An app screen fills the frame and you stand in front of it.",
+   "line": "Ekran aplikacije ispuni kadar, a ti stojiš ispred njega.",
    "preview": "previews/effects/ui-world.mp4"
   },
   {
@@ -36,7 +36,7 @@
    "key": "freeze-sticker",
    "name": "Freeze Sticker",
    "job": "CTA",
-   "line": "Your freeze frame becomes a die-cut sticker with handwritten notes.",
+   "line": "Zamrznut kadar postane isečena nalepnica sa beleškama pisanim rukom.",
    "preview": "previews/effects/freeze-sticker.mp4"
   },
   {
@@ -44,7 +44,7 @@
    "key": "frame-break",
    "name": "Frame Break",
    "job": "Hook",
-   "line": "The video shrinks into a card and you pop out of it.",
+   "line": "Video se smanji u karticu, a ti iskočiš iz nje.",
    "preview": "previews/effects/frame-break.mp4"
   },
   {
@@ -52,7 +52,7 @@
    "key": "type-wall",
    "name": "Type Wall",
    "job": "Hook",
-   "line": "Giant words march behind you and swap as you talk.",
+   "line": "Ogromne reči marširaju iza tebe i menjaju se dok pričaš.",
    "preview": "previews/effects/type-wall.mp4"
   },
   {
@@ -60,7 +60,7 @@
    "key": "the-stack",
    "name": "The Stack",
    "job": "Explain",
-   "line": "Data cards with racing bars stack above you.",
+   "line": "Kartice sa podacima i trakama koje jure slažu se iznad tebe.",
    "preview": "previews/effects/the-stack.mp4"
   },
   {
@@ -68,7 +68,7 @@
    "key": "digital-zoom",
    "name": "Digital Zoom",
    "job": "Hook",
-   "line": "A slow creep onto your face, then a hard snap on the key word.",
+   "line": "Spor prilaz ka licu, pa nagli trzaj na ključnoj reči.",
    "preview": "previews/effects/digital-zoom.mp4"
   },
   {
@@ -76,7 +76,7 @@
    "key": "sticky-text",
    "name": "Sticky Text",
    "job": "Explain",
-   "line": "A tag stuck to your cap or chest that moves with you.",
+   "line": "Etiketa zalepljena za kapu ili grudi koja se kreće s tobom.",
    "preview": "previews/effects/sticky-text.mp4"
   },
   {
@@ -84,7 +84,7 @@
    "key": "odometer",
    "name": "Odometer",
    "job": "Proof",
-   "line": "Numbers roll up digit by digit, like a mileage counter.",
+   "line": "Brojevi se okreću cifru po cifru, kao brojač kilometara.",
    "preview": "previews/effects/odometer.mp4"
   },
   {
@@ -92,7 +92,7 @@
    "key": "spotlight",
    "name": "Spotlight",
    "job": "Explain",
-   "line": "The room goes dark, you stay lit, the key words land big.",
+   "line": "Soba se zamrači, ti ostaješ osvetljen, ključne reči slete velike.",
    "preview": "previews/effects/spotlight.mp4"
   },
   {
@@ -100,7 +100,7 @@
    "key": "comment-bubble",
    "name": "Comment Bubble",
    "job": "CTA",
-   "line": "The comment types itself, posts, and your reply with the link lands.",
+   "line": "Komentar se sam ukuca i objavi, pa stigne tvoj odgovor sa linkom.",
    "preview": "previews/effects/comment-bubble.mp4"
   },
   {
@@ -108,7 +108,7 @@
    "key": "freeze-and-label",
    "name": "Freeze and Label",
    "job": "Explain",
-   "line": "The picture freezes and labels point at you.",
+   "line": "Slika se zamrzne, a natpisi pokazuju na tebe.",
    "preview": "previews/effects/freeze-and-label.mp4"
   },
   {
@@ -116,7 +116,7 @@
    "key": "phone-mockup",
    "name": "Phone Mockup",
    "job": "Explain",
-   "line": "A 3D phone flies in beside you, playing a screen.",
+   "line": "3D telefon doleti pored tebe i na njemu ide snimak ekrana.",
    "preview": "previews/effects/phone-mockup.mp4"
   },
   {
@@ -124,7 +124,7 @@
    "key": "checklist",
    "name": "Checklist",
    "job": "Explain",
-   "line": "Each step ticks off as you say it.",
+   "line": "Svaki korak se štiklira dok ga izgovaraš.",
    "preview": "previews/effects/checklist.mp4"
   },
   {
@@ -132,7 +132,7 @@
    "key": "headline-wall",
    "name": "Headline Wall",
    "job": "Hook",
-   "line": "The wall behind you fills with headlines.",
+   "line": "Zid iza tebe se ispuni naslovima.",
    "preview": "previews/effects/headline-wall.mp4"
   },
   {
@@ -140,7 +140,7 @@
    "key": "zoom-through-cut",
    "name": "Zoom-Through Cut",
    "job": "Hook",
-   "line": "The camera dives through you into the next shot.",
+   "line": "Kamera proleti kroz tebe u sledeći kadar.",
    "preview": "previews/effects/zoom-through-cut.mp4"
   },
   {
@@ -148,7 +148,7 @@
    "key": "clone",
    "name": "Clone",
    "job": "Hook",
-   "line": "More of you pop up beside you, right on your words.",
+   "line": "Još tvojih kopija iskoči pored tebe, tačno na tvoje reči.",
    "preview": "previews/effects/clone.mp4"
   },
   {
@@ -156,7 +156,7 @@
    "key": "before-and-after",
    "name": "Before and After",
    "job": "Proof",
-   "line": "A wipe line turns your raw clip into the edit.",
+   "line": "Linija prelaza pretvara tvoj sirovi snimak u montiran.",
    "preview": "previews/effects/before-and-after.mp4"
   },
   {
@@ -164,7 +164,7 @@
    "key": "chart-grow",
    "name": "Chart Grow",
    "job": "Proof",
-   "line": "A chart draws behind you and takes off on your word.",
+   "line": "Grafikon se iscrta iza tebe i poleti na tvoju reč.",
    "preview": "previews/effects/chart-grow.mp4"
   },
   {
@@ -172,7 +172,7 @@
    "key": "pointer-callout",
    "name": "Pointer Callout",
    "job": "Explain",
-   "line": "Cards tied to you by lines that follow you around.",
+   "line": "Kartice vezane za tebe linijama koje te prate.",
    "preview": "previews/effects/pointer-callout.mp4"
   },
   {
@@ -180,7 +180,7 @@
    "key": "blackout",
    "name": "Blackout",
    "job": "Hook",
-   "line": "The lights cut on your line and snap back on the next one.",
+   "line": "Svetla se ugase na tvojoj rečenici i vrate na sledećoj.",
    "preview": "previews/effects/blackout.mp4"
   },
   {
@@ -188,7 +188,7 @@
    "key": "timeline-burn",
    "name": "Timeline Burn",
    "job": "Hook",
-   "line": "An editing timeline builds in front of you, then catches fire on your word.",
+   "line": "Montažna traka se slaže ispred tebe, pa se zapali na tvoju reč.",
    "preview": "previews/effects/timeline-burn.mp4"
   },
   {
@@ -196,7 +196,7 @@
    "key": "pull-back-reveal",
    "name": "Pull-Back Reveal",
    "job": "Proof",
-   "line": "The video shrinks into a card in an app window and you watch it get edited.",
+   "line": "Video se smanji u karticu u prozoru aplikacije i gledaš kako ga montiraju.",
    "preview": "previews/effects/pull-back-reveal.mp4"
   },
   {
@@ -204,7 +204,7 @@
    "key": "knockout-tiles",
    "name": "Knockout Tiles",
    "job": "Explain",
-   "line": "Name tiles slam onto the wall behind you and get knocked out one by one.",
+   "line": "Pločice sa imenima udare o zid iza tebe i ispadaju jedna po jedna.",
    "preview": "previews/effects/knockout-tiles.mp4"
   },
   {
@@ -212,7 +212,7 @@
    "key": "green-screen",
    "name": "Green Screen",
    "job": "Explain",
-   "line": "You shrink to the bottom and the whole screen becomes what you're talking about.",
+   "line": "Ti se smanjiš na dno, a ceo ekran postane ono o čemu pričaš.",
    "preview": "previews/effects/green-screen.mp4"
   },
   {
@@ -220,7 +220,7 @@
    "key": "shatter-3d",
    "name": "Shatter 3D",
    "job": "Hook",
-   "line": "The frame breaks into floating glass, then shatters to reveal you.",
+   "line": "Kadar se raspadne u staklo koje lebdi, pa se razbije i otkrije tebe.",
    "preview": "previews/effects/shatter-3d.mp4"
   },
   {
@@ -228,7 +228,7 @@
    "key": "paper-cut",
    "name": "Paper Cut",
    "job": "Hook",
-   "line": "The room tears away into a paper collage with ransom-note letters.",
+   "line": "Soba se pocepa u papirni kolaž sa slovima isečenim iz novina.",
    "preview": "previews/effects/paper-cut.mp4"
   },
   {
@@ -236,7 +236,7 @@
    "key": "doodle-boil",
    "name": "Doodle Boil",
    "job": "Explain",
-   "line": "A chalk line traces you and doodles draw themselves on your words.",
+   "line": "Linija kredom te ocrta, a crteži se sami crtaju na tvoje reči.",
    "preview": "previews/effects/doodle-boil.mp4"
   },
   {
@@ -244,7 +244,7 @@
    "key": "code-scan",
    "name": "Code Scan",
    "job": "Hook",
-   "line": "The picture resolves into code, then back.",
+   "line": "Slika se pretvori u kod, pa nazad.",
    "preview": "previews/effects/code-scan.mp4"
   },
   {
@@ -252,7 +252,7 @@
    "key": "word-pile",
    "name": "Word Pile",
    "job": "Explain",
-   "line": "The things you name drop as solid blocks and pile up on a line.",
+   "line": "Stvari koje pomeneš padaju kao čvrsti blokovi i slažu se na liniju.",
    "preview": "previews/effects/word-pile.mp4"
   },
   {
@@ -260,7 +260,7 @@
    "key": "vertigo",
    "name": "Vertigo",
    "job": "Hook",
-   "line": "You stay still while the room stretches away behind you.",
+   "line": "Ti stojiš mirno, a soba se razvlači iza tebe.",
    "preview": "previews/effects/vertigo.mp4"
   },
   {
@@ -268,7 +268,7 @@
    "key": "inside-out",
    "name": "Inside Out",
    "job": "Hook",
-   "line": "Your body becomes a window into another clip, then the room becomes it.",
+   "line": "Tvoje telo postane prozor u drugi snimak, a onda ga postane i cela soba.",
    "preview": "previews/effects/inside-out.mp4"
   },
   {
@@ -276,7 +276,7 @@
    "key": "scene-text",
    "name": "Scene Text",
    "job": "Hook",
-   "line": "A word prints across your real wall, then two big words land on it.",
+   "line": "Reč se ispiše preko tvog pravog zida, pa na nju slete dve velike reči.",
    "preview": "previews/effects/scene-text.mp4"
   },
   {
@@ -284,7 +284,7 @@
    "key": "cover-story",
    "name": "Cover Story",
    "job": "Hook",
-   "line": "Your shot becomes a magazine cover while you keep talking.",
+   "line": "Tvoj kadar postane naslovna strana magazina dok ti pričaš dalje.",
    "preview": "previews/effects/cover-story.mp4"
   },
   {
@@ -292,7 +292,7 @@
    "key": "neon-sign",
    "name": "Neon Sign",
    "job": "Hook",
-   "line": "Your phrase lights up as a neon sign on your wall.",
+   "line": "Tvoja fraza zasvetli kao neonski natpis na zidu.",
    "preview": "previews/effects/neon-sign.mp4"
   },
   {
@@ -300,7 +300,7 @@
    "key": "spatial-glass",
    "name": "Spatial Glass",
    "job": "Explain",
-   "line": "Three frosted glass panels float around you for three steps.",
+   "line": "Tri mutna staklena panela lebde oko tebe za tri koraka.",
    "preview": "previews/effects/spatial-glass.mp4"
   },
   {
@@ -308,7 +308,7 @@
    "key": "rack-focus",
    "name": "Rack Focus",
    "job": "Hook",
-   "line": "Focus pulls from you to a title, like a real lens.",
+   "line": "Fokus pređe sa tebe na naslov, kao pravi objektiv.",
    "preview": "previews/effects/rack-focus.mp4"
   },
   {
@@ -316,7 +316,7 @@
    "key": "god-rays",
    "name": "God Rays",
    "job": "Proof",
-   "line": "The room dims and light breaks out from behind your head.",
+   "line": "Soba se zatamni, a svetlo probije iza tvoje glave.",
    "preview": "previews/effects/god-rays.mp4"
   },
   {
@@ -324,7 +324,7 @@
    "key": "glass-type",
    "name": "Glass Type",
    "job": "Hook",
-   "line": "One word in thick clear glass on your wall.",
+   "line": "Jedna reč od debelog providnog stakla na tvom zidu.",
    "preview": "previews/effects/glass-type.mp4"
   },
   {
@@ -332,7 +332,7 @@
    "key": "depth-scatter",
    "name": "Depth Scatter",
    "job": "Hook",
-   "line": "Your opening words land at different sizes and fall out of focus.",
+   "line": "Tvoje prve reči slete u različitim veličinama i odu van fokusa.",
    "preview": "previews/effects/depth-scatter.mp4"
   },
   {
@@ -340,7 +340,7 @@
    "key": "stat-stack",
    "name": "Stat Stack",
    "job": "Proof",
-   "line": "The number you say lands huge, with a tiny line under it.",
+   "line": "Broj koji izgovoriš sleti ogroman, sa sitnim redom ispod.",
    "preview": "previews/effects/stat-stack.mp4"
   },
   {
@@ -348,7 +348,7 @@
    "key": "dot-counter",
    "name": "Dot Counter",
    "job": "Explain",
-   "line": "A dot pops in for each thing you are about to cover.",
+   "line": "Za svaku stvar koju ćeš pokriti iskoči po jedna tačka.",
    "preview": "previews/effects/dot-counter.mp4"
   },
   {
@@ -356,7 +356,7 @@
    "key": "chip-row",
    "name": "Chip Row",
    "job": "Explain",
-   "line": "A pill pops in under your captions for each thing you list.",
+   "line": "Za svaku stvar koju nabrojiš ispod titlova iskoči po jedna pilula.",
    "preview": "previews/effects/chip-row.mp4"
   },
   {
@@ -364,7 +364,7 @@
    "key": "prompt-box",
    "name": "Prompt Box",
    "job": "Explain",
-   "line": "What you tell the AI types itself into a glass box.",
+   "line": "Ono što kažeš AI-ju samo se ukuca u stakleni okvir.",
    "preview": "previews/effects/prompt-box.mp4"
   },
   {
@@ -372,7 +372,7 @@
    "key": "serif-flow",
    "name": "Serif Flow",
    "job": "Explain",
-   "line": "A dark card draws your process step by step in serif type.",
+   "line": "Tamna kartica crta tvoj proces korak po korak serif slovima.",
    "preview": "previews/effects/serif-flow.mp4"
   }
  ]

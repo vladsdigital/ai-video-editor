@@ -16,11 +16,11 @@ assets/      pictures the look uses (a texture, a logo the buyer owns), referenc
 
 ## Three ways to a look of their own
 
-1. **A base look, tuned.** "Paper but blue", "Horizon with my brand colours": `look new "<name>" --from paper`,
+1. **A base look, tuned.** "Paper, ali plavi", "Horizon u bojama mog brenda": `look new "<name>" --from paper`,
    then only the changes: `"vars": {"--accent": "#2F6BFF"}` in look.json, a few rules in look.css. Fastest.
 2. **From carousels they love** (screenshots, files or links). Study them, then build it (below). This is the
    main road and it is replication: the look of THEIR example, not the nearest base look.
-3. **From words.** "Black and white, very minimal, big serif, lots of space." Build it, show the 3 sample slides,
+3. **From words.** "Crno-belo, vrlo minimalno, veliki serif, puno prostora." Build it, show the 3 sample slides,
    adjust.
 
 Every look gets tried on the same 3 sample slides first (hook, a content slide, the CTA) before it is saved and
@@ -41,6 +41,10 @@ look at every one of them. Write down, one line each, before any CSS:
 - **Recurring parts:** handle, avatar, counter, swipe arrow, progress bar, frame, logo spot, page numbers.
 - **Content blocks:** how lists, numbers, quotes, screenshots, prompts and CTAs are drawn.
 - **Copy feel:** words per slide, caps, tone, emoji or not. This goes in look.md, it guides the copy too.
+  An English example's word count is a ceiling: Serbian copy in the same look gets about 15 to 20% fewer words.
+- **Letters:** the faces you pick must have č ć š ž đ (and Cyrillic when the buyer's script is Cyrillic). Render a
+  test line "ČAŠA ĆUP ŠUMA ŽAR ĐAK čćšžđ" in the look before saving it; a face that falls back to another font on
+  those letters is not used for text.
 
 Then map it: colours and fonts into `vars`, everything else into look.css on the classes below. Fonts: the
 nearest face the skill has (`PY "SK/scripts/get_font.py" --list`) or an open one fetched with
@@ -94,9 +98,9 @@ bottom zone, or near the bottom when there is none), `--zb-h`, `--zt-bottom`, `-
 ## Saving and using looks
 
 - `carousel.py look default "<name>"`: plain "make a carousel" uses it.
-- A note the buyer gives with "always" ("always put my logo top left", "never use caps") goes into the look:
+- A note the buyer gives with "uvek" or "nikad" ("uvek stavi moj logo gore levo", "nikad velika slova") goes into the look:
   a setting into look.css / look.json, a copy rule into look.md "Standing notes". Read look.md before every
   carousel in that look.
-- "Make a copy of Paper with my colours" = `look new "<name>" --from paper`. "Rename", "get rid of" =
+- "Napravi kopiju Papera u mojim bojama" = `look new "<name>" --from paper`. "Preimenuj", "skloni" =
   `look rename` / `look retire` (kept on disk, hidden).
 - The base looks are never edited. To change one, make a look of their own from it.

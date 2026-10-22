@@ -28,8 +28,8 @@ password: they log in on the platform's own page, once.
    - In a terminal of their own, `PY "SK/scripts/post.py" key` asks for it with a hidden prompt.
    `STATUS key SAVED` means it was checked and works. It lives on this computer only.
 3. **Connect each platform** they want to post to, one at a time:
-   `PY "SK/scripts/post.py" connect instagram --wait` (IN THE BACKGROUND). It opens a page that says "Creator
-   Studio wants to connect to your Instagram"; they click Continue and log in on Instagram's own page. The command
+   `PY "SK/scripts/post.py" connect instagram --wait` (IN THE BACKGROUND). It opens a page that asks to connect
+   to their Instagram (the name on it can be Zernio's); they click Continue and log in on Instagram's own page. The command
    ends with `STATUS connect DONE instagram @handle` when it shows up. No browser opened? It prints the link: give it
    to them. Before they start, tell them what each platform needs:
    - **Instagram**: a Professional account (Creator or Business). Trial reels and posting from apps only work on
@@ -40,13 +40,13 @@ password: they log in on the platform's own page, once.
      the Brand Account, not their personal name).
    - **Facebook**: they pick the Page to post to.
 4. `check` again: every account says `can post`. Several accounts of one platform (two Instagrams): ask which one is
-   for this Studio, then `PY "SK/scripts/post.py" use instagram @handle`.
+   for Reel Lab, then `PY "SK/scripts/post.py" use instagram @handle`.
 
 ## Posting
 
 ```
 1. Know four things: which file(s), which platforms, trial reel or normal, when.
-     Missing ones: ask in ONE message ("Instagram as trial reels, and TikTok too? Now, or spread out?").
+     Missing ones: ask in ONE message ("Na Instagram kao trial reels, i na TikTok? Sad odmah, ili sa razmakom?").
      First time they post: also ask how they like their captions (or read a few of their posted captions if they
      point you to them), then save that: PY "SK/scripts/post.py" notes "<how they write captions>"
 2. PY "SK/scripts/post.py" new "<project>/posting.json" "<file or folder>" ... --platforms instagram,tiktok
@@ -59,7 +59,7 @@ password: they log in on the platform's own page, once.
 4. PY "SK/scripts/post.py" plan "<project>/posting.json"
      fix every PROBLEM line, plan again until STATUS plan OK. Nothing is sent by plan.
 5. Show them the plan in a few lines (what, where, when, the first line of each caption) and ask for a clear yes.
-     TikTok in it: add one line, "Posting to TikTok means you agree to TikTok's Music Usage Confirmation."
+     TikTok in it: add one line, "Objavom na TikTok prihvataš TikTokovu potvrdu o korišćenju muzike (Music Usage Confirmation)."
 6. They said yes: PY "SK/scripts/post.py" run "<project>/posting.json" --yes      IN THE BACKGROUND when it is more
      than one video (each one uploads first)
 7. Right-away posts: PY "SK/scripts/post.py" status "<project>/posting.json" --wait, then give them the links.
@@ -101,20 +101,21 @@ every other platform in the same post gets it as a normal post (TikTok and YouTu
 - Never post, schedule or cancel without a clear yes to that exact plan in this chat. A yes covers that plan only.
 - Only the platforms they named. Never add one because it is connected.
 - Never put the key on a command line, in a file in their project, or in a message. Never print it.
-- The cover is the first frame unless they ask (`"cover_ms"`). The Studio's reels open on a settled first frame.
+- The cover is the first frame unless they ask (`"cover_ms"`). Reel Lab's reels open on a settled first frame.
 
 ## What the buyer hears
 
-- First time, no key: "I can post this for you. It goes through Zernio, the service that connects to your Instagram
-  and TikTok. It's free for your first 2 accounts (a third, like YouTube, is $6 a month). Sign up at
-  zernio.com, then go to API keys, click Create API key, and copy it. Tell me when it's copied."
-- Key saved: "Got it, your key is saved on this computer only. Now let's connect Instagram. A page opens, click
-  Continue and log in on Instagram's own page. Your Instagram needs to be a Professional account for trial reels."
-- Connected: "Instagram is connected (@handle). Want TikTok and YouTube too?"
-- The plan: "Here's the plan: 3 trial reels on Instagram, also on TikTok. Trial 1 goes out now, trial 2 at 6:05,
-  trial 3 at 6:10. Captions: [first lines]. Posting to TikTok means you agree to TikTok's Music Usage Confirmation.
-  Good to go?"
-- Posted: "Trial 1 is live: [links]. Trials 2 and 3 go out at 6:05 and 6:10. They're trial reels, so they show to
-  non-followers first. When one wins, open it in Instagram and tap Share to followers."
-- A failure: "TikTok refused trial 2: it says the daily limit is reached. Instagram has it. Want me to post it to
-  TikTok tomorrow morning?"
+- First time, no key: "Mogu ja ovo da objavim umesto tebe. Ide preko Zernia, servisa koji se povezuje sa tvojim
+  Instagramom i TikTokom. Besplatan je za prva 2 naloga (treći, recimo YouTube, košta 6 dolara mesečno). Napravi
+  nalog na zernio.com, pa idi na API keys, klikni Create API key i kopiraj ključ. Javi mi kad ga kopiraš, ne lepi
+  ga ovde."
+- Key saved: "Može, ključ je sačuvan samo na ovom računaru. Sad povezujemo Instagram. Otvoriće se stranica:
+  klikni Continue i prijavi se na Instagramovoj stranici. Za trial reels tvoj Instagram mora da bude profesionalni
+  nalog."
+- Connected: "Instagram je povezan (@handle). Hoćeš i TikTok i YouTube?"
+- The plan: "Evo plana: 3 trial rilsa na Instagramu, i isto na TikToku. Prvi ide odmah, drugi u 18:05, treći u
+  18:10. Opisi: [prvi redovi]. Objavom na TikTok prihvataš TikTokovu potvrdu o korišćenju muzike. Može?"
+- Posted: "Prvi trial je objavljen: [linkovi]. Drugi i treći idu u 18:05 i 18:10. Pošto su trial reels, prvo ih
+  vide ljudi koji te ne prate. Kad neki prođe dobro, otvori ga na Instagramu i klikni Share to followers."
+- A failure: "TikTok je odbio drugi trial: kaže da je dnevni limit potrošen. Na Instagramu je objavljen. Da ga
+  objavim na TikToku sutra ujutru?"

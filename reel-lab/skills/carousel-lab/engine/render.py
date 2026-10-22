@@ -45,8 +45,60 @@ def looks_dirs():
     return [os.path.join(state_root(), 'looks'), os.path.join(SKILL, 'looks')]
 
 
+_CYR = dict(zip('абвгдђежзијклљмнњопрстћуфхцчџш',
+                ['a', 'b', 'v', 'g', 'd', 'dj', 'e', 'z', 'z', 'i', 'j', 'k', 'l', 'lj', 'm', 'n', 'nj', 'o', 'p', 'r',
+                 's', 't', 'c', 'u', 'f', 'h', 'c', 'c', 'dz', 's']))
+
+
 def slug(s):
-    return re.sub(r'[^a-z0-9]+', '-', str(s).lower()).strip('-') or 'carousel'
+    """ASCII file name: Serbian / Croatian / Bosnian letters and Cyrillic become their plain Latin letters
+    ("Šta posle?" -> "sta-posle", "Корак" -> "korak") instead of being dropped."""
+    import unicodedata
+    t = ''.join(_CYR.get(ch, ch) for ch in str(s).lower().replace('đ', 'dj'))
+    t = unicodedata.normalize('NFKD', t).encode('ascii', 'ignore').decode('ascii')
+    return re.sub(r'[^a-z0-9]+', '-', t).strip('-') or 'carousel'
+
+
+# ------------------------------------------------------------------ language of the slides
+# The words the engine itself puts on a slide when the carousel does not give them. The language and script come
+# from carousel.json ("language", "script"), then the carousel profile, then the Studio's config.json (Serbian in
+# Latin when nothing is set).
+WORDS = {
+    'sr': {'keywordPre': 'Komentariši reč', 'follow': 'Zaprati {handle} za još', 'swipe': 'Prevuci', 'end': 'Kraj',
+           'copy': 'Kopiraj ovo'},
+    'bs': {'keywordPre': 'Komentariši riječ', 'follow': 'Zaprati {handle} za još', 'swipe': 'Prevuci', 'end': 'Kraj',
+           'copy': 'Kopiraj ovo'},
+    'hr': {'keywordPre': 'Komentiraj riječ', 'follow': 'Zaprati {handle} za još', 'swipe': 'Povuci', 'end': 'Kraj',
+           'copy': 'Kopiraj ovo'},
+    'en': {'keywordPre': 'Comment the word', 'follow': 'Follow {handle} for more', 'swipe': 'Swipe', 'end': 'End',
+           'copy': 'Copy this'},
+}
+WORDS_CYR = {
+    'sr': {'keywordPre': 'Коментариши реч', 'follow': 'Запрати {handle} за још', 'swipe': 'Превуци', 'end': 'Крај',
+           'copy': 'Копирај ово'},
+    'bs': {'keywordPre': 'Коментариши ријеч', 'follow': 'Запрати {handle} за још', 'swipe': 'Превуци', 'end': 'Крај',
+           'copy': 'Копирај ово'},
+}
+
+
+def slide_language(data, prof):
+    """-> (language, script): 'sr' | 'hr' | 'bs' | 'en', 'latin' | 'cyrillic'."""
+    got = {}
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(SKILL), 'reel-lab', 'engine'))
+        import lang as LANG  # noqa: E402  the Studio's language settings (reel-lab/engine/lang.py)
+        got = LANG.current()
+    except Exception:   # noqa: BLE001: no Studio language settings: Serbian in Latin
+        pass
+    language = str(data.get('language') or prof.get('language') or got.get('language') or 'sr').lower()[:2]
+    script = str(data.get('script') or prof.get('script') or got.get('script') or 'latin').lower()
+    language = language if language in WORDS else 'sr'
+    script = 'cyrillic' if script.startswith('cyr') and language in WORDS_CYR else 'latin'
+    return language, script
+
+
+def words_for(language, script):
+    return (WORDS_CYR if script == 'cyrillic' else WORDS).get(language) or WORDS[language]
 
 
 def uri(p):
@@ -359,7 +411,7 @@ def slide_html(s, i, n, ctx):
         zb.append(media)
     if s.get('payload'):
         p = s['payload'] if isinstance(s['payload'], dict) else {'text': s['payload']}
-        zb.append(f'<div class="payload"><div class="pl-label"><i></i>{md(p.get("label", "Copy this"))}</div>'
+        zb.append(f'<div class="payload"><div class="pl-label"><i></i>{md(p.get("label", ctx["words"]["copy"]))}</div>'
                   f'<div class="pl-text">{md(p.get("text"))}</div></div>')
     if s.get('callout'):
         zb.append(f'<div class="callout">{md(s["callout"])}</div>')
@@ -367,11 +419,11 @@ def slide_html(s, i, n, ctx):
         kw = s.get('keyword', '')
         bits = []
         if kw:
-            bits.append(f'<div class="cw-pre">{md(s.get("keywordPre", "Comment the word"))}</div>')
+            bits.append(f'<div class="cw-pre">{md(s.get("keywordPre", ctx["words"]["keywordPre"]))}</div>')
             bits.append(f'<div class="kw">{md(kw)}</div>')
         if s.get('keywordPost'):
             bits.append(f'<div class="cw-post">{md(s["keywordPost"])}</div>')
-        follow = s.get('follow', f'Follow {prof.get("handle")} for more' if prof.get('handle') else '')
+        follow = s.get('follow', ctx['words']['follow'].format(handle=prof.get('handle')) if prof.get('handle') else '')
         if follow:
             bits.append(f'<div class="follow">{md(follow)}</div>')
         if bits:
@@ -389,7 +441,7 @@ def slide_html(s, i, n, ctx):
     avatar = f'<img class="av" src="{av}" alt="">' if av else (
         f'<span class="av initial">{html.escape((prof.get("name") or prof.get("handle") or "?").lstrip("@")[:1].upper())}</span>' if handle else '')
     tick = '<span class="tick">&#10003;</span>' if prof.get('verified') else ''
-    swipe_txt = s.get('swipe') or ('End' if i == n else 'Swipe')
+    swipe_txt = s.get('swipe') or (ctx['words']['end'] if i == n else ctx['words']['swipe'])
     tag = md(s.get('tag', label or ctx.get('tag', '')))
     half_side = re.search(r'bleed half side-(\w+)', bleed)
     share = re.search(r'--share:([0-9.]+)', bleed)   # the text moves with the photo's share, so the slide needs it too
@@ -417,7 +469,7 @@ def page(s, i, n, ctx):
     w, h = ctx['size']
     vars_css = ';'.join(f'{k}:{v}' for k, v in ctx['look']['vars'].items())
     look_css = '\n'.join(rebase_urls(t, f) for f, t in ctx['look']['css'])
-    return ('<!doctype html><html><head><meta charset="utf-8"><style>'
+    return (f'<!doctype html><html lang="{ctx.get("lang", "sr")}"><head><meta charset="utf-8"><style>'
             f'{ctx["faces"]}\n{ctx["base"]}\n{ctx.get("stickers_css", "")}\n'
             f':root{{--w:{w}px;--h:{h}px;{vars_css}}}\n{look_css}\n'   # the look's vars after the sticker defaults, so they win
             f'{ctx.get("css", "")}\n{s.get("css", "")}</style></head><body>'
@@ -505,6 +557,9 @@ def render(project, only=None, scale=1, pdf=False, look_override=None, out_dir=N
            'stickers_css': rebase_urls(open(os.path.join(ENGINE, 'stickers.css'), encoding='utf-8').read(), ENGINE)
            if os.path.isfile(os.path.join(ENGINE, 'stickers.css')) else '',
            'footer': data.get('footer', ''), 'tag': data.get('tag', ''), 'css': data.get('css', '')}
+    language, script = slide_language(data, prof)
+    ctx['lang'] = language                       # <html lang>: the font's local letter forms (Serbian Cyrillic) and hyphenation
+    ctx['words'] = words_for(language, script)
     browser = browser_path()
     if not browser:
         raise SystemExit('STATUS render FAILED: no headless browser. Run the Studio setup check, then '

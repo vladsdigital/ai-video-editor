@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="sr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Reel Lab: Studio Picker</title>
+<title>Reel Lab: izbor stila</title>
 <meta name="theme-color" content="#09090A">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -301,95 +301,95 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
 </head>
 <body>
 <div class="set" aria-hidden="true"></div>
-<a class="skip" href="#main">Skip to the clips</a>
+<a class="skip" href="#main">Preskoči na klipove</a>
 
 <header class="top">
   <div class="wrap">
     <span class="brand">Reel Lab</span>
-    <span class="mono"><i></i>Studio picker</span>
+    <span class="mono"><i></i>Izbor stila</span>
   </div>
 </header>
 
 <main id="main">
   <section class="intro wrap">
-    <h1 class="t title">Pick your look.</h1>
-    <p class="lede"><span id="hint">Hover a clip to watch it.</span> Pick what you like. Hit save.</p>
+    <h1 class="t title">Izaberi svoj izgled.</h1>
+    <p class="lede"><span id="hint">Pređi mišem preko klipa da ga pogledaš.</span> Izaberi šta ti se sviđa. Klikni Sačuvaj.</p>
 
-    <div class="ways" id="ways" role="tablist" aria-label="Two ways to pick" hidden>
+    <div class="ways" id="ways" role="tablist" aria-label="Dva načina da biraš" hidden>
       <button class="way" type="button" role="tab" id="way-preset" aria-controls="sec-styles" aria-selected="false">
-        <b class="t">Pick one overall style</b><span>One pick. Captions and effects chosen for you.</span>
+        <b class="t">Izaberi gotov stil</b><span>Jedan klik. Titlovi i efekti su već izabrani za tebe.</span>
       </button>
       <button class="way" type="button" role="tab" id="way-custom" aria-controls="own" aria-selected="true">
-        <b class="t">Build my own</b><span>Your captions. Your effects.</span>
+        <b class="t">Složi svoj</b><span>Tvoji titlovi. Tvoji efekti.</span>
       </button>
     </div>
-    <noscript><p class="oops"><b>This page needs JavaScript.</b>Turn it on and reload, or just tell Claude which captions and effects you want.</p></noscript>
-    <p class="oops" id="oops" hidden><b>The clips did not load.</b>Go back to Claude and say <q>open the picker</q>.</p>
+    <noscript><p class="oops"><b>Ovoj stranici treba JavaScript.</b>Uključi ga i osveži stranicu, ili samo reci Claudeu koje titlove i efekte želiš.</p></noscript>
+    <p class="oops" id="oops" hidden><b>Klipovi se nisu učitali.</b>Vrati se u Claude i reci <q>otvori izbor stila</q>.</p>
   </section>
 
   <section class="sec wrap" id="sec-styles" tabindex="-1" aria-labelledby="h-styles" hidden>
-    <div class="slate"><span class="clap" aria-hidden="true"><i></i></span><div class="slate-f mono"><span>Scene <b>01</b></span><span>Overall style</span><span class="r">Pick one</span></div></div>
+    <div class="slate"><span class="clap" aria-hidden="true"><i></i></span><div class="slate-f mono"><span>Scena <b>01</b></span><span>Gotov stil</span><span class="r">Izaberi jedan</span></div></div>
     <div class="sec-hd">
-      <h2 class="t h2" id="h-styles">Pick a style.</h2>
-      <p class="note">One pick sets your captions, your effects and your pace.</p>
+      <h2 class="t h2" id="h-styles">Izaberi stil.</h2>
+      <p class="note">Jedan izbor određuje titlove, efekte i tempo.</p>
     </div>
     <div class="grid" id="styles" role="radiogroup" aria-labelledby="h-styles"></div>
-    <button class="all tweak" type="button" id="tweak" aria-expanded="false" aria-controls="own" hidden>Change its captions or effects</button>
+    <button class="all tweak" type="button" id="tweak" aria-expanded="false" aria-controls="own" hidden>Promeni mu titlove ili efekte</button>
   </section>
 
   <div id="own">
     <section class="sec wrap" id="sec-captions" tabindex="-1" aria-labelledby="h-captions">
-      <div class="slate"><span class="clap" aria-hidden="true"><i></i></span><div class="slate-f mono"><span>Scene <b id="n-captions">01</b></span><span>Captions</span><span class="r">Pick one</span></div></div>
-      <div class="sec-hd"><h2 class="t h2" id="h-captions">Your captions.</h2></div>
+      <div class="slate"><span class="clap" aria-hidden="true"><i></i></span><div class="slate-f mono"><span>Scena <b id="n-captions">01</b></span><span>Titlovi</span><span class="r">Izaberi jedan</span></div></div>
+      <div class="sec-hd"><h2 class="t h2" id="h-captions">Tvoji titlovi.</h2></div>
       <div class="grid" id="captions" role="radiogroup" aria-labelledby="h-captions"></div>
     </section>
 
     <section class="sec wrap" id="sec-effects" tabindex="-1" aria-labelledby="h-effects">
-      <div class="slate"><span class="clap" aria-hidden="true"><i></i></span><div class="slate-f mono"><span>Scene <b id="n-effects">02</b></span><span>Effects</span><span class="r">Pick any</span></div></div>
+      <div class="slate"><span class="clap" aria-hidden="true"><i></i></span><div class="slate-f mono"><span>Scena <b id="n-effects">02</b></span><span>Efekti</span><span class="r">Izaberi više</span></div></div>
       <div class="sec-hd">
-        <h2 class="t h2" id="h-effects">Your effects.</h2>
-        <p class="note">Pick as many as you like. Claude only uses one where it fits the line you're saying.</p>
+        <h2 class="t h2" id="h-effects">Tvoji efekti.</h2>
+        <p class="note">Izaberi koliko god hoćeš. Claude koristi efekat samo tamo gde se uklapa u rečenicu koju izgovaraš.</p>
       </div>
       <div class="fxbar">
         <button class="sw" type="button" role="switch" aria-checked="false" id="parts-sw">
           <i aria-hidden="true"></i>
-          <span>Use different effects in different parts of my video<small id="parts-tip" hidden>Tap Hook, Middle or End on an effect to put it there. Tap none and it can go anywhere.</small></span>
+          <span>Različiti efekti u različitim delovima videa<small id="parts-tip" hidden>Na efektu tapni Početak, Sredina ili Kraj da ga staviš tamo. Ako ne tapneš ništa, može da ide bilo gde.</small></span>
         </button>
-        <button class="all" type="button" id="all">Select all</button>
+        <button class="all" type="button" id="all">Izaberi sve</button>
       </div>
       <div class="grid" id="effects" role="group" aria-labelledby="h-effects"></div>
     </section>
   </div>
 </main>
 
-<div class="bar" role="region" aria-label="Your picks">
+<div class="bar" role="region" aria-label="Tvoj izbor">
   <div class="wrap">
     <div class="sum">
-      <span class="mono sum-k" id="sum-k">Your picks</span>
+      <span class="mono sum-k" id="sum-k">Tvoj izbor</span>
       <div class="sum-v" id="sum"></div>
       <span class="msg" id="msg" role="status" aria-live="polite"></span>
     </div>
-    <button class="btn" type="button" id="save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg><span id="save-t">Save my picks</span></button>
+    <button class="btn" type="button" id="save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg><span id="save-t">Sačuvaj izbor</span></button>
   </div>
 </div>
 
 <dialog id="done" aria-labelledby="done-h">
   <div class="sheet">
-    <p class="lamp" id="done-lamp">Saved</p>
-    <h2 class="t" id="done-h">That's a wrap.</h2>
+    <p class="lamp" id="done-lamp">Sačuvano</p>
+    <h2 class="t" id="done-h">To je to.</h2>
     <div id="done-saved">
-      <p class="go">Go back to Claude and say <b>edit it</b>.</p>
+      <p class="go">Vrati se u Claude i reci <b>montiraj</b>.</p>
     </div>
     <div id="done-paste" hidden>
       <div class="paste">
-        <textarea id="line" rows="2" readonly aria-label="Your picks, ready to paste into Claude"></textarea>
-        <button type="button" id="copy">Copy</button>
+        <textarea id="line" rows="2" readonly aria-label="Tvoj izbor, spreman da ga nalepiš u Claude"></textarea>
+        <button type="button" id="copy">Kopiraj</button>
       </div>
-      <p class="go">Then say <b>edit it</b>.</p>
+      <p class="go">Onda reci <b>montiraj</b>.</p>
     </div>
     <p class="recap mono" id="recap"></p>
-    <p class="later">Want to switch later? Tell Claude <q>switch my captions</q> or <q>open the picker</q>.</p>
-    <button class="ghost" type="button" id="keep">Keep picking</button>
+    <p class="later">Hoćeš kasnije nešto da promeniš? Reci Claudeu <q>promeni mi titlove</q> ili <q>otvori izbor stila</q>.</p>
+    <button class="ghost" type="button" id="keep">Nastavi da biraš</button>
   </div>
 </dialog>
 
@@ -417,7 +417,7 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
     before: null,                                 // the captions and effects from before an overall style was picked
     tweak: false                                  // an overall style is picked and its captions/effects are open
   };
-  var PARTS = [{ key: 'hook', label: 'Hook' }, { key: 'middle', label: 'Middle' }, { key: 'end', label: 'End' }];
+  var PARTS = [{ key: 'hook', label: 'Početak' }, { key: 'middle', label: 'Sredina' }, { key: 'end', label: 'Kraj' }];
   var savedSig = null;                            // what the picks file holds right now
   var online = !FILE;                             // false once the server stops answering
   var sound = false;
@@ -530,7 +530,7 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
       var blank = el('span', 'blank' + (item.none ? ' quiet' : ''));
       blank.setAttribute('aria-hidden', 'true');
       blank.appendChild(el('b', null, item.name));
-      if (!item.none) blank.appendChild(el('i', 'mono', locked ? 'Not built yet' : 'Clip on the way'));
+      if (!item.none) blank.appendChild(el('i', 'mono', locked ? 'Još nije gotov' : 'Klip stiže uskoro'));
       clip.appendChild(blank);
     }
     var tick = el('span', 'tick');
@@ -549,7 +549,7 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
     if (kind === 'effect') {                       // Hook / Middle / End, shown only while the switch is on
       var row = el('div', 'parts');
       row.setAttribute('role', 'group');
-      row.setAttribute('aria-label', 'Where ' + item.name + ' can be used');
+      row.setAttribute('aria-label', 'Gde može da se koristi ' + item.name);
       PARTS.forEach(function (p) {
         var b = el('button', 'part', p.label);
         b.type = 'button';
@@ -565,11 +565,11 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
       var ov = el('div', 'ov');
       var snd = el('button', 'vbtn snd');
       snd.type = 'button'; snd.innerHTML = ICON.sound;
-      snd.setAttribute('aria-pressed', 'false'); snd.setAttribute('aria-label', 'Sound');
-      snd.title = 'Sound';
+      snd.setAttribute('aria-pressed', 'false'); snd.setAttribute('aria-label', 'Zvuk');
+      snd.title = 'Zvuk';
       var ply = el('button', 'vbtn ply');
       ply.type = 'button'; ply.innerHTML = ICON.play;
-      ply.setAttribute('aria-pressed', 'false'); ply.setAttribute('aria-label', 'Play the ' + item.name + ' clip');
+      ply.setAttribute('aria-pressed', 'false'); ply.setAttribute('aria-label', 'Pusti klip ' + item.name);
       ov.appendChild(snd); ov.appendChild(ply);
       card.appendChild(ov);
 
@@ -698,12 +698,20 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
   function summary() {
     var st = by.style[S.style], cap = by.caption[S.captionStyle], n = effectKeys().length, out = [];
     if (S.mode === 'preset') {
-      out.push({ text: st ? st.name + ' style' : 'No style yet', none: !st, to: 'sec-styles' });
+      out.push({ text: st ? 'Stil ' + st.name : 'Stil nije izabran', none: !st, to: 'sec-styles' });
       if (!st) return out;
     }
-    out.push({ text: !cap ? 'Pick your captions' : cap.none ? cap.name : cap.name + ' captions', none: !cap, to: 'sec-captions' });
-    out.push({ text: (n ? n + (n === 1 ? ' effect' : ' effects') : 'No effects') + (S.partsOn && n ? ' by part' : ''), none: !n, to: 'sec-effects' });
+    out.push({ text: !cap ? 'Izaberi titlove' : cap.none ? cap.name : 'Titlovi ' + cap.name, none: !cap, to: 'sec-captions' });
+    out.push({ text: (n ? n + ' ' + effectWord(n) : 'Bez efekata') + (S.partsOn && n ? ' po delovima' : ''), none: !n, to: 'sec-effects' });
     return out;
+  }
+
+  /* Serbian plural: 1, 21, 31 efekat; 2-4, 22-24 efekta; everything else efekata. */
+  function effectWord(n) {
+    var d = n % 10, h = n % 100;
+    if (d === 1 && h !== 11) return 'efekat';
+    if (d >= 2 && d <= 4 && (h < 12 || h > 14)) return 'efekta';
+    return 'efekata';
   }
 
   function recap() {
@@ -714,9 +722,9 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
 
   function pasteLine(p) {
     var fx = p.effectSections
-      ? 'effects by part: ' + PARTS.map(function (pt) { return pt.key + ' = ' + (p.effectSections[pt.key].join(', ') || 'none'); }).join('; ')
-      : 'effects = ' + (p.effects.join(', ') || 'none');
-    return 'Use these picks: ' + (p.mode === 'preset' ? 'style = ' + p.style + '; ' : '') + 'captions = ' + p.captionStyle + '; ' + fx;
+      ? 'efekti po delovima: ' + PARTS.map(function (pt) { return pt.key + ' = ' + (p.effectSections[pt.key].join(', ') || 'none'); }).join('; ')
+      : 'efekti = ' + (p.effects.join(', ') || 'none');
+    return 'Koristi ovaj izbor: ' + (p.mode === 'preset' ? 'stil = ' + p.style + '; ' : '') + 'titlovi = ' + p.captionStyle + '; ' + fx;
   }
 
   function sync() {
@@ -739,8 +747,8 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
       for (var j = 0; j < picks.length; j++) picks[j].tabIndex = picks[j] === home ? 0 : -1;
     }
     var full = C.effects.length > 0 && C.effects.every(function (e) { return S.effects[e.key]; });
-    $('all').textContent = full ? 'Clear' : 'Select all';
-    $('all').setAttribute('aria-label', full ? 'Clear all effects' : 'Select all effects');
+    $('all').textContent = full ? 'Poništi sve' : 'Izaberi sve';
+    $('all').setAttribute('aria-label', full ? 'Poništi sve efekte' : 'Izaberi sve efekte');
     $('parts-sw').setAttribute('aria-checked', S.partsOn ? 'true' : 'false');
     $('parts-tip').hidden = !S.partsOn;
     $('effects').classList.toggle('byparts', S.partsOn);
@@ -752,7 +760,7 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
     $('own').hidden = preset && !S.tweak;
     $('tweak').hidden = !st;
     $('tweak').setAttribute('aria-expanded', S.tweak ? 'true' : 'false');
-    $('tweak').textContent = S.tweak ? 'Hide its captions and effects' : 'Change its captions or effects';
+    $('tweak').textContent = S.tweak ? 'Sakrij njegove titlove i efekte' : 'Promeni mu titlove ili efekte';
     $('n-captions').textContent = preset ? '02' : '01';
     $('n-effects').textContent = preset ? '03' : '02';
 
@@ -768,7 +776,7 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
 
     var p = payload(), saved = !!p && sig(p) === savedSig;
     $('save').classList.toggle('is-saved', saved);
-    $('save-t').textContent = saved ? 'Saved' : 'Save my picks';
+    $('save-t').textContent = saved ? 'Sačuvano' : 'Sačuvaj izbor';
 
     if (FILE) { try { localStorage.setItem(STORE, JSON.stringify({ mode: S.mode, style: S.style, captionStyle: S.captionStyle, effects: effectKeys(), effectSections: sections() })); } catch (e) {} }
   }
@@ -878,13 +886,13 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
   var dlg = $('done');
   function showDone(kind, p, lost) {
     var paste = kind === 'paste';
-    $('done-lamp').textContent = paste ? (lost ? 'Not saved yet' : 'One more step') : 'Saved';
-    $('done-h').textContent = paste ? 'Paste this into Claude.' : "That's a wrap.";
+    $('done-lamp').textContent = paste ? (lost ? 'Još nije sačuvano' : 'Još jedan korak') : 'Sačuvano';
+    $('done-h').textContent = paste ? 'Nalepi ovo u Claude.' : 'To je to.';
     $('done-saved').hidden = paste;
     $('done-paste').hidden = !paste;
     $('line').value = pasteLine(p);
     $('line').rows = Math.max(2, Math.min(9, Math.ceil(pasteLine(p).length / (window.innerWidth < 560 ? 27 : 40))));
-    $('copy').textContent = 'Copy';
+    $('copy').textContent = 'Kopiraj';
     $('recap').textContent = recap();
     $('recap').hidden = paste;
     if (cur) stop(cur);
@@ -895,7 +903,7 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
   $('keep').addEventListener('click', closeDone);
   dlg.addEventListener('click', function (e) { if (e.target === dlg) closeDone(); });
   $('copy').addEventListener('click', function () {
-    var t = $('line'), done = function () { $('copy').textContent = 'Copied'; };
+    var t = $('line'), done = function () { $('copy').textContent = 'Kopirano'; };
     t.focus(); t.select();
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t.value).then(done, function () { try { if (D.execCommand('copy')) done(); } catch (e) {} });
     else { try { if (D.execCommand('copy')) done(); } catch (e) {} }
@@ -904,8 +912,8 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
   $('save').addEventListener('click', function () {
     var p = payload();
     if (!p) {
-      if (S.mode === 'preset' && !by.style[S.style]) { say('Pick a style first.'); go('sec-styles', true); }
-      else { say('Pick a caption style first.'); go('sec-captions', true); }
+      if (S.mode === 'preset' && !by.style[S.style]) { say('Prvo izaberi stil.'); go('sec-styles', true); }
+      else { say('Prvo izaberi titlove.'); go('sec-captions', true); }
       return;
     }
     if (!online) return showDone('paste', p, !FILE);
@@ -915,7 +923,7 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
       .then(function (r) { return r.json().then(function (j) { return { ok: r.ok && j && j.ok, j: j || {} }; }); })
       .then(function (res) {
         btn.removeAttribute('aria-busy');
-        if (!res.ok) { say(res.j.error || 'That did not save. Try again.'); return; }
+        if (!res.ok) { say(res.j.error || 'Nije sačuvano. Probaj ponovo.'); return; }
         savedSig = sig(p);
         sync();
         showDone('saved', p);
@@ -954,7 +962,7 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
     reduce = mqReduce.matches;
     R.classList.toggle('noauto', reduce);
     R.classList.toggle('touch', touch);
-    $('hint').textContent = reduce ? 'Press play on a clip to watch it.' : touch ? 'Tap a clip to watch it.' : 'Hover a clip to watch it.';
+    $('hint').textContent = reduce ? 'Pusti klip da ga pogledaš.' : touch ? 'Tapni klip da ga pogledaš.' : 'Pređi mišem preko klipa da ga pogledaš.';
     if (reduce && cur) stop(cur);
   }
   device();

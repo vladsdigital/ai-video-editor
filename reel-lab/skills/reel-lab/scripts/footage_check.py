@@ -27,7 +27,9 @@ import sys
 sys.dont_write_bytecode = True
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
+sys.path.insert(1, os.path.join(os.path.dirname(HERE), 'engine'))
 import skillenv  # noqa: E402
+import lang  # noqa: E402
 
 MODULES = {'opencv-python-headless': 'cv2', 'mediapipe': 'mediapipe', 'scipy': 'scipy'}
 
@@ -52,9 +54,9 @@ def parts(words, dur, plan):
     if cur:
         sentences.append(cur)
     hook = (0.0, sentences[0][-1]['end'] if sentences else dur)
-    end = None
+    end, words_of = None, lang.lang_data()
     for s in sentences[1:]:
-        if any(w.get('e') == 'cta' or w['text'].strip('.,!?').lower() == 'comment' for w in s):
+        if any(w.get('e') == 'cta' or lang.is_cta_verb(w['text'], words_of) for w in s):
             end = (s[0]['start'], dur)
             break
     if over.get('hook'):
@@ -111,33 +113,35 @@ def main():
             continue
         no, todo, look = [], [], []
         if layout.get('faceless') and (e['cutout'] != 'none' or e['tracking'] != 'none'):
-            no.append('it needs the speaker on camera and this reel has nobody on camera')
+            no.append('treba mu neko u kadru, a u ovom rilsu niko nije u kadru')
         else:
             if shot not in e['shot']:
-                no.append(f"it needs a {' or '.join(e['shot'])} shot and this clip is a {shot} shot (the head is {head.get('width', '?')}px wide)")
+                no.append(f"treba mu kadar tipa {' ili '.join(e['shot'])}, a ovaj klip je kadar tipa {shot} (glava je široka {head.get('width', '?')}px)")
             if cam == 'unknown':
                 look.append('camera movement could not be measured')
             elif cam not in e['camera']:
-                no.append(f"it needs a {' or '.join(e['camera'])} camera and this one is {cam}")
+                no.append(f"treba mu kamera koja je {' ili '.join(e['camera'])}, a ova je {cam}")
             if e['wall'] == 'beside' and not (fits.get('wall_left') or fits.get('wall_right')):
-                no.append('it needs open wall beside the speaker and there is none in this framing')
+                no.append('treba mu prazan zid pored tebe, a u ovom kadru ga nema')
             if e['wall'] == 'both' and not (fits.get('wall_left') and fits.get('wall_right')):
-                no.append('it needs open room on both sides of the speaker and this framing does not have it')
+                no.append('treba mu slobodan prostor sa obe strane, a ovaj kadar ga nema')
             if e['wall'] == 'above' and not fits.get('behind_head'):
-                no.append('it needs clear wall above the head and the head is too close to the top of the frame')
+                no.append('treba mu prazan zid iznad glave, a glava je preblizu vrhu kadra')
             if e['segments'] > len(segs or [1]):
-                no.append('it needs two different shots back to back and this reel is one continuous take')
+                no.append('treba mu dva različita kadra jedan za drugim, a ovaj rils je jedan neprekinut snimak')
         allowed = None
         if sections:
             allowed = [p for p in ('hook', 'middle', 'end') if key in (sections.get(p) or [])]
             usable = [p for p in allowed if where.get(p)]
             if not allowed:
-                no.append('the buyer did not allow it in any part of the reel')
+                no.append('po tvom izboru nije dozvoljen ni u jednom delu rilsa')
             elif not usable:
-                no.append(f"the buyer only allowed it in the {' / '.join(allowed)} and this reel has no such part")
+                no.append(f"po tvom izboru ide samo u deo {' / '.join(allowed)}, a ovaj rils taj deo nema")
         if no:
             print(f"SKIP  {e['name']}: " + '; '.join(no) + '.')
-            print(f"      tell the buyer: \"I left {e['name']} out of this one: " + no[0] + '."')
+            print("      tell the buyer, in their language (say the English words plainly: close = krupni plan, medium = srednji "
+                  "plan, wide = širi kadar; still = mirna, drifting = malo se pomera, moving = pomera se; hook / middle / end = "
+                  f"početak / sredina / kraj): \"Ovaj put bez efekta {e['name']}: " + no[0] + '."')
             continue
         ready = e.get('status') == 'ready' and os.path.isfile(os.path.join(skillenv.SKILL_DIR, 'effects', key, 'slot.json'))
         have_cut = os.path.isfile(os.path.join(proj, 'assets', 'subject.webm'))

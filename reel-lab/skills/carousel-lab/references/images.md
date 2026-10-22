@@ -11,13 +11,13 @@ In this order:
    If there is one, use it: no key needed. Save its result into the carousel's `assets/` (below).
 2. **A key on this computer.** `IG check`:
    - `STATUS imagegen <provider> READY`: that one works. `STATUS imagegen default ...` is the one `make` uses.
-   - More than one READY and the default says "not picked yet": ask the buyer ONCE ("You have OpenAI and Google set
-     up for pictures. Which should I use? OpenAI is about 1 cent a photo and the most natural.") and remember it:
+   - More than one READY and the default says "not picked yet": ask the buyer ONCE ("Za slike imaš podešene i OpenAI i
+     Google. Koji da koristim? OpenAI je oko 1 cent po fotki i daje najprirodnije slike.") and remember it:
      `IG default <provider>`. Never ask again unless they bring it up.
 3. **None.** Offer to set one up, in a few lines:
-   > "To make photos I need a picture key. I recommend OpenAI: about 1 to 2 cents a photo, the most natural results.
-   > 1. Go to platform.openai.com/api-keys and sign in. 2. Settings > Billing: add $5 of credit. 3. Create new secret
-   > key, copy it. Then tell me 'copied' (don't paste it here)."
+   > "Da bih pravio fotke, treba mi ključ za slike. Preporučujem OpenAI: oko 1 do 2 centa po fotki, najprirodniji
+   > rezultati. 1. Idi na platform.openai.com/api-keys i prijavi se. 2. Settings > Billing: dodaj 5 $ kredita.
+   > 3. Klikni Create new secret key i kopiraj ga. Onda mi napiši 'kopirano' (nemoj da ga lepiš ovde)."
 
    Then `IG key set openai --clipboard` (reads what they copied; the key never appears in the chat or a command).
    It checks the key with a free call and saves it to the Studio's private key file.
@@ -39,11 +39,11 @@ once by the script.
 - One or two pictures: just make them (say roughly what they cost if it is their first time).
 - More than 2: show the list first and wait for an OK:
   ```
-  Pictures I'd make (about $0.04 in total, OpenAI):
-    Slide 1: a sunlit desk by a window, coffee and an open notebook
-    Slide 4: hands holding a latte in a quiet café
-    Slide 7: a calm living room corner with a reading chair
-  OK to make them?
+  Slike koje bih napravio (ukupno oko 0,04 $, OpenAI):
+    Slajd 1: sunčan sto pored prozora, kafa i otvorena sveska
+    Slajd 4: ruke drže late u mirnom kafiću
+    Slajd 7: miran ugao dnevne sobe sa foteljom za čitanje
+  Da ih napravim?
   ```
   `IG cost --count 3` gives the estimate. Then a plan file and `IG batch plan.json --yes` (without `--yes` it only
   prints the count and total, never spends).
@@ -70,7 +70,9 @@ Then use it like any photo in carousel.json:
 
 ## 4. Prompts that work for carousel pictures
 
-The slide sets every word. So, in every prompt:
+Write the prompts to the generator in English (the models follow English best), even when the buyer and the slides
+are in Serbian; show the buyer the list of pictures in their language. The slide sets every word. So, in every
+prompt:
 - **No text.** No words, letters, numbers, signs, logos, watermarks, labels on products, screens with writing.
   (The script adds a "no text" line by itself; still describe blank notebooks, plain mugs, unbranded things.)
 - **Room for the headline.** Say where the calm space goes, matching where the look puts the headline:

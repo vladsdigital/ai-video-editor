@@ -103,16 +103,17 @@ json.dump(clip, open('clip.json', 'w'), indent=1)
 
 if not a.no_transcribe:
     try:
-        from faster_whisper import WhisperModel
+        sys.path.insert(0, open(os.path.join('_shared', 'scripts_dir.txt'), encoding='utf-8').read().strip())
+        import speech   # the skill's transcription: Soniox or offline Whisper, in the buyer's language
         subprocess.run([FF, '-v', 'error', '-y', '-i', AROLL, '-vn', '-ac', '1', '-ar', '16000', 'work/aroll.wav'], check=True)
-        model = WhisperModel('medium.en', device='cpu', compute_type='int8')   # cpu, not 'auto': see scripts/ingest.py
-        segs, _ = model.transcribe('work/aroll.wav', word_timestamps=True, vad_filter=False, initial_prompt=a.prompt)
-        ws = [{'text': w.word.strip(), 'start': round(w.start, 3), 'end': round(w.end, 3)} for s in segs for w in s.words]
-        json.dump(ws, open('words.json', 'w'), indent=1)
+        segs, _ = speech.transcribe('work/aroll.wav', tier='best', terms=speech.parse_terms(a.prompt))
+        ws = speech.flat(segs)
+        json.dump(ws, open('words.json', 'w', encoding='utf-8'), indent=1, ensure_ascii=False)
         print('words: ' + ' '.join('%s@%.2f' % (w['text'], w['start']) for w in ws))
         print('  (the cut is at %.2fs; Whisper word starts can be 0.1 to 0.3s early: confirm onsets on the audio)' % (cut / 30.0))
-    except ImportError:
-        print('words: faster-whisper is not in this python, words.json not written')
+    except (ImportError, OSError):
+        print('words: the transcription is not reachable from here (run with PY, from a slot fx_new.py made), '
+              'words.json not written')
 
 if not a.no_cutout:
     r = subprocess.run([sys.executable, os.path.join('_shared', 'rvm_cut.py'), '.'])

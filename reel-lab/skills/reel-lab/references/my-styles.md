@@ -76,6 +76,6 @@ A unique part of a name is enough ("cozy"). Never delete a style: `retire` moves
 
 ## Talking about styles
 
-Use their names, never file names. "Saved as Cozy Talk. It's your default now: drop clips in and say edit it." /
-"You have three styles: Cozy Talk (default), Hype and Client Bella. Which one for these clips?" Ask only when the
+Use their names, never file names. "Sačuvano kao Cozy Talk. Sad ti je to podrazumevani stil: ubaci klipove i reci montiraj ovo." /
+"Imaš tri stila: Cozy Talk (podrazumevani), Hype i Klijent Bella. Koji da koristim za ove klipove?" Ask only when the
 buyer has several and the clips could suit more than one and they named none; otherwise use the default.

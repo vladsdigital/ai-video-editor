@@ -113,7 +113,7 @@ def check(state=None, force=False):
         return f'STATUS update NONE ({have} is the newest)'
     what = f' What is new: {note}' if note else ''
     return (f'STATUS update AVAILABLE {have} -> {latest}.{what} Ask the buyer now, before anything else and on its own: '
-            f'"There is an update for the Studio with fixes. Want me to install it? It takes a minute." On yes, run this '
+            f'"Stiglo je ažuriranje za Reel Lab, sa popravkama. Da ga instaliram? Traje oko minut." On yes, run this '
             f'right away and then stop (no setup questions, no picker, no edit in this chat): '
             f'PY "{skillenv.shell_path(os.path.abspath(__file__))}"')
 
@@ -132,8 +132,8 @@ def claude_program():
 
 def manual(marketplace):
     name = marketplace or 'reel-lab'
-    return ('STATUS update MANUAL: I could not run the update from here. Tell the buyer: "Open Terminal (Mac) or '
-            'PowerShell (Windows), not Claude, and paste these two lines one at a time, then start a new chat." '
+    return ('STATUS update MANUAL: I could not run the update from here. Tell the buyer: "Otvori Terminal (Mac) ili '
+            'PowerShell (Windows), ne Claude, i nalepi ova dva reda, jedan po jedan. Posle toga otvori novi čet." '
             f'Line 1: claude plugin marketplace update {name}   Line 2: claude plugin update {PLUGIN}@{name}')
 
 
@@ -153,7 +153,8 @@ def update():
         return 0
     if kind != 'marketplace' or not have:
         say('STATUS update SKIPPED: this copy was put in by hand, so it does not update by itself. Tell the buyer '
-            'the install steps in their portal get them the version that does.')
+            '(in their language) that installing Reel Lab again the way the README on https://github.com/vladsdigital/reel-lab '
+            'says gets them the version that does.')
         return 0
     try:
         latest, _ = newest()
@@ -176,8 +177,8 @@ def update():
     if code != 0 or not got or as_tuple(got[0]) <= as_tuple(have):
         say(manual(marketplace) + '   (what the update said: ' + out[-160:].replace('\n', ' ') + ')')
         return 2
-    say(f'STATUS update DONE {have} -> {got[0]}. Tell the buyer: "Updated. Start a new chat and you are on the new '
-        'version. Your picks and your style are untouched." Then stop: do nothing else in this chat.')
+    say(f'STATUS update DONE {have} -> {got[0]}. Tell the buyer: "Ažurirano. Otvori novi čet i radiš na novoj '
+        'verziji. Tvoji izbori i tvoji stilovi su ostali netaknuti." Then stop: do nothing else in this chat.')
     return 0
 
 

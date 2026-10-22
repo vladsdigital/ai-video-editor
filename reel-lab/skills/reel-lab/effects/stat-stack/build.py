@@ -65,7 +65,13 @@ def main():
         if num_word:
             k = s.words.index(num_word)
             # what the number counts: up to two words said right after it, stopping at punctuation or a small word
-            weak = {'the', 'a', 'an', 'to', 'of', 'and', 'that', 'for', 'can', 'in', 'on', 'with', 'is', 'i', 'you', 'it'}
+            # (the reel's language: lang.py, which fx_new.py puts in the slot; English lists if it is missing)
+            try:
+                import lang
+                lw = lang.lang_data()
+                weak = lw['weak'] | lw['pronouns']
+            except Exception:                                   # noqa: BLE001
+                weak = {'the', 'a', 'an', 'to', 'of', 'and', 'that', 'for', 'can', 'in', 'on', 'with', 'is', 'i', 'you', 'it'}
             took = []
             for w in s.words[k + 1:k + 3]:
                 if w['start'] - s.words[k]['end'] > 1.2 or V.bare(w['text']).lower() in weak:

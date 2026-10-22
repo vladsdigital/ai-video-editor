@@ -44,8 +44,8 @@ right behind the speaker's head can be kept by the cutout as a grey see-through 
 then shows over anything behind them. `head_clean.py` looks for it and takes it off; a clean cutout is not touched.
 Its last line starts `head check:`:
 - `clean`: nothing to say to the buyer.
-- `CLEANED`: tell the buyer, in plain words, something like "The picture on the wall behind your head was
-  sneaking into the cutout, so I took it off." Look at the head in the snapshots of every look that goes behind them.
+- `CLEANED`: tell the buyer, in plain words, something like "Slika na zidu iza tvoje glave se uvlačila
+  u izdvajanje, pa je sad uklonjena." Look at the head in the snapshots of every look that goes behind them.
 - `PARTLY CLEANED`: the full clean needs Apple's face finder. On a Mac, ask the buyer to install Apple's free
   developer tools (the line says how; about 10 minutes, one time), then run the `--redo` command it names. On
   Windows or Linux, look at the head in the snapshots; if a shape still shows above it, pick a look that keeps

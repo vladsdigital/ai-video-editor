@@ -6,8 +6,9 @@
   setups and angles), `words_cN.json`, and `transcript.txt` (per clip: lines with times, every word with its time,
   and a speech map where `S12.40` = silence starts and `E13.10` = silence ends).
 Originals are read in place. Nothing is copied or changed. The first transcription downloads the speech model:
-about 0.5 GB here, then 1.4 GB more at step 4 for the final pass (one time each). Tell the buyer before you start,
-once: "The first edit downloads the speech model, about 2 GB. That happens once."
+about 0.5 GB here, then 1.6 GB more at step 4 for the final pass (one time each; English reels use the English-only
+models instead). Setup normally fetched both already (prefetch.py). If not, tell the buyer before you start, once:
+"Prva montaža skida model za prepoznavanje govora, oko 2 GB. To se dešava samo jednom."
 
 ## 2. Pick takes -> `<project>/edl.json`
 People repeat a line until it lands. Rebuild what they meant to say from the takes:
@@ -24,7 +25,8 @@ People repeat a line until it lands. Rebuild what they meant to say from the tak
 - Two segments in a row from the same angle: punch one in (zoom 1.3 to 1.9, `cx` / `cy` on the chest). Sharp when
   the source is 4K, soft above about 1.4 on a 1080 source.
 - Not sure about a name or the comment keyword: transcribe just that snippet again with the names in the prompt
-  (`WhisperModel('medium.en', device='cpu', compute_type='int8')`; never leave the device on 'auto', see gotchas.md).
+  (`PY "SK/scripts/speech.py" test "<snippet>" "<names>"` uses the buyer's language and engine; for an English reel
+  also `WhisperModel('medium.en', device='cpu', compute_type='int8')`; never leave the device on 'auto', see gotchas.md).
 
 ```json
 [{"id": "hook", "clip": "c1", "in": 12.66, "out": 15.72, "zoom": 1.0, "cx": 0.5, "cy": 0.5, "line": "Everybody's talking about..."},
@@ -42,6 +44,9 @@ The last line must say the frame totals match.
 `[{"text": "Everybody's", "start": 0.08, "end": 0.52}, ...]`. These times drive every caption, so clean them:
 - Fix mishearings by hand from what was actually said. Usual ones: "Claude" -> "cloud" / "claws" / "Claud",
   "skill" -> "scale", product names split in two ("GPT" "-6", "5" ".1": the script joins the common cases, check).
+  In Serbian, Croatian and Bosnian also: names and surnames, English loanwords ("prompt", "template", "content")
+  written phonetically or split, wrong case endings (padeži), č/ć and đ/dž confused, ije/je against the speaker's
+  own variant, numbers. The words in the second argument are sent to the engine as context: put every name in.
 - Keep Whisper's punctuation honest: a comma or full stop ends a caption phrase, so remove a comma that is not a
   pause and add a full stop where a sentence really ends.
 - Keep numbers the way they should READ on screen ("7", not "seven", when a style shows the number big).

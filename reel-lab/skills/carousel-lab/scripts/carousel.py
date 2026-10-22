@@ -483,15 +483,15 @@ def cmd_transcript():
         say(f'STATUS transcript FROM the Studio edit (fixed by hand during the edit): {path}')
     else:
         video = project_video(path)[0] if kind == 'project' else path
-        from faster_whisper import WhisperModel   # the Studio's own Python has it
+        sys.path.insert(0, os.path.join(skillenv.SKILL_DIR, 'scripts'))
+        import speech   # the Studio's transcription: Soniox with a saved key, else offline Whisper, buyer's language
         work = skillenv.path_arg(opt('--out')) if opt('--out') else os.path.join(R.state_root(), 'work')
         os.makedirs(os.path.join(work, 'work'), exist_ok=True)
         wav = os.path.join(work, 'work', 'source.wav')
         subprocess.run([skillenv.tool('ffmpeg'), '-loglevel', 'error', '-y', '-i', video, '-vn', '-ac', '1', '-ar', '16000', wav], check=True)
         say('STATUS transcript LISTENING (about a quarter of the video length, one time)')
-        m = WhisperModel('small.en', device='cpu', compute_type='int8')
-        segs, _ = m.transcribe(wav, word_timestamps=True, vad_filter=False)
-        words = [{'text': w.word.strip(), 'start': round(w.start, 2), 'end': round(w.end, 2)} for s in segs for w in s.words]
+        segs, _ = speech.transcribe(wav, tier='fast')
+        words = [{'text': w['text'], 'start': round(w['start'], 2), 'end': round(w['end'], 2)} for w in speech.flat(segs)]
     lines = sentences(words)
     if opt('--out'):
         out = skillenv.path_arg(opt('--out'))

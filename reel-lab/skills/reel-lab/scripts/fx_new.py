@@ -187,6 +187,13 @@ def main():
     # ---------------------------------------------------------------- 1 + 2: effect files, fonts, sounds, template
     copy_tree(src_dir, slot, a.force, skip=('example', 'slot.json'))
     shutil.copyfile(os.path.join(src_dir, 'slot.json'), os.path.join(slot, 'slot.json'))
+    # the language lists (weak words, numbers, the comment verbs) and the reel's script, for effects that read the
+    # words: a slot is run on its own (python3 build.py), so it gets engine/lang.py and a lang.json beside it
+    shutil.copyfile(os.path.join(ENGINE, 'lang.py'), os.path.join(slot, 'lang.py'))
+    sys.path.insert(1, ENGINE)
+    import lang
+    with open(os.path.join(slot, 'lang.json'), 'w', encoding='utf-8', newline='\n') as fh:
+        json.dump(lang.current(), fh)
     buyer = meta.get('buyer_folder')        # material only the buyer has (their own reel covers, ...): never shipped
     buyer_note = ''
     if buyer:
@@ -216,6 +223,9 @@ def main():
     os.makedirs(os.path.join(slot, '_shared'), exist_ok=True)
     with open(os.path.join(slot, '_shared', 'rvm_cut.py'), 'w', encoding='utf-8', newline='\n') as fh:
         fh.write(SHIM.format(script=os.path.join(HERE, 'rvm_cut.py')))
+    # where the skill's scripts are, so a slot script can `import speech` (transcription in the buyer's language)
+    with open(os.path.join(slot, '_shared', 'scripts_dir.txt'), 'w', encoding='utf-8') as fh:
+        fh.write(HERE)
     for f in ('hyperframes.json', 'package.json'):
         if not os.path.exists(os.path.join(slot, f)):
             shutil.copyfile(os.path.join(ENGINE, 'template', f), os.path.join(slot, f))
@@ -312,12 +322,12 @@ def main():
         print('  (word starts can be 0.1 to 0.3s off: confirm onsets with the effect\'s own measuring script)')
     else:
         try:
-            from faster_whisper import WhisperModel
+            sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+            import speech
             wav = os.path.join(slot, 'work', 'aroll.wav')
             run([FF, '-v', 'error', '-y', '-i', aroll, '-vn', '-ac', '1', '-ar', '16000', wav])
-            model = WhisperModel('medium.en', device='cpu', compute_type='int8')   # cpu, not 'auto': see ingest.py
-            segments, _ = model.transcribe(wav, word_timestamps=True, vad_filter=False, initial_prompt=a.prompt)
-            ws = [{'text': w.word.strip(), 'start': round(w.start, 3), 'end': round(w.end, 3)} for s in segments for w in s.words]
+            segments, _ = speech.transcribe(wav, tier='best', terms=speech.parse_terms(a.prompt))
+            ws = speech.flat(segments)
             fxlib.write(words_path, ws)
             print('words: ' + ' '.join(f"{w['text']}@{w['start']:.2f}" for w in ws))
             print('  (names get misheard and word starts can be 0.1 to 0.3s off: fix the spelling, confirm onsets on the audio)')

@@ -27,13 +27,13 @@ PY "SK/scripts/gif_add.py" "<project>" "<link of the one you picked>" --from 3.2
   again with the same `--id` to replace it, `--remove <id>` to take it out.
 - In the snapshot: the GIF is not on the face, not on a caption, and not under the pinned title. It follows the
   buyer's style like everything else: a calm style gets a small one, not three loud ones.
-- `STATUS gifs NONE` (the search gave nothing or is offline): say "I couldn't find a GIF for that line. Send me
-  one, or a link to one, and I'll drop it in."
+- `STATUS gifs NONE` (the search gave nothing or is offline): say "Ne nalazim dobar GIF za tu rečenicu. Pošalji mi
+  neki, ili link do njega, i ubacujem ga."
 
 ## What kind
 
 Reaction GIFs from shows, films and memes are what the buyer means, so use them: asking for GIFs is the one
 exception to hard rule 4 ("never a real person who is not the buyer"). The first time you add GIFs for a buyer,
-say once: "These GIFs come from Giphy and Tenor, the same ones you see in chats."
+say once: "Ovi GIF-ovi su sa Giphy-ja i Tenora, isti oni koje viđaš u porukama."
 
-Say it plainly at delivery: "GIFs: a mind-blown one on the line about the price."
+Say it plainly at delivery: "GIF-ovi: jedan 'mind blown' na rečenici o ceni."

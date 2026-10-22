@@ -55,10 +55,11 @@ DEFAULT_CAPTIONS = os.path.normpath(os.path.join(HERE, '..', 'captions', 'styles
 DEFAULT_STYLES = os.path.join(HERE, 'data', 'styles.json')
 DEFAULT_PORT = 4747
 PRODUCT = 'Reel Lab'
-PARTS = (('hook', 'Hook'), ('middle', 'Middle'), ('end', 'End'))      # the parts of a reel an effect can be kept to
+PARTS = (('hook', 'Početak'), ('middle', 'Sredina'), ('end', 'Kraj'))      # the parts of a reel an effect can be kept to
 PART_KEYS = tuple(k for k, _ in PARTS)
+BEST_FOR = 'Najbolje za'                              # the label above a caption style's "bestFor" line on its card
 # captionStyle "none": no caption style at all. Some overall styles carry their words inside the look itself.
-NO_CAPTIONS = {'key': 'none', 'name': 'No captions', 'label': '', 'line': 'Titles and effects only.',
+NO_CAPTIONS = {'key': 'none', 'name': 'Bez titlova', 'label': '', 'line': 'Samo naslovi i efekti.',
                'preview': None, 'poster': None, 'none': True}
 
 KEY_RE = re.compile(r'^[a-z0-9]+(?:-[a-z0-9]+)*$')
@@ -157,7 +158,7 @@ def build_catalog(captions_json=DEFAULT_CAPTIONS, mode='server', styles_json=Non
         best = text(s.get('bestFor'))
         captions.append({
             'key': key, 'name': text(s.get('name'), 60) or key,
-            'label': 'Best for' if best else '',
+            'label': BEST_FOR if best else '',
             'line': best or text(s.get('look')),
             'preview': caption_url(s.get('preview') or ('previews/%s.mp4' % key)),
             'poster': picker_url('previews/posters/captions/%s.jpg' % key),
@@ -226,26 +227,26 @@ def clean_sections(raw, effects, strict):
     if raw is None:
         return None, None
     if not isinstance(raw, dict):
-        return (None, 'effectSections must be null or an object.') if strict else (None, None)
+        return (None, 'effectSections mora biti null ili objekat.') if strict else (None, None)
     extra = sorted(str(k) for k in raw if k not in PART_KEYS)
     if extra and strict:
-        return None, 'Unknown part: ' + ', '.join(extra[:5])
+        return None, 'Nepoznat deo videa: ' + ', '.join(extra[:5])
     out = {}
     for part in PART_KEYS:
         keys = raw.get(part, [])
         if not isinstance(keys, list) or any(not isinstance(k, str) for k in keys):
             if strict:
-                return None, 'effectSections.%s must be a list of effect keys.' % part
+                return None, 'effectSections.%s mora biti lista ključeva efekata.' % part
             keys = []
         stray = sorted(set(keys) - set(effects))
         if stray and strict:
-            return None, 'In effectSections but not picked: ' + ', '.join(stray[:5])
+            return None, 'Stoji u delovima videa, ali nije izabrano: ' + ', '.join(stray[:5])
         chosen = set(keys)
         out[part] = [k for k in effects if k in chosen]
     homeless = [k for k in effects if not any(k in out[p] for p in PART_KEYS)]
     if homeless:
         if strict:
-            return None, 'Picked but not in any part: ' + ', '.join(homeless[:5])
+            return None, 'Izabrano, ali nije ni u jednom delu videa: ' + ', '.join(homeless[:5])
         for part in PART_KEYS:                             # an effect with no part can land anywhere
             out[part] = [k for k in effects if k in out[part] or k in homeless]
     return out, None
@@ -254,31 +255,31 @@ def clean_sections(raw, effects, strict):
 def check_picks(raw, catalog):
     """Validate picks sent by the page against the catalog. Returns (picks, None) or (None, 'what is wrong')."""
     if not isinstance(raw, dict):
-        return None, 'Picks must be a JSON object.'
+        return None, 'Izbor mora biti JSON objekat.'
     captions = {c['key'] for c in catalog['captions']}
     effects_order = [e['key'] for e in catalog['effects']]
     styles = {s['key']: s for s in catalog['styles']}
 
     mode = raw.get('mode')
     if mode not in ('preset', 'custom'):
-        return None, 'mode must be "preset" or "custom".'
+        return None, 'mode mora biti "preset" ili "custom".'
     style = raw.get('style')
     if mode == 'preset':
         if not isinstance(style, str) or style not in styles:
-            return None, 'Unknown overall style.'
+            return None, 'Nepoznat gotov stil.'
         if not styles[style]['ready']:
-            return None, 'That overall style is not ready yet.'
+            return None, 'Taj gotov stil još nije spreman.'
     else:
         style = None
     cap = raw.get('captionStyle')
     if not isinstance(cap, str) or cap not in captions:
-        return None, 'Unknown caption style.'
+        return None, 'Nepoznat stil titlova.'
     fx = raw.get('effects')
     if not isinstance(fx, list) or len(fx) > 200 or any(not isinstance(k, str) for k in fx):
-        return None, 'effects must be a list of effect keys.'
+        return None, 'effects mora biti lista ključeva efekata.'
     unknown = sorted(set(fx) - set(effects_order))
     if unknown:
-        return None, 'Unknown effect: ' + ', '.join(unknown[:5])
+        return None, 'Nepoznat efekat: ' + ', '.join(unknown[:5])
     chosen = set(fx)
     effects = [k for k in effects_order if k in chosen]
     sections, error = clean_sections(raw.get('effectSections'), effects, strict=True)
@@ -531,17 +532,17 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         if not self.host_ok():
-            return self.fail(403, 'This picker only answers on localhost.')
+            return self.fail(403, 'Ovaj birač radi samo na localhostu.')
         if not self.origin_ok():
-            return self.fail(403, 'This picker only takes requests from its own page.')
+            return self.fail(403, 'Ovaj birač prima zahteve samo sa svoje stranice.')
         if (self.headers.get('Content-Type') or '').split(';')[0].strip().lower() != 'application/json':
-            return self.fail(415, 'Send JSON.')
+            return self.fail(415, 'Pošalji JSON.')
         try:
             length = int(self.headers.get('Content-Length') or '0')
         except ValueError:
-            return self.fail(400, 'Bad request.')
+            return self.fail(400, 'Neispravan zahtev.')
         if length < 0 or length > MAX_BODY:
-            return self.fail(413, 'Too large.')
+            return self.fail(413, 'Prevelik zahtev.')
         body = self.rfile.read(length) if length else b''
         path = urllib.parse.urlsplit(self.path).path
 
@@ -549,7 +550,7 @@ class Handler(BaseHTTPRequestHandler):
             try:
                 raw = json.loads(body.decode('utf-8'))
             except (ValueError, UnicodeDecodeError):
-                return self.fail(400, 'That was not valid JSON.')
+                return self.fail(400, 'To nije ispravan JSON.')
             picks, error = check_picks(raw, self.server.catalog())
             if error:
                 return self.fail(400, error)
@@ -558,7 +559,7 @@ class Handler(BaseHTTPRequestHandler):
                     write_picks(self.server.config, picks)
             except OSError as e:
                 warn('could not write %s (%s)' % (self.server.config, e))
-                return self.fail(500, 'Could not write the picks file.')
+                return self.fail(500, 'Fajl sa izborom nije mogao da se sačuva.')
             self.server.seen()
             parts = picks['effectSections']
             say('STATUS picks SAVED %s mode=%s style=%s captions=%s effects=%s parts=%s' % (

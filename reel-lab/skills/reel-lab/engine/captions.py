@@ -20,7 +20,9 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.dont_write_bytecode = True
 sys.path.insert(0, os.path.join(os.path.dirname(HERE), 'scripts'))
+sys.path.insert(0, HERE)
 import skillenv  # noqa: E402
+import lang  # noqa: E402
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Per-clip values. Filled by load(project); the numbers here are only the fallback for footage with nobody in it.
@@ -70,7 +72,8 @@ def guess_title(words):
 def load(project):
     """Point the engine at one reel project. Sets the module values every style reads."""
     global HEAD_TOP, Y_ABOVE_HEAD, Y_CHEST, Y_LOWER, WALL_LEFT, WALL_RIGHT, TITLE, SWASH, VIDEO, CUTOUT, W, DUR
-    global PROJECT, LAYOUT, PLAN, SEGS, FACELESS, LIFT, FILL, HEAD
+    global PROJECT, LAYOUT, PLAN, SEGS, FACELESS, LIFT, FILL, HEAD, KEEP
+    set_language()
     PROJECT = os.path.abspath(project)
     W = _json(os.path.join(PROJECT, 'words.json'), None)
     if not W:
@@ -81,6 +84,7 @@ def load(project):
     CUTOUT = 'assets/subject.webm' if os.path.isfile(os.path.join(PROJECT, 'assets', 'subject.webm')) else None
     LAYOUT = _json(os.path.join(PROJECT, 'layout.json'), {})
     PLAN = _json(os.path.join(PROJECT, 'plan.json'), {})
+    KEEP = keep_latin(W, PLAN)
     bands = {**DEFAULT_BANDS, **(LAYOUT.get('bands') or {})}
     HEAD_TOP, Y_ABOVE_HEAD, Y_CHEST, Y_LOWER = bands['HEAD_TOP'], bands['Y_ABOVE_HEAD'], bands['Y_CHEST'], bands['Y_LOWER']
     WALL_LEFT = tuple(bands['WALL_LEFT']) if bands.get('WALL_LEFT') else None
@@ -105,8 +109,51 @@ def head_top_at(t):
     return HEAD_TOP
 
 
-WEAK ={'the', 'a', 'an', 'to', 'of', 'and', 'that', 'for', 'can', 'in', 'on', 'with', 'is', 'my', 'your', 'then'}
-PRONOUNS = {'i', 'you', 'we', 'he', 'she', 'they', 'it'}
+# ----------------------------------------------------------------------------------------------------------------------
+# Language (engine/lang.py). The word lists the phrase breaking reads (a line never ends on a WEAK word, a number never
+# counts across a pronoun) and the script the words are SHOWN in. Display only: words.json always stays in Latin,
+# every rule below compares the Latin words, and esc() turns the finished text into Cyrillic as the last step.
+# set_language() runs on import (config.json) and again in load(); a test can call it by hand.
+# CHAR_FACTOR: the 19 built-in styles were tuned on English, where the average word is ~4.7 letters. Serbian,
+# Croatian and Bosnian words run ~5.3 (inflected endings: "komentarišite", "besplatno"), so the same character
+# limit splits their phrases a word earlier and leaves more two-word lines. 1.12 gives a line back its third word
+# while the widest style line (Karaoke: 13 -> 15 chars at 66 px wide caps, ~840 px on the plate) still sits inside
+# the 1010 px safe width. It scales every built-in style's max_chars in chunk(), never a custom spec's (that one
+# is measured against the safe width in custom()).
+# ----------------------------------------------------------------------------------------------------------------------
+LANG, SCRIPT, L, KEEP, CHAR_FACTOR = 'sr', 'latin', lang.lang_data('sr'), set(), 1.0
+WEAK, PRONOUNS = set(L['weak']), set(L['pronouns'])
+
+
+def set_language(language=None, script=None):
+    """Point the engine at one language and script (None = what config.json says)."""
+    global LANG, SCRIPT, L, WEAK, PRONOUNS, CHAR_FACTOR
+    cur = lang.current() if language is None or script is None else {}
+    LANG = language or cur['language']
+    SCRIPT = script or cur['script']
+    L = lang.lang_data(LANG)
+    WEAK, PRONOUNS = set(L['weak']), set(L['pronouns'])
+    CHAR_FACTOR = 1.0 if LANG == 'en' else 1.12
+    return LANG, SCRIPT
+
+
+def keep_latin(words, plan):
+    """what stays in Latin in Cyrillic captions: the reel's own acronyms (2-5 capitals in words.json, not the comment
+    keyword: a keyword is upper-cased for show and is still a Serbian word) and plan.json "keep_latin" """
+    out = {str(k) for k in (plan.get('keep_latin') or []) if k}
+    for w in words or []:
+        t = w['text'].strip('.,;:!?"“”„\'()')
+        if w.get('e') != 'cta' and 2 <= len(t) <= 5 and t.isupper() and t.isascii() and t.isalpha():
+            out.add(t)
+    return out
+
+
+def tr(s):
+    """the text as it is shown: Cyrillic when config.json "script" is "cyrillic", else unchanged"""
+    return lang.transliterate(s, SCRIPT, KEEP) if SCRIPT == 'cyrillic' else s
+
+
+set_language()
 
 
 def counted(i):
@@ -124,8 +171,11 @@ def T(t):
     return max(0.0, round(t * 30) / 30 - .002)
 
 
-def esc(s):
-    return html.escape(s, quote=False).replace("'", '&rsquo;')
+def esc(s, script=True):
+    """html-safe text for the page. Every word the reel shows goes through here, so this is where it turns Cyrillic
+    (tr). script=False: text that is already in its shown script (single letters of a word typed out one by one:
+    transliterate the whole word first, or "lj" would become "лј" and a kept "ChatGPT" would lose its Latin)."""
+    return html.escape(tr(s) if script else s, quote=False).replace("'", '&rsquo;')
 
 
 def bare(s):
@@ -133,13 +183,16 @@ def bare(s):
 
 
 def low(w):
-    """lowercase a word for the lowercase styles, but leave names and I / I'll alone"""
+    """lowercase a word for the lowercase styles, but leave names (and English I / I'll) alone"""
     t = bare(w['text'])
-    return t if w.get('e') == 'key' or t.split("'")[0] == 'I' else t.lower()
+    return t if w.get('e') == 'key' or (LANG == 'en' and t.split("'")[0] == 'I') else t.lower()
 
 
-def chunk(words, max_words, max_chars, solo=()):
-    """greedy phrases: break on length, on punctuation, on a pause; never leave a weak word dangling at the end"""
+def chunk(words, max_words, max_chars, solo=(), scale=True):
+    """greedy phrases: break on length, on punctuation, on a pause; never leave a weak word dangling at the end.
+    scale: max_chars is a built-in style's English-tuned limit, widened by CHAR_FACTOR for longer-worded languages"""
+    if scale:
+        max_chars = int(round(max_chars * CHAR_FACTOR))
     groups, cur = [], []
 
     def flush(carry=True):
@@ -384,7 +437,7 @@ def vanity(b):
             icon = ICON_BURST
         elif em == 'cta':
             txt = f'&ldquo;{esc(bare(w["text"]))}&rdquo;'
-        elif bare(w['text']).lower() == 'comment':
+        elif lang.is_cta_verb(w['text'], L):          # "comment" / "komentariši" gets the speech bubble
             icon = ICON_BUBBLE
         i_d = b.nid()
         b.html.append(f'<div id="{i_d}" class="cap vn{" em" if em else ""}">{icon}{txt}</div>')
@@ -453,14 +506,14 @@ def moodboard(b):
         t1 = nxt if nxt is not None and nxt - last <= .6 else last + .4
         chars = []
         for w in sub:
-            txt = (' ' if chars else '') + low(w)
+            txt = tr((' ' if chars else '') + low(w))     # shown script first: letters are split below
             step = (w['end'] - w['start']) / max(len(txt), 1)
             for k, ch in enumerate(txt):
                 chars.append((ch, w['start'] + k * step))
         spans = []
         for k, (ch, t) in enumerate(chars):
             cid, uid = b.nid('h'), b.nid('u')
-            spans.append(f'<span id="{cid}">{esc(ch)}</span><u id="{uid}">_</u>')
+            spans.append(f'<span id="{cid}">{esc(ch, False)}</span><u id="{uid}">_</u>')
             b.cut(f'#{cid}', max(t, .03))
             t_next = chars[k + 1][1] if k + 1 < len(chars) else t + .5
             b.cut(f'#{uid}', max(t, .03), t_next)
@@ -513,7 +566,7 @@ def specsheet(b):
         tag(' '.join(bare(w['text']) for w in W[ni + 1:counted(ni)]), W[ni]['text'], W[ni]['start'], t_end)
     ci = next((i for i, w in enumerate(W) if w.get('e') == 'cta'), None)
     if ci is not None:
-        tag(bare(W[ci - 1]['text']) if ci else 'comment', bare(W[ci]['text']), W[ci]['start'], DUR)
+        tag(bare(W[ci - 1]['text']) if ci else L['cta_label'], bare(W[ci]['text']), W[ci]['start'], DUR)
     for g, t0, t1 in windows(chunk(W, 2, 14)):
         i_d = b.nid()
         b.html.append(f'<div id="{i_d}" class="cap ss">{esc(" ".join(bare(w["text"]) for w in g))}</div>')
@@ -660,10 +713,10 @@ def cooldude(b):
         if c['before']:
             parts.append(f'<div class="t">{spans(b, c["before"], text=lambda w: bare(w["text"]), pop=track)}</div>')
         if c['punch']:
-            txt = ' '.join(low(w) for w in c['punch'])
+            txt = tr(' '.join(low(w) for w in c['punch']))     # shown script first: letters are split below
             size = min(230, int(860 / (len(txt) * .47)))
             ital = ';font-style:italic' if n == len(cs) - 1 else ''
-            chars = ''.join('&nbsp;' if ch == ' ' else f'<span class="mk"><span class="ch">{esc(ch)}</span></span>' for ch in txt)
+            chars = ''.join('&nbsp;' if ch == ' ' else f'<span class="mk"><span class="ch">{esc(ch, False)}</span></span>' for ch in txt)
             parts.append(f'<div class="p" style="font-size:{size}px{ital}">{chars}</div>')
             b.js.append(f"gsap.set('#{card} .ch',{{yPercent:115}});")
             b.js.append(f"tl.to('#{card} .ch',{{yPercent:0,duration:.5,ease:'expo.out',stagger:.028}},{T(c['punch'][0]['start']):.3f});")
@@ -1078,14 +1131,15 @@ def custom(b):
         t = bare(w['text'])
         return low(w) if case == 'lower' else t
 
-    groups = chunk(W, per_line_words * lines_n, per_line_chars * lines_n)
+    # the spec's own chars were measured against the safe width above: no language factor on top
+    groups = chunk(W, per_line_words * lines_n, per_line_chars * lines_n, scale=False)
     for g, t0, t1 in windows(groups):
         gid = b.nid()
         rows = [g]
         if lines_n == 2 and len(g) > 1 and (len(g) > per_line_words or len(' '.join(x['text'] for x in g)) > per_line_chars):
             cut = min(range(1, len(g)), key=lambda k: abs(len(' '.join(x['text'] for x in g[:k])) - len(' '.join(x['text'] for x in g[k:]))))
             rows = [g[:cut], g[cut:]]
-        n_chars = sum(len(shown(w)) for w in g)
+        n_chars = sum(len(tr(shown(w))) for w in g)
         said, ci, parts = max(.12, g[-1]['end'] - g[0]['start']), 0, []
         for row in rows:
             ws = []
@@ -1095,9 +1149,9 @@ def custom(b):
                 cls = 'w m' if w.get('e') else 'w'
                 if entrance == 'type-on':
                     inner = ''
-                    for ch in txt:
+                    for ch in tr(txt):              # shown script first, then letter by letter
                         cid = b.nid('h')
-                        inner += f'<span id="{cid}" class="ch">{esc(ch)}</span>'
+                        inner += f'<span id="{cid}" class="ch">{esc(ch, False)}</span>'
                         b.js.append(f"gsap.set('#{cid}',{{opacity:0}});")
                         b.js.append(f"tl.set('#{cid}',{{opacity:1}},{T(g[0]['start'] + .85 * said * ci / max(n_chars, 1)):.3f});")
                         ci += 1
@@ -1418,7 +1472,7 @@ def layers(b, behind=False):
             media = (f'<video id="{lid}v" src="{m["src"]}" muted playsinline data-start="{T(t0):.3f}" data-media-start="0" '
                      f'data-duration="{t1 - T(t0):.3f}" data-track-index="{100 + n}" style="{at}width:{_num(m.get("w"), 420):.0f}px;'
                      f'height:auto;border-radius:{_num(m.get("radius"), 0):.0f}px"></video>')
-        out.append(f'<div id="{lid}" class="layer" data-name="{esc(str(l.get("id", n)))}" style="position:absolute;{box}">{media}{l.get("html", "")}</div>')
+        out.append(f'<div id="{lid}" class="layer" data-name="{html.escape(str(l.get("id", n)))}" style="position:absolute;{box}">{media}{l.get("html", "")}</div>')
         sel, how_in, how_out = f'#{lid}', l.get('in', 'none'), l.get('out', 'none')
         if t0 > .02 or how_in != 'none':
             b.js.append(f"gsap.set('{sel}',{{autoAlpha:0}});")
@@ -1526,7 +1580,7 @@ def document(b, footage, safe=False, audio_track=9):
         css_motion_note(EXTRA['css'], 'The style css')
     b.js += reel_motion(EXTRA.get('motion'))   # reel-wide motion: punch-ins on key words, a flash on every cut, ...
     return f'''<!doctype html>
-<html lang="en" data-resolution="portrait">
+<html lang="{LANG}{'-Cyrl' if SCRIPT == 'cyrillic' else ''}" data-resolution="portrait">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=1080, height=1920" />

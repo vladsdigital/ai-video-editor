@@ -48,11 +48,13 @@ def shot(b, i_d, src, t0, t1, media=0.0, zoom=1.0, push=.05, origin='50% 45%', t
 
 
 def typed(b, text, t0, t1):
-    """text typed out letter by letter between t0 and t1"""
+    """text typed out letter by letter between t0 and t1 (turned into the shown script first, then split: a
+    Cyrillic reel types "љ" as one letter and keeps a Latin "ChatGPT" whole)"""
     out = []
+    text = cap.tr(text)
     for k, ch in enumerate(text):
         cid = b.nid('h')
-        out.append(f'<span id="{cid}">{esc(ch)}</span>')
+        out.append(f'<span id="{cid}">{esc(ch, False)}</span>')
         b.cut(f'#{cid}', max(.03, t0 + (t1 - t0) * k / max(len(text), 1)))
     return ''.join(out)
 
@@ -292,12 +294,12 @@ def auto_beats():
 
 
 def cta_times():
-    """(time "comment" is said, time the keyword is said, the keyword) or None"""
+    """(time "comment" / "komentariši" is said, time the keyword is said, the keyword) or None"""
     ci = first('cta')
     if ci is None:
         return None
     t_cta = cap.W[ci]['start']
-    t_say = next((w['start'] for w in reversed(cap.W[:ci]) if bare(w['text']).lower() == 'comment'), t_cta)
+    t_say = next((w['start'] for w in reversed(cap.W[:ci]) if cap.lang.is_cta_verb(w['text'], cap.L)), t_cta)
     return t_say, t_cta, bare(cap.W[ci]['text']).strip('"“”\'')
 
 

@@ -1,15 +1,33 @@
 ---
 name: reel-lab
-description: "Reel Lab. Setup runs once, at the first use or when the buyer asks for it ('set up the Studio', /reel-lab setup). Turns raw 9:16 talking-head or voice-over clips into a finished Instagram reel in the creator's own named editing style: rebuilt from links or files of reels they love (captions, animation, overlays, pace, mixed from several examples), or one of 20 caption styles or 9 overall styles from the Studio Picker, plus the effects they like. Picks the cleanest take of every line, cuts dead air, transcribes with word timings, places captions from where the speaker actually is in the frame, and checks every result inside the Reels safe zone. Use when the user says 'edit it', 'edit these clips', 'I dropped clips in my downloads', 'cut this into a reel', 'switch my captions', 'change my effects', 'change my style', 'edit these in <style name>', 'replicate the editing style of this reel', 'copy this editing style', 'save this style', 'what styles do I have', 'make 8 variations for my trial reels', 'make N variations', 'trial reel versions', 'post it', 'post this to Instagram / TikTok / YouTube', 'post these as trial reels', 'schedule this for tomorrow', 'set up posting', 'connect my Instagram', 'open the picker', 'update the Studio', or runs /reel-lab."
+description: "Reel Lab by Vladsdigital: raw 9:16 talking-head or voice-over clips in, a finished Instagram reel out, in the creator's own named editing style (rebuilt from reels they love, or picked in the Studio Picker), with captions in Serbian, Croatian, Bosnian or English, Latin or Cyrillic. Picks the best takes, cuts dead air, transcribes (offline or Soniox), keeps captions in the Reels safe zone, adds effects, makes trial reel variations and posts. Setup runs once (/reel-lab setup). Use when the user says 'edit it', 'edit these clips', 'cut this into a reel', 'montiraj ovo', 'iseci ovo u rils', 'edituj klipove', 'napravi rils', 'edit these in <style>', 'u mom stilu', 'copy this editing style', 'change my style', 'make 8 variations', 'napravi varijacije', 'post it', 'objavi ovo', 'schedule this', 'open the picker', 'otvori picker', 'update Reel Lab', 'ažuriraj Reel Lab', or runs /reel-lab."
 ---
 
 # Reel Lab (reel-lab)
 
 Raw clips in, finished reel out, in the buyer's own editing style. They show you reels whose editing they love (links
-or files, mixing captions from one and motion from another), or describe it, or pick from the Studio's built-in
+or files, mixing captions from one and motion from another), or describe it, or pick from Reel Lab's built-in
 looks. You rebuild that look on their clips and save it under a name they choose. They can keep several styles
-("Cozy Talk", "Hype") and from then on drop clips in and say "edit these in Cozy Talk", or just "edit it" for their
+("Cozy Talk", "Hype") and from then on drop clips in and say "montiraj u Cozy Talk", or just "montiraj ovo" for their
 default. They never open an editor: they watch a phone copy and give notes.
+
+## Language: talk to the buyer in their language
+
+Reel Lab is made for creators in Serbia, Croatia and Bosnia and Herzegovina. Everything the buyer reads or hears from
+you is in their language, warm and simple, informal "ti", for someone who has never used a terminal:
+- Default: Serbian, Latin script, ekavian ("primer", "lepo", "vreme").
+- The buyer writes ijekavian, Croatian or Bosnian ("primjer", "lijepo", "tjedan", "trebaš li"): answer the same way.
+  The buyer writes English: answer in English. Follow how they write, not where they live.
+- Every quoted line in this skill and its references that the buyer hears is the Serbian version. Say it in those
+  words or close, adapted to their variant. Never mix English sentences into a Serbian reply. Names of the built-in
+  looks and effects (Karaoke, Digital Zoom, Checklist) and of buttons the buyer sees on screen stay as they are.
+- No em dashes in anything the buyer reads: use commas or colons.
+- On-screen text and captions follow the language and script saved in config.json ("language" sr|hr|bs|en,
+  "script" latin|cyrillic; `PY "SK/scripts/speech.py" status` prints them), not the language of the chat. Captions say
+  what was said, in that script. Text you write onto the reel (titles, headlines, effect words) is in that language
+  and script too.
+- These instructions are in English for precision. Commands, file names, STATUS tokens and JSON keys stay exactly
+  as written.
 
 Read before the first edit: `references/cutting.md` (takes, dead air, fixing the transcript),
 `references/captions.md` (the 20 caption styles, how to mark words, where captions go),
@@ -28,7 +46,7 @@ style beats all of it.
 
 Order of precedence, highest first:
 1. What the buyer asks for on this reel.
-2. The saved style this reel is in: the one they named ("edit it in Cozy Talk"), else their default style
+2. The saved style this reel is in: the one they named ("montiraj u Cozy Talk"), else their default style
    (`references/my-styles.md`). A style built from their examples or words is REPLICATED, not mapped onto the
    nearest built-in look (see "Building a style"). The built-in caption styles and effects are only used where the
    style or the buyer asks for them.
@@ -44,9 +62,9 @@ What that means on every edit:
   to fit the style or the buyer's notes. An effect's defaults are one demo's taste, not a rule.
 - **Effects are suggestions.** They are a base for buyers who do not know what they want yet. Use a picked one only where it fits the clip and the line. Drop one rather than force it
   against the style, and say why in one line. Tweak the look of the effects to make sense with the clip you are editing. Meaning the words being spoken, the person saying the words, etc.
-- **A note from the buyer is an instruction.** "Make it white", "less zoom", "no sounds": do it on this reel. If
-  they say "always", write it into the style the reel is in (style.json when it is a setting, its style.md
-  "Standing notes" when it is a rule for you) so every later reel in that style follows it.
+- **A note from the buyer is an instruction.** "Neka bude belo", "manje zumiranja", "bez zvukova": do it on this
+  reel. If they say "uvek" ("always"), write it into the style the reel is in (style.json when it is a setting, its
+  style.md "Standing notes" when it is a rule for you) so every later reel in that style follows it.
 
 Read the style's `style.md` at the start of every edit (`my_styles.py show` prints where it is). Check the finished
 reel against this rule before you deliver: one caption look from the first frame to the last, in the buyer's style.
@@ -54,55 +72,56 @@ reel against this rule before you deliver: one caption look from the first frame
 ## Step 0: the quiet check (every run) and the setup (first run only)
 
 Two different things, never mixed up:
-- **The setup** (the welcome, the two folder questions, building their first style) happens ONCE, the first time,
-  when `STATUS config MISSING` shows. After that it never comes back by itself. It runs again only when the buyer
-  asks: "set up the Studio again", "redo the setup", `/reel-lab setup` ("First run only" below says how).
-- **The quiet check** below runs at the start of every chat that uses the Studio. It takes a few seconds and the
+- **The setup** (the welcome, the folder questions, the language, building their first style) happens ONCE, the
+  first time, when `STATUS config MISSING` shows. After that it never comes back by itself. It runs again only when
+  the buyer asks: "podesi Reel Lab ponovo", "ponovi podešavanje", "set up Reel Lab again", `/reel-lab setup`
+  ("First run only" below says how).
+- **The quiet check** below runs at the start of every chat that uses Reel Lab. It takes a few seconds and the
   buyer does not see it: do not announce it, do not repeat setup questions, do not list what it found. Speak only
   when it needs them (an update to offer, something missing to fix).
 
 `SK` is this skill's folder (the one holding this file): `${CLAUDE_SKILL_DIR}`, or the base directory Claude Code
 gave you when it loaded the skill. `SK` is read-only: never write into it.
 
-Run the setup check. The buyer does not need Python, Node or ffmpeg on the computer: the Studio gets its own copy
+Run the setup check. The buyer does not need Python, Node or ffmpeg on the computer: Reel Lab gets its own copy
 of whatever is missing, into `ST`, with no password and nothing installed system-wide.
 - Mac and Linux: `sh "SK/scripts/start.sh"`. Always this one. Never run a bare `python3` on a Mac: without Apple's
   developer tools it opens an "install developer tools" window.
 - Windows: try in order until one prints STATUS lines: `python3 "SK/scripts/setup.py"`, then
   `python "SK/scripts/setup.py"`, then `py -3 "SK/scripts/setup.py"`. (`python3` is often a Store stub that prints
   "Python was not found": try the next one.) None of them runs: there is no Python, so run
-  `powershell -NoProfile -ExecutionPolicy Bypass -File "SK/scripts/start.ps1"`. It gets the Studio its own Python
+  `powershell -NoProfile -ExecutionPolicy Bypass -File "SK/scripts/start.ps1"`. It gets Reel Lab its own Python
   and then runs the setup.
 
 It takes a few seconds, a few minutes the very first time while it downloads what is missing and builds its own
-Python environment (say so that first time only). Only when it prints `STATUS python MISSING`, or `start.ps1` fails in any other way:
-give the fix and stop (Windows: paste `winget install --id Python.Python.3.12 -e` into PowerShell, then quit
-Claude Code completely and reopen it. Mac: download Python 3.12 from
-https://www.python.org/ftp/python/3.12.10/python-3.12.10-macos11.pkg and open it. Linux:
-`sudo apt install python3 python3-venv`).
+Python environment (say so that first time only: "Prvi put ovo traje par minuta, skidam alate koji fale."). Only
+when it prints `STATUS python MISSING`, or `start.ps1` fails in any other way: give the fix and stop (Windows: paste
+`winget install --id Python.Python.3.12 -e` into PowerShell, then quit Claude Code completely and reopen it. Mac:
+download Python 3.12 from https://www.python.org/ftp/python/3.12.10/python-3.12.10-macos11.pkg and open it. Linux:
+`sudo apt install python3 python3-venv`). Explain those steps to the buyer in Serbian, commands unchanged.
 
 Never install a Python yourself to get past setup, and never the newest one: the transcription engine only
-installs on Python 3.9 to 3.13. A newer Python on the computer is fine to leave there, the Studio skips it.
+installs on Python 3.9 to 3.13. A newer Python on the computer is fine to leave there, Reel Lab skips it.
 
 Read the STATUS lines:
-- `STATUS state <folder>` is `ST`, the buyer's own Studio folder. Everything this skill keeps lives there (its
+- `STATUS state <folder>` is `ST`, the buyer's own Reel Lab folder. Everything this skill keeps lives there (its
   Python, `.platform.json`, `config.json`, `studio-picks.json`, sound effects). It is outside the skill on purpose,
   so an update never wipes their picks.
-- node, python or ffmpeg `MISSING` (only when the Studio could not fetch its own copy: no internet, or a system
+- node, python or ffmpeg `MISSING` (only when Reel Lab could not fetch its own copy: no internet, or a system
   there is no build for): the line ends with the steps for THIS machine, written for someone who has never used a
   terminal. Pass them on word for word and stop until the script prints `READY`. On Windows they paste the winget
   line into their own PowerShell window, then quit Claude Code completely and reopen it.
 - `STATUS python TOO NEW`: the Python that ran the setup is newer than the transcription engine supports. Run the
-  command at the end of the line (the starter script). It gets the Studio its own Python 3.12. Nothing to install.
-- `the download did not finish, trying again (attempt 2 of 3)`: a download got stuck and the Studio started it
-  again by itself. Nothing to do. Only the `OK` or `MISSING` line that follows counts.
+  command at the end of the line (the starter script). It gets Reel Lab its own Python 3.12. Nothing to install.
+- a line saying a download did not finish and is being tried again (attempt 2 of 3): a download got stuck and Reel
+  Lab started it again by itself. Nothing to do. Only the `OK` or `MISSING` line that follows counts.
 - Sound effects `MISSING` (offline) is fine: the reel just has no sound effects until they are there.
-- `STATUS update AVAILABLE`: a newer version of the Studio is out. This comes first, before the setup questions,
-  the picker or any edit. Ask it on its own: "There's an update for the Studio with fixes. Want me to install it?
-  It takes a minute."
-  - Yes, or any time they say "update the Studio": run `PY "SK/scripts/update.py"` right away, pass on what it
-    prints, tell them to start a new chat, and stop. Nothing else in this chat: the new chat carries on from
-    where they were, on the new version.
+- `STATUS update AVAILABLE`: a newer version of Reel Lab is out. This comes first, before the setup questions,
+  the picker or any edit. Ask it on its own: "Stiglo je ažuriranje za Reel Lab, sa popravkama. Da ga instaliram?
+  Traje oko minut."
+  - Yes, or any time they say "ažuriraj Reel Lab" / "update Reel Lab": run `PY "SK/scripts/update.py"` right away,
+    pass on what it prints, tell them to start a new chat ("Gotovo. Otvori novi čet i nastavljamo tamo gde smo
+    stali."), and stop. Nothing else in this chat: the new chat carries on from where they were, on the new version.
   - No: carry on, and do not ask again in this chat.
 - `clean cutout NOT SET UP` is fine for captions on their own. Almost every effect needs it, and so do the looks that
   go behind the speaker (Bold captions, Chalk Talk, Show and Tell). Get it the first time the picks hold an
@@ -115,13 +134,16 @@ not a time):
 - the setup check: the skill's Python environment, about 0.25 GB. On a computer that has none of its own, also
   Python (about 25 MB on a Mac, 46 MB on Windows), Node (about 50 MB) and ffmpeg (about 45 to 75 MB).
 - then `PY "SK/scripts/prefetch.py"`, started IN THE BACKGROUND right after the first setup check, so it downloads
-  while they answer the questions and build their style: the two speech models (about 0.5 and 1.4 GB), HyperFrames
-  (the renderer, about 0.4 GB) and its browser, the quick cutout model (about 170 MB) and the clean cutout (about
-  105 MB). Say it once: "I'm downloading the editing tools in the background now (about 3 GB, one time), so your
-  first edit is quick. We can keep going while it runs."
+  while they answer the questions and build their style: the two speech models (multilingual, for Serbian, Croatian
+  and Bosnian: small, about 0.5 GB, and large-v3-turbo, about 1.6 GB; a buyer who records in English gets the
+  English-only small.en and medium.en instead), HyperFrames (the renderer, about 0.4 GB) and its browser, the quick
+  cutout model (about 170 MB) and the clean cutout (about 105 MB). About 3.2 GB in all. Say it once: "Sad u pozadini
+  skidam alate za montažu (oko 3,2 GB, samo jednom), da ti prva montaža bude brza. Možemo da nastavimo dok se to
+  skida."
 - Before step 1 of an edit, while `prefetch.py` has not reported `STATUS prefetch DONE`: `PY "SK/scripts/prefetch.py"
-  --status`. RUNNING: tell them it is still finishing the download and wait for it. INCOMPLETE or STOPPED: carry on,
-  the edit downloads what is missing by itself (and `prefetch.py` can be run again).
+  --status`. RUNNING: tell them it is still finishing the download and wait for it ("Još se završava preuzimanje
+  alata, samo malo pa krećemo."). INCOMPLETE or STOPPED: carry on, the edit downloads what is missing by itself (and
+  `prefetch.py` can be run again).
 
 Then read `ST/.platform.json` (rewritten on every run). It holds the commands for this computer:
 - `PY` = its `python` value. Run EVERY script of this skill with it, never a bare `python3`.
@@ -136,60 +158,83 @@ after the project folder (`"renders/<slug>-v1.mp4"`): `HF` and both check script
 
 ### First run only
 
-`/reel-lab setup` (or "set up the Studio") is how a new buyer starts. Run Step 0, then the three steps below.
-Do not ask for clips until they have a style.
+`/reel-lab setup` (or "podesi Reel Lab", "set up Reel Lab") is how a new buyer starts. Run Step 0, then the steps
+below. Do not ask for clips until they have a style.
 
-When a buyer who is already set up asks for the setup again ("set up the video studio", "redo my setup",
-`/reel-lab setup`): run Step 0, then show what they have in two plain lines (the clips folder and the projects
-folder, their saved styles and which is the default) and ask what they want to change: the folders, a new style,
-or their default. Change only that. Never wipe their styles, picks or folders.
+When a buyer who is already set up asks for the setup again ("podesi ponovo", "redo my setup", `/reel-lab setup`):
+run Step 0, then show what they have in a few plain lines (the clips folder and the projects folder, the language
+and script of the captions, whether Soniox is on, their saved styles and which is the default) and ask what they
+want to change: the folders, the language, Soniox, a new style, or their default. Change only that. Never wipe their
+styles, picks or folders.
 
 `STATUS config MISSING`:
 0. Start `PY "SK/scripts/prefetch.py"` in the background now (see Step 0: the downloads), then go on.
-1. Say: "Welcome to Reel Lab. Two quick questions, then we build your editing style. This only
-   happens once."
+1. Say: "Ćao, ovo je Reel Lab. Par brzih pitanja, pa pravimo tvoj stil montaže. Ovo se radi samo jednom."
 2. Ask in one message: where their raw clips usually land (default `~/Downloads`; you check there for new clips
-   every time they say "edit it") and where finished reel projects should live (default `~/reel-edits`).
+   every time they say "montiraj ovo") and where finished reel projects should live (default `~/reel-edits`). For
+   example: "Gde ti obično završe sirovi klipovi? Ako ne znaš, gledaću u Downloads. I gde da čuvam gotove projekte?
+   Predlažem folder reel-edits."
 3. Save `ST/config.json`: `{"clipsDir": "~/Downloads", "projectsDir": "~/reel-edits", "setupDate": "YYYY-MM-DD"}`
    (keep any other keys already in it).
+4. Language and script, in ONE message: "Na kom jeziku pričaš u rilsovima: srpski, hrvatski, bosanski ili engleski?
+   I da li titlovi da budu latinicom ili ćirilicom?" Save both:
+   `PY "SK/scripts/speech.py" language <sr|hr|bs|en>` and `PY "SK/scripts/speech.py" script <latin|cyrillic>`.
+   Cyrillic only makes sense for Serbian (and on request for Bosnian); Croatian and English are always Latin.
+   They did not answer the script part: Latin.
+5. Soniox, optional. Offer it once, plainly: "Još jedna stvar, potpuno opciono. Transkript za titlove pravim
+   besplatno, ovde na tvom računaru. Ako hoćeš primetno tačnije titlove na našem jeziku (imena, padeži, naši
+   izrazi), možeš da povežeš Soniox: košta par centi po rilsu. Da ga podesimo, ili za sad ostajemo na besplatnom?"
+   - Yes: "Otvori https://console.soniox.com i napravi nalog. Onda u delu API Keys napravi novi ključ i kopiraj ga.
+     Ne lepi ga ovde u čet: samo ga kopiraj i napiši mi 'kopirano', a ja ću ga sačuvati." When they say it is
+     copied: `PY "SK/scripts/speech.py" key --clipboard`. Then `PY "SK/scripts/speech.py" status` and confirm in
+     one line ("Soniox je povezan. Od sad titlove radi on.").
+   - They pasted the key into the chat anyway: save it through stdin with a heredoc (never as an argument, never
+     echo it back), then say: "Sačuvan je. Pošto se ključ sad vidi u ovom četu, bolje ga ugasi u Soniox konzoli i
+     napravi novi, pa mi samo javi kad ga kopiraš."
+   - No: carry on. The built-in offline transcription (Whisper) is used, in the language they picked.
+   - `speech.py use whisper|soniox|auto` picks the engine later (auto, the default: Soniox when a key is saved, else
+     Whisper). `speech.py key --forget` removes the key. `speech.py status` shows the state at any time (it never
+     prints the key).
 
 No saved style yet (`my_styles.py list` says so) and no picks: build their first style. Ask in ONE message:
 
-> "Now your editing style. The best way: send me links to 1 to 3 reels whose editing you love (Instagram, TikTok,
-> YouTube Shorts all work), or drop the video files in. You can mix: captions from one, the animations from another,
-> overlays from a third, just tell me what you like in each. No examples handy? Describe the look in your own words,
-> or I can open the Studio's built-in looks and you pick one."
+> "Sad tvoj stil montaže. Najbolje ovako: pošalji mi 1 do 3 linka ka rilsovima čija ti se montaža sviđa (Instagram,
+> TikTok, YouTube Shorts, sve radi), ili ubaci same video fajlove. Možeš i da kombinuješ: titlove iz jednog,
+> animacije iz drugog, grafike iz trećeg, samo mi reci šta ti se sviđa kod kog. Nemaš primer pri ruci? Opiši
+> izgled svojim rečima, ili ti otvorim ugrađene stilove pa izabereš jedan."
 
 - Links, files or a description: "Building a style" below.
 - Built-in looks: the Studio Picker below; when they save, `my_styles.py save "<a name they like>" --from-picks`.
-- Either way, ask what to call it ("Cozy Talk", "Hype", their brand name). Propose one if they do not care.
+- Either way, ask what to call it ("Kako da nazovemo ovaj stil? Može tvoje ime, ime brenda, bilo šta."). Propose one
+  if they do not care.
 
-Then set expectations once, in these words or close: "Your first edit takes a bit longer and we'll go back and forth
-once or twice to dial the style in. After that, you drop clips in and say: edit them in <name>." Then ask for clips.
+Then set expectations once, in these words or close: "Prva montaža traje malo duže i verovatno ćemo se dopisati
+jednom ili dvaput dok ne pogodimo stil. Posle toga samo ubaciš klipove i kažeš: montiraj u <name>." Then ask for
+clips.
 
 ## The Studio Picker
 
 A local page where the buyer picks one overall style, or their own caption style and effects, with a preview clip
-on every card. It runs on their computer only. It is also how a buyer with a style built from examples adds the
-Studio's effects to it: open the effects tab, then `my_styles.py save "<style>" --with-picks` keeps their own
+on every card. It runs on their computer only. It is also how a buyer with a style built from examples adds Reel
+Lab's effects to it: open the effects tab, then `my_styles.py save "<style>" --with-picks` keeps their own
 captions and adds the picked effects.
 
 ```
-PY "SK/scripts/picker.py" --until-saved                  first run, "open the picker", "change my style"
-PY "SK/scripts/picker.py" --tab captions --until-saved   "switch my captions"
-PY "SK/scripts/picker.py" --tab effects --until-saved    "change my effects"
+PY "SK/scripts/picker.py" --until-saved                  first run, "otvori picker", "promeni mi stil"
+PY "SK/scripts/picker.py" --tab captions --until-saved   "promeni mi titlove"
+PY "SK/scripts/picker.py" --tab effects --until-saved    "promeni mi efekte"
 ```
-Run it in the background and tell the buyer: "I opened the Studio Picker in your browser. Pick one overall style,
-or pick your own captions and effects, then press Save." Wait for the line `STATUS picks SAVED ...`. Then read
-`ST/studio-picks.json` and confirm in ONE plain sentence, for example: "Saved. You are on Keyword captions with
-Digital Zoom and Checklist. Drop your clips in and say edit it."
+Run it in the background and tell the buyer: "Otvorio se Studio Picker u tvom pregledaču. Izaberi jedan gotov
+stil, ili sam složi titlove i efekte, pa sačuvaj izbor." Wait for the line `STATUS picks SAVED ...`. Then read
+`ST/studio-picks.json` and confirm in ONE plain sentence, for example: "Sačuvano. Sad imaš Keyword titlove sa
+efektima Digital Zoom i Checklist. Ubaci klipove i reci: montiraj ovo."
 
 The picks: `{"mode": "preset"|"custom", "style": key|null, "captionStyle": key|"none", "effects": [keys],
 "effectSections": null | {"hook": [...], "middle": [...], "end": [...]}}`. `mode: preset` = an overall style, with
 its own captions unless `captionStyle` differs from the one that style comes with (the buyer swapped them).
 `effectSections` set = each effect may only be used in the parts listed for it.
 
-A one-off ("try Karaoke on this one") does not touch the saved picks: `build_reel.py --caption karaoke` or
+A one-off ("probaj Karaoke na ovom") does not touch the saved picks: `build_reel.py --caption karaoke` or
 `--style fireside`.
 
 ## Building a style (from examples, links or words)
@@ -197,7 +242,7 @@ A one-off ("try Karaoke on this one") does not touch the saved picks: `build_ree
 The picker is for buyers who do not know what they want yet. A buyer who sends a link to a reel they like, a file,
 a pin, a screenshot, or says what they want in their own words, has given you the brief. Replicate it. The built-in
 caption styles and effects step aside: you do not map their example onto the nearest one, you rebuild the look
-itself, animation included. This works at setup and any time later ("make me a new style like this reel").
+itself, animation included. This works at setup and any time later ("napravi mi novi stil kao u ovom rilsu").
 `references/replicate.md` has every field and command, `references/motion.md` every kind of movement. The procedure:
 
 1. **Get and study every example.** `PY "SK/scripts/get_example.py" "<link or file>" ["<link 2>" ...]`, then
@@ -216,13 +261,14 @@ itself, animation included. This works at setup and any time later ("make me a n
    them with the motion strip. Fix what is off, once. Then give the buyer the sheet and a plain list: what matches,
    and what could not be matched.
 5. **Dial it in, then save it.** Their notes go into the reel; when they are happy:
-   `PY "SK/scripts/my_styles.py" save "<name>" --from-project "<project>"`. Say: "Saved as <name>. Next time, drop
-   clips in and say: edit them in <name>." The first saved style is the default (plain "edit it").
+   `PY "SK/scripts/my_styles.py" save "<name>" --from-project "<project>"`. Say: "Sačuvano kao <name>. Sledeći put
+   ubaci klipove i reci: montiraj u <name>." The first saved style is the default (plain "montiraj ovo").
 
 What is copied and what never is: the LOOK and the STRUCTURE are replicated (type feel, colours, layout, rhythm,
 motion). Never the example's footage, music, voice, logo, handle, name or words, and never a claim that the result
-is by or with whoever made it. Typeface: the nearest face the skill ships or an openly licensed one it can fetch;
-never a paid font file, and you say which face stands in.
+is by or with whoever made it. Typeface: the nearest face the skill ships or an openly licensed one it can fetch,
+with every letter of the caption language (č, ć, ž, š, đ, and Cyrillic when the script is Cyrillic); never a paid
+font file, and you say which face stands in.
 
 Be straight about the limits (`references/replicate.md` lists them): no music is added, the speaker is not moved
 into a panel or onto a page outside the overall styles and effects that do that, no speed ramps or 3D. Say what
@@ -233,30 +279,33 @@ could not be matched. Never fake it.
 1. Reels safe zone (1080x1920): top 220, bottom 450 (nothing below y 1470), sides 35, right 100 from y 1155 down.
    One exception: the Show and Tell speaker card sits flush with the bottom of the video on purpose. Or unless told to disregard safe zones.
 2. Captions and effects never cover the face (eyes to chin).
-3. Captions say what was actually said. Fix Whisper's mishearings ("Claude" comes out as "cloud"). No em dashes
-   in on-screen text.
+3. Captions say what was actually said, in the language and script from config.json. Fix the transcript's
+   mishearings: names and brand words ("Claude" comes out as "klod" or "cloud"), English loanwords said in Serbian
+   ("prompt", "template", "content"), wrong case endings (padeži), č/ć and đ/dž mixed up, numbers. No em dashes in
+   on-screen text.
 4. Everything on screen is real or a clearly generic placeholder. Never a real person who is not the buyer, never
    invented numbers, comments or results.
 5. Effects only where the footage qualifies (footage check) and only in the parts the buyer allowed. A skipped
    effect is normal: tell the buyer why in one line.
 6. Proof comes from frames of the FINAL render, not from snapshots.
 7. Never delete or change the buyer's files. Originals are only read.
-8. Talk to the buyer in plain words. Never show them file names of this skill, STATUS lines or stack traces.
+8. Talk to the buyer in plain words, in their language. Never show them file names of this skill, STATUS lines or
+   stack traces.
 
-## Workflow ("edit it")
+## Workflow ("montiraj ovo", "edit it")
 
 `<project>` = `<projectsDir>/<short-slug>/`. Clips = the files the buyer names, else the newest videos in `clipsDir`.
-Style = the saved style they name ("edit these in Hype": `my_styles.py list` shows the names, a part of one is
-enough), else their default. No saved style and no picks: "First run only" above. Several styles, none named, and
-the clips could suit more than one: ask which, in one line. Read the style's `style.md` before step 2: its pace,
-framing and standing notes decide the cut.
+Style = the saved style they name ("montiraj u Hype", "edit these in Hype": `my_styles.py list` shows the names, a
+part of one is enough), else their default. No saved style and no picks: "First run only" above. Several styles,
+none named, and the clips could suit more than one: ask which, in one line. Read the style's `style.md` before step
+2: its pace, framing and standing notes decide the cut.
 
 ```
 1. PY "SK/scripts/ingest.py" "<project>" <clips or folder> [--newest 5]
        look at work/sheets.jpg, read transcript.txt
 2. write <project>/edl.json                      best take of every line, dead air out (references/cutting.md)
 3. PY "SK/scripts/assemble.py" "<project>"       -> assets/aroll.mp4 (clean 30fps) + segments.json
-4. PY "SK/scripts/transcribe_cut.py" "<project>" "<names and keywords said in the reel>"
+4. PY "SK/scripts/transcribe_cut.py" "<project>" "<names and keywords said in the reel, comma-separated>"
        fix mishearings in words.json by hand, then:
    PY "SK/scripts/marks.py" "<project>"          first guess at the word marks; then apply the marking rule yourself
 5. PY "SK/scripts/layout.py" "<project>"         where the speaker is -> layout.json. LOOK at work/layout/check.jpg:
@@ -283,13 +332,24 @@ framing and standing notes decide the cut.
    PY "SK/scripts/check_cuts.py" "<project>" "renders/<slug>-v1.mp4" --phone   cuts strip + 720p phone copy
                                                         its last line is the audio level (references/cutting.md)
 10. deliver the phone copy and the full render. Say what was done and what was skipped, in plain words.
-    Once per chat, after a reel they are happy with, you may offer: "Want a carousel from this reel too?" A yes is
+    Once per chat, after a reel they are happy with, you may offer: "Hoćeš i karusel od ovog rilsa?" A yes is
     the carousel-lab skill, with this project as the source.
 ```
 
+Step 4, the words: `transcribe_cut.py` uses Soniox when a key is saved (and `speech.py` is not set to `whisper`),
+else the offline Whisper model, in the language from config.json. Its second argument is a comma-separated list of
+the names, brands and unusual words said in THIS reel ("Claude, Reel Lab, Vladsdigital, Marko Petrović"): they are
+sent to the engine as context, so it spells them right. Take them from the transcript of step 1 and from what the
+buyer told you. Then read words.json against the audio's meaning and fix what is still wrong. Typical in Serbian,
+Croatian and Bosnian: names and surnames, English loanwords ("prompt", "template", "content", "hook") spelled
+phonetically or split, a wrong case ending (padež) on a name, č/ć and đ/dž confused, ije/je mixed into ekavian
+speech (or the other way round), numbers written as words or the other way round (pick what reads best on screen
+and keep it the same through the reel). The captions end up in the script from config.json: fix the words in
+the script words.json is already written in, and check one snapshot that the captions show the right script.
+
 `build_reel.py` prints `NOTE` lines when something could not be done
 as picked (no room above the head, a look that needs a cutout, a caption swap that cannot ride on a style): pass
-each one on to the buyer in plain words, and fix what can be fixed.
+each one on to the buyer in plain words, in their language, and fix what can be fixed.
 
 A look that goes behind the speaker or lifts them out of the room (Bold captions, Chalk Talk, Show and Tell) needs
 a person cutout of the whole reel first. Use the clean one, `rvm_cut.py`, and tell the buyer how long it takes
@@ -302,10 +362,10 @@ Look at one reel snapshot inside every slot: one caption look, nothing doubled, 
 caption unless the effect's own words carry it.
 
 Notes round: change `edl.json` / `words.json` / `plan.json`, rebuild from the step that changed, render `-v2`. Keep
-every version in `renders/`. A note meant for every reel ("always", "from now on") goes into the style too: after
+every version in `renders/`. A note meant for every reel ("uvek", "od sad", "always") goes into the style too: after
 they approve, `my_styles.py save "<style>" --from-project "<project>"`, plus a line in its style.md.
 
-## Trial reel variations ("make 8 variations for my trial reels")
+## Trial reel variations ("napravi 8 varijacija za trial reels")
 
 After a reel is edited, the buyer can ask for N versions of it to post as Instagram trial reels. Each version is a
 finished reel from the same raw clips that differs in ONE thing: the hook (another take, another line first,
@@ -321,7 +381,7 @@ posted is marked (`variations.py posted`) and never touched again. Never promise
 
 ```
 1. PY "SK/scripts/variations.py" plan "<project>" --count <N> [--change hook,captions,effects,style]
-       they said what each should change ("all different hooks"): pass --change or edit <project>/variations.json.
+       they said what each should change ("svi različiti hookovi"): pass --change or edit <project>/variations.json.
        They did not: show the proposed mix as a short list and ask in ONE message before building. Wait.
 2. PY "SK/scripts/variations.py" make "<project>"     do every CHECK line in that trial's own folder
 3. PY "SK/scripts/variations.py" render "<project>"   IN THE BACKGROUND. One render after another, never in
@@ -331,7 +391,7 @@ posted is marked (`variations.py posted`) and never touched again. Never promise
 5. they posted one: PY "SK/scripts/variations.py" posted "<project>" <n>
 ```
 
-## Posting ("post it")
+## Posting ("objavi ovo", "post it")
 
 The buyer can have you post a finished reel or their trial reels for them: Instagram (normal reels or trial reels),
 TikTok, YouTube Shorts, Facebook Reels and more, now, at a set time, or a few minutes apart. It goes through their own
@@ -341,7 +401,7 @@ the words.
 ```
 PY "SK/scripts/post.py" check                      key saved? accounts connected? (setup steps when not)
 PY "SK/scripts/post.py" new "<project>/posting.json" "<file or folder>" --platforms instagram,tiktok [--trial] [--every 5m]
-   write every caption in posting.json, then:
+   write every caption in posting.json (in the buyer's language), then:
 PY "SK/scripts/post.py" plan "<project>/posting.json"          show the buyer the plan, get a clear yes
 PY "SK/scripts/post.py" run "<project>/posting.json" --yes     only after that yes
 PY "SK/scripts/post.py" status "<project>/posting.json" --wait the links, or what failed and the fix
@@ -350,35 +410,41 @@ PY "SK/scripts/post.py" status "<project>/posting.json" --wait the links, or wha
 Never post, schedule or cancel without a clear yes to that exact plan, and only to the platforms they named. Trial
 reels are an Instagram thing: other platforms in the same post get a normal post.
 
-Styles on request: "save this as a new style called X" (`my_styles.py save "X" --from-project`), "what styles do I
-have" (`list`), "make Hype my default" (`default`), "rename", "make a copy of Cozy with yellow captions"
-(`duplicate`, then change the copy), "get rid of X" (`retire`: kept, never deleted). `references/my-styles.md`.
+Styles on request: "sačuvaj ovo kao novi stil X" (`my_styles.py save "X" --from-project`), "koje stilove imam"
+(`list`), "neka Hype bude podrazumevani" (`default`), "preimenuj", "napravi kopiju Cozy sa žutim titlovima"
+(`duplicate`, then change the copy), "skloni X" (`retire`: kept, never deleted). `references/my-styles.md`.
 
 ## What the buyer hears
 
-- Start of an edit: "On it. I'm picking your best takes and cutting the dead air."
-- A skipped effect: "I left Clone out of this one: it needs a wide shot with a still camera and this clip is a close-up."
-- A fallback: "Your face fills the frame in this clip, so I kept the captions to one line under your chin."
-- A slow step: "This look needs a clean cutout of you. That takes about 12 minutes for this reel. I'll keep going
-  and tell you when it's done."
-- Delivery: "Here's your reel in Cozy Talk. Effects: Digital Zoom on the hook. Tell me what to change."
-- The first reel in a new style: "This is the first one in this style, so tell me everything you'd change. Once
-  it's dialed in I'll save it and the next ones come out like this from the start."
-- An effect made of words: "I matched the Checklist to your Karaoke captions: same typeface, same caps, same
-  yellow."
-- An example they showed you, before you start: "On it. I'm studying your example from start to finish, then I'll
-  rebuild that look on your clip."
-- After replicating it: "Here is what I matched, and what I could not. Tell me what to change, then I'll save it
-  as <name>."
-- Saved: "Saved as <name>. Next time, drop your clips in and say: edit them in <name>."
-- A quiet recording: "Your voice is recorded a little quiet in this clip. Want a louder copy?"
-- Variations, before building: "Here's the mix I'd test: 3 different hooks, 3 caption styles, one with no effects,
-  one in your Hype style. Want that, or should they all test the hook?"
-- Variations, while rendering: "On it. I'm rendering them one at a time so your computer doesn't choke. That takes
-  about 20 minutes. I'll tell you when they're ready."
-- Variations, delivered: "Your 8 trial reels are in the trial-reels folder. Same clips, one thing different in
-  each, and each one has its own speed, framing and colour so none of them is a copy of another:" then one line per
-  file ("trial-01-hook-take-2.mp4: opens on your other take of the first line"). "Post them as trial reels and keep
-  the one that wins. Want me to post them for you?"
+- Start of an edit: "Krećem. Biram ti najbolji snimak svake rečenice i izbacujem pauze."
+- A skipped effect: "Ovaj put bez efekta Clone: njemu treba širi kadar i kamera koja stoji mirno, a ovaj klip je
+  krupni plan."
+- A fallback: "Lice ti u ovom klipu zauzima skoro ceo kadar, pa su titlovi u jednom redu ispod brade."
+- A slow step: "Za ovaj izgled treba da te čisto izdvojim iz pozadine. Za ovaj rils to traje oko 12 minuta. Ja
+  nastavljam sa ostalim i javljam ti kad bude gotovo."
+- Delivery: "Evo tvog rilsa u stilu Cozy Talk. Efekti: Digital Zoom na hooku. Reci šta da promenim."
+- The first reel in a new style: "Ovo je prvi rils u ovom stilu, zato mi slobodno reci sve što bi menjao ili
+  menjala. Kad ga uštimamo, sačuvaću stil i sledeći rilsovi izlaze ovako od prve."
+- An effect made of words: "Checklist je usklađen sa tvojim Karaoke titlovima: isti font, ista velika slova, ista
+  žuta."
+- An example they showed you, before you start: "Krećem. Prvo proučavam tvoj primer od početka do kraja, pa taj
+  izgled pravim na tvom klipu."
+- After replicating it: "Evo šta se poklapa, a šta nije moglo. Reci šta da promenim, pa ću ga sačuvati kao <name>."
+- Saved: "Sačuvano kao <name>. Sledeći put ubaci klipove i reci: montiraj u <name>."
+- A quiet recording: "Glas ti je u ovom klipu snimljen malo tiho. Hoćeš glasniju verziju?"
+- Variations, before building: "Predlažem ovakvu kombinaciju: 3 različita hooka, 3 stila titlova, jedna verzija bez
+  efekata i jedna u tvom Hype stilu. Može tako, ili da sve testiraju samo hook?"
+- Variations, while rendering: "Krećem. Renderujem ih jednu po jednu da ti se računar ne zaguši. To traje oko 20
+  minuta. Javiću ti kad budu gotove."
+- Variations, delivered: "Tvojih 8 trial rilsova je u folderu trial-reels. Isti klipovi, u svakom je jedna stvar
+  drugačija, a svaki ima i svoju brzinu, kadar i boju, pa nijedan nije kopija drugog:" then one line per file
+  ("trial-01-hook-take-2.mp4: počinje tvojim drugim snimkom prve rečenice"). "Objavi ih kao trial reels i zadrži
+  onaj koji prođe najbolje. Hoćeš da ih ja objavim umesto tebe?"
 
-The styles for her (Soft Hours, Glam Cam, Color Block, Camera Shy) work faceless or on camera. Say it that way.
+The styles for her (Soft Hours, Glam Cam, Color Block, Camera Shy) work faceless or on camera. Say it that way:
+"rade i bez lica i kad si u kadru".
+
+Need help beyond this skill (something broke and you cannot fix it, a refund, a license question): point the buyer
+to Reel Lab support: "Piši nam na podrska@vladsdigital.com, napiši šta si radio ili radila i šta se desilo. Snimak
+ekrana mnogo pomaže."
+<!-- TODO(Vladimir): podrska@vladsdigital.com is a placeholder, replace with the real support address. -->

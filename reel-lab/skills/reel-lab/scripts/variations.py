@@ -66,7 +66,9 @@ sys.dont_write_bytecode = True
 HERE = os.path.dirname(os.path.abspath(__file__))
 SK = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
+sys.path.insert(1, os.path.join(SK, 'engine'))
 import skillenv  # noqa: E402
+import lang  # noqa: E402
 
 FPS = 30
 KINDS = ('hook', 'captions', 'effects', 'style')
@@ -80,8 +82,16 @@ CAPTION_NAMES = {'arcade': 'Arcade', 'low-key': 'Low Key', 'field-notes': 'Field
                  'cool-girl': 'Cool Girl', 'cool-dude': 'Cool Dude', 'karaoke': 'Karaoke', 'signature': 'Signature',
                  'keyword': 'Keyword', 'weight-shift': 'Weight Shift', 'terminal': 'Terminal', 'outline': 'Outline',
                  'viral-guy': 'Viral Guy'}
-FILLERS = {'so', 'now', 'okay', 'ok', 'um', 'uh', 'alright', 'well', 'and', 'but', 'look', 'hey', 'yeah', 'like',
-           'right', 'listen', 'basically', 'actually', 'honestly'}
+# spoken fillers a take may open on, in the reel's language (engine/lang.py): "so", "okay" / "znači", "evo", "u stvari"
+FILLERS = lang.lang_data()['fillers']
+
+
+def opening_filler(words):
+    """how many words at the start of the take are a filler (0, 1, or 2 for "u stvari" / "e pa")"""
+    if len(words) >= 5 and lang.norm(words[0]['text']) + ' ' + lang.norm(words[1]['text']) in FILLERS \
+            and words[0]['text'][-1:] not in '.?!':
+        return 2
+    return 1 if len(words) >= 4 and lang.norm(words[0]['text']) in FILLERS else 0
 # what a working copy never gets: renders, checks, the trials themselves, and the effects' own working folders
 SKIP_TOP = {'renders', 'snapshots', 'work', 'trial-reels', 'fx', '.transcode-cache', 'node_modules', 'index.html',
             'variations.json'}
@@ -292,12 +302,14 @@ def pools(proj, kinds):
             new[0].update({'clip': clip, 'in': a, 'out': b})
             out['hook'].append({'id': f'hook-take-{n}', 'change': 'hook',
                                 'what': 'Opens on your other take of the first line', 'edl': new})
-        if len(words) >= 4 and bare(words[0]['text']) in FILLERS:
-            t = round((words[1]['start'] - .06) * FPS) / FPS
+        nf = opening_filler(words)
+        if nf:
+            t = round((words[nf]['start'] - .06) * FPS) / FPS
             if 0 < t < float(first['out']) - float(first['in']) - .5:
-                out['hook'].append({'id': f'hook-skip-{bare(words[0]["text"])}', 'change': 'hook',
-                                    'what': f'Starts straight on "{words[1]["text"].strip(",.?!")}" instead of '
-                                            f'"{words[0]["text"].strip(",.?!")}"', 'trim': round(t, 3)})
+                said = ' '.join(w['text'].strip(',.?!') for w in words[:nf])
+                out['hook'].append({'id': f'hook-skip-{bare(said) or "filler"}', 'change': 'hook',
+                                    'what': f'Starts straight on "{words[nf]["text"].strip(",.?!")}" instead of '
+                                            f'"{said}"', 'trim': round(t, 3)})
         out['hook'].append({'id': 'hook-punch-in', 'change': 'hook', 'what': 'Opens punched in close on your face',
                             'punch': 1.2})
         # one more animation in the first seconds: an effect the buyer picked that may play in the opening and is not

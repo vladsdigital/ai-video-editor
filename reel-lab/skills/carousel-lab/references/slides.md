@@ -13,16 +13,24 @@ part takes no room.
  "footer": "Claude · 16 installs",     a small footer line (looks that show one)
  "caption": "...",                     the post caption, shown under the preview (optional)
  "css": "",                            extra CSS for this carousel only
+ "language": "sr",                     optional: sr | hr | bs | en (default: the Studio's config.json, else sr)
+ "script": "latin",                    optional: latin | cyrillic (Cyrillic for sr and bs only)
  "slides": [ { ... }, ... ]
 }
 ```
+
+`language` and `script` set the words the engine adds by itself (the defaults below: comment line, follow line,
+swipe cue, payload label) and the slide's `<html lang>`. The copy you write is used as written: write it in the
+buyer's language and script yourself. The defaults by language: sr "Komentariši reč", "Zaprati @handle za još",
+"Prevuci" / "Kraj", "Kopiraj ovo"; hr "Komentiraj riječ", "Povuci"; bs "Komentariši riječ"; en the English ones
+("Comment the word", "Follow @handle for more", "Swipe" / "End", "Copy this"); sr and bs in Cyrillic too.
 
 ## A slide
 
 | Field | What it is |
 |---|---|
 | `layout` | `hook`, `content` (default for the middle), `statement` (one big line, centred), `cta`, `custom`. Left out: the first slide is `hook`, the last `cta`, the rest `content`. |
-| `label` | small label: `Tip 01`, `Step 2`, `The math`. Looks show it as a pill, an eyebrow or in the top bar. |
+| `label` | small label: `Savet 01`, `Korak 2`, `Računica`. Looks show it as a pill, an eyebrow or in the top bar. |
 | `kicker` | a big name over the headline (a website, a price): `motionsites.ai`, `$999` |
 | `headline` | the loud part. One line per line (`\n`). A line that is all `[[...]]` is an accent line, all `((...))` a quiet line. |
 | `sub` | one or two sentences under the headline |
@@ -32,12 +40,12 @@ part takes no room.
 | `image` | `"assets/frame-12.30s.jpg"` or `{"src": ..., "fit": "frame", "place": "middle", "label": "...", "caption": "...", "height": 520, "dim": 0.5}` |
 | `photos` | several photos as one block (a collage), see "photos" below |
 | `stickers` | phone-screen, paper and hand-drawn pieces placed anywhere on the slide: `references/stickers.md` |
-| `payload` | the thing to keep: `{"label": "Paste this", "text": "..."}` |
+| `payload` | the thing to keep: `{"label": "Nalepi ovo", "text": "..."}` (default label "Kopiraj ovo") |
 | `callout` | one punchline at the bottom |
-| `keyword` | the comment word (CTA). With `keywordPre` (default "Comment the word"), `keywordPost` ("and I'll send you the full guide.") and `follow` (default "Follow @handle for more", `""` for none) |
-| `note` | small print at the bottom: "Swipe for 8 copy-paste fixes" |
+| `keyword` | the comment word (CTA), exactly as said in the reel. With `keywordPre` (default "Komentariši reč"), `keywordPost` ("i poslaću ti ceo vodič.") and `follow` (default "Zaprati @handle za još", `""` for none) |
+| `note` | small print at the bottom: "Prevuci za 8 rešenja" |
 | `ghost` | a huge faint number behind the slide ("01"), in looks that use one |
-| `swipe` | the swipe cue text for this slide (default "Swipe", "End" on the last) |
+| `swipe` | the swipe cue text for this slide (default "Prevuci", "Kraj" on the last) |
 | `wrap` | `true`: let headline lines wrap instead of one line each |
 | `rule` | `false`: no divider under the headline in looks that draw one |
 | `html` | raw HTML placed in the middle (anything the fields cannot say: a mock window, a chart) |

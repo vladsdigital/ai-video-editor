@@ -34,8 +34,8 @@ PY "SK/scripts/study.py" "<the file it printed>"                            once
 `ST/examples/downloads/` with a `STATUS example READY <file>` line. The first link installs the downloader into the
 Studio's own Python (about 3 MB), once.
 - `STATUS example FAILED LOGIN`: the post only shows to a logged-in visitor (Instagram does this sometimes). Ask
-  the buyer, in these words or close: "Instagram wants a login for that one. Can I use your browser's login to fetch
-  it? Nothing is saved." Only on a yes: run it again with `--browser chrome` (or safari, firefox, edge: the browser
+  the buyer, in these words or close: "Za ovaj post Instagram traži prijavu. Mogu li da ga skinem preko prijave
+  iz tvog pregledača? Ništa se ne čuva." Only on a yes: run it again with `--browser chrome` (or safari, firefox, edge: the browser
   they are logged in with). On a no: they download the video themselves and drop the file in.
 - Any other `FAILED`: ask for another link or the file. With an Apify tool connected you may also get the video's
   direct address with it and run `get_example.py --direct "<address>"` right away (those addresses expire in minutes).
@@ -55,8 +55,8 @@ jumps are your ears, so check each jump against the frame at that time (a pop on
 
 Buyers often like the captions of one reel, the motion of another and the overlays of a third. Study each one.
 Then ask ONE message of questions, only what decides the look:
-"I studied all three. Here is what stands out in each: (one line per example). What do you want from each one?
-For example: captions from the first, the way things pop in from the second, the grade from the third."
+"Pogledao sam sva tri. Evo šta se ističe u svakom: (one line per example). Šta želiš da uzmemo iz kog? Na
+primer: titlove iz prvog, način na koji stvari iskaču iz drugog, boje iz trećeg."
 Write the answer into `style.md` "Made from" and `style.json` "sources" (`references/my-styles.md`), then rebuild:
 each area from its example. When two areas fight (a busy caption style and busy overlays), say so in one line and
 pick the calmer one unless they asked for both.
@@ -177,8 +177,8 @@ Example frames on top, the buyer's reel below, in `work/compare/`. Pick pairs th
 (a caption line, a marked word, a title, a graphic). Look at it and fix what is off: size against the frame,
 colour, position, weight. One polish pass.
 
-Then tell the buyer, in plain words: "I studied your example. Here is what I matched: ... And the two things I
-could not: ..." One line each. Send the sheet with the reel.
+Then tell the buyer, in plain words: "Proučio sam tvoj primer. Evo šta se poklapa: ... A ove dve stvari nisu
+mogle: ..." One line each. Send the sheet with the reel.
 
 ## 5. It becomes theirs, under a name
 
@@ -186,8 +186,8 @@ could not: ..." One line each. Send the sheet with the reel.
   "<project>"` (add `--with-picks` when the style uses the Studio's effects or a built-in caption style).
 - `style.md`: the notes from step 2, where each part came from, the face that stands in for theirs, what could
   not be matched, their standing notes ("always", "never").
-- Tell them: "Saved as <name>. Next time, drop your clips in and say: edit them in <name>." The first style they
-  save becomes the default, so plain "edit it" uses it too. They can make as many styles as they like, change the
+- Tell them: "Sačuvano kao <name>. Sledeći put ubaci klipove i reci: montiraj u <name>." The first style they
+  save becomes the default, so plain "montiraj ovo" ("edit it") uses it too. They can make as many styles as they like, change the
   default (`my_styles.py default`), rename, copy or retire them (`references/my-styles.md`).
 - An effect added to a reel in their style is restyled to it (`effects/INDEX.md`, "Restyling an effect's own words").
 - "Go back to the Picker picks": `build_reel.py --no-my-style` for one reel, or `my_styles.py default none`.

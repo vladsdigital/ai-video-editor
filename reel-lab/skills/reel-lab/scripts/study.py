@@ -244,11 +244,13 @@ def main():
     words = []
     if '--no-words' not in sys.argv and db:
         try:
-            from faster_whisper import WhisperModel
+            sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+            import speech
             wav = os.path.join(out, 'audio.wav')
             subprocess.run(quiet + ['-i', src, '-vn', '-ac', '1', '-ar', '16000', wav])
-            segs, _ = WhisperModel('small.en', device='cpu', compute_type='int8').transcribe(wav, word_timestamps=True, vad_filter=True)
-            words = [{'text': x.word.strip(), 'start': round(x.start, 2), 'end': round(x.end, 2)} for s in segs for x in (s.words or [])]
+            # an example can be in any language (often English): detect it; only pace and pauses are used here
+            segs, _ = speech.transcribe(wav, tier='fast', language='auto', vad=True, quiet=True)
+            words = [{'text': x['text'], 'start': round(x['start'], 2), 'end': round(x['end'], 2)} for x in speech.flat(segs)]
         except Exception as e:      # no speech model yet, no speech, or music only: the study still stands
             print(f'note: no transcript ({type(e).__name__}). Run again after the first edit, or pass --no-words.')
     spoken = sum(x['end'] - x['start'] for x in words)

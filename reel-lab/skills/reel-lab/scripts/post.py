@@ -87,16 +87,16 @@ VIDEO_EXT = ('.mp4', '.mov', '.m4v', '.webm')
 IMAGE_EXT = ('.jpg', '.jpeg', '.png', '.webp')
 WRITE_ME = 'WRITE ME'
 FIX = {   # Zernio's errorCategory -> what to do, in plain words
-    'auth_expired': 'the connection to this account expired: reconnect it (post.py connect <platform>), then retry',
-    'user_content': 'the platform refused the video or text as it is (format, length, size): fix it, then retry',
-    'user_abuse': 'the platform says too many posts too fast: wait a few hours, then retry',
-    'platform_rate_limit': 'the platform is busy: Zernio retries this by itself',
-    'quota_exhausted': 'the platform\'s daily posting limit is used up: it goes out after the limit resets',
-    'account_issue': 'the account is not set up for this (for Instagram: it must be a Professional account, '
-                     'Creator or Business): change it in the app, reconnect, then retry',
-    'platform_rejected': 'the platform rejected it under its rules: change the video or caption',
-    'platform_error': 'the platform had a problem on its side: retry in a little while',
-    'system_error': 'Zernio had a problem: retry in a little while',
+    'auth_expired': 'veza sa ovim nalogom je istekla: poveži ga ponovo (post.py connect <platform>), pa probaj opet',
+    'user_content': 'mreža nije prihvatila video ili tekst ovakav kakav je (format, dužina, veličina): ispravi, pa probaj opet',
+    'user_abuse': 'mreža kaže da je previše objava za kratko vreme: sačekaj par sati, pa probaj opet',
+    'platform_rate_limit': 'mreža je trenutno zauzeta: Zernio sam pokušava ponovo',
+    'quota_exhausted': 'dnevni limit objava na mreži je potrošen: objava ide čim se limit resetuje',
+    'account_issue': 'nalog nije podešen za ovo (za Instagram mora da bude profesionalni nalog, '
+                     'Creator ili Business): promeni to u aplikaciji, poveži nalog ponovo, pa probaj opet',
+    'platform_rejected': 'mreža je ovo odbila po svojim pravilima: promeni video ili opis',
+    'platform_error': 'mreža je imala problem na svojoj strani: probaj opet malo kasnije',
+    'system_error': 'Zernio je imao problem: probaj opet malo kasnije',
 }
 
 
@@ -204,8 +204,8 @@ def http(method, url, headers=None, data=None, timeout=120):
     except (urllib.error.URLError, TimeoutError, OSError) as e:
         reason = getattr(e, 'reason', e)
         if 'timed out' in str(reason).lower() or isinstance(e, TimeoutError):
-            raise Fail('transient', 'Zernio took too long to answer')
-        raise Fail('transient', f'could not reach Zernio ({scrub(reason)}). Is the internet on?')
+            raise Fail('transient', 'Zernio predugo ne odgovara')
+        raise Fail('transient', f'ne mogu da dođem do Zernia ({scrub(reason)}). Da li je internet uključen?')
 
 
 class Zernio:
@@ -227,16 +227,16 @@ class Zernio:
                 if attempt < 3:
                     time.sleep(min(60, 5 * 2 ** attempt))
                     continue
-                raise Fail('transient', f'Zernio is busy or down right now (HTTP {status}). Try again in a few minutes')
+                raise Fail('transient', f'Zernio je trenutno zauzet ili ne radi (HTTP {status}). Probaj ponovo za par minuta')
             if status == 401:
-                raise Fail('auth', 'Zernio does not accept this key (it was deleted or mistyped). '
-                                   'Make a new one at zernio.com/dashboard/api-keys and save it again')
+                raise Fail('auth', 'Zernio ne prihvata ovaj ključ (obrisan je ili pogrešno prepisan). '
+                                   'Napravi novi na zernio.com/dashboard/api-keys i sačuvaj ga ponovo')
             if status == 402:
-                raise Fail('billing', 'Zernio wants a payment method for this: the first 2 connected accounts are '
-                                      'free, every one after that is a few dollars a month. Add a card at '
-                                      'zernio.com/dashboard/billing, then try again. ' + self.why(out))
+                raise Fail('billing', 'Zernio za ovo traži način plaćanja: prva 2 povezana naloga su '
+                                      'besplatna, svaki sledeći košta par dolara mesečno. Dodaj karticu na '
+                                      'zernio.com/dashboard/billing, pa probaj ponovo. ' + self.why(out))
             return status, out
-        raise Fail('transient', 'Zernio did not answer')
+        raise Fail('transient', 'Zernio nije odgovorio')
 
     def why(self, out):
         if not isinstance(out, dict):
@@ -254,7 +254,7 @@ def zernio_or_exit():
 def accounts(z):
     st, out = z.call('GET', '/accounts')
     if st != 200:
-        raise Fail('other', f'could not list the connected accounts (HTTP {st}). {z.why(out)}')
+        raise Fail('other', f'ne mogu da izlistam povezane naloge (HTTP {st}). {z.why(out)}')
     return [a for a in out.get('accounts', []) if a.get('enabled', True)]
 
 
@@ -272,7 +272,7 @@ def default_profile(z):
     if not profs:
         st, out = z.call('POST', '/profiles', {'name': 'My accounts', 'description': f'Posting from {BRAND}'})
         if st not in (200, 201):
-            raise Fail('other', f'could not make a Zernio profile (HTTP {st}). {z.why(out)}')
+            raise Fail('other', f'ne mogu da napravim Zernio profil (HTTP {st}). {z.why(out)}')
         return out['profile']['_id']
     return next((p for p in profs if p.get('isDefault')), profs[0])['_id']
 
@@ -291,7 +291,7 @@ def pick_account(accs, platform, wanted=None):
     """-> account dict. wanted: '@handle' or an id. Several and nothing chosen: Fail listing them."""
     mine = [a for a in accs if a.get('platform') == platform]
     if not mine:
-        raise Fail('other', f'no {NAMES.get(platform, platform)} account is connected to Zernio yet '
+        raise Fail('other', f'nijedan {NAMES.get(platform, platform)} nalog još nije povezan sa Zerniom '
                             f'(post.py connect {platform})')
     wanted = wanted or (read_json(settings_file(), {}) or {}).get('accounts', {}).get(platform)
     if wanted:
@@ -299,10 +299,10 @@ def pick_account(accs, platform, wanted=None):
         hit = [a for a in mine if w in (a.get('_id', '').lower(), (a.get('username') or '').lower())]
         if hit:
             return hit[0]
-        raise Fail('other', f'{wanted} is not a connected {NAMES.get(platform, platform)} account. Connected: '
+        raise Fail('other', f'{wanted} nije povezan {NAMES.get(platform, platform)} nalog. Povezani su: '
                             + ', '.join(handle(a) for a in mine))
     if len(mine) > 1:
-        raise Fail('other', f'{len(mine)} {NAMES.get(platform, platform)} accounts are connected: '
+        raise Fail('other', f'povezano je više {NAMES.get(platform, platform)} naloga ({len(mine)}): '
                             + ', '.join(handle(a) for a in mine) + f'. Ask which one, then post.py use {platform} @handle')
     return mine[0]
 
@@ -431,7 +431,7 @@ def parse_when(text, prev, now):
     try:
         when = dt.datetime.fromisoformat(str(text).strip().replace('Z', '+00:00').replace(' ', 'T', 1))
     except ValueError:
-        raise Fail('other', f'"{text}" is not a time I can read: now, +5m, +2h, +1d or "2026-10-21 18:00"')
+        raise Fail('other', f'"{text}" nije vreme koje razumem: now, +5m, +2h, +1d ili "2026-10-21 18:00"')
     return (when.astimezone() if when.tzinfo is None else when), 'at'
 
 
@@ -787,7 +787,7 @@ def upload(z, path, cache):
     name = re.sub(r'[^A-Za-z0-9._-]', '-', os.path.basename(path))
     st, out = z.call('POST', '/media/presign', {'filename': name, 'contentType': content_type(path), 'size': st_.st_size})
     if st != 200 or not out.get('uploadUrl'):
-        raise Fail('other', f'Zernio would not take the upload of {os.path.basename(path)} (HTTP {st}). {z.why(out)}')
+        raise Fail('other', f'Zernio nije prihvatio fajl {os.path.basename(path)} (HTTP {st}). {z.why(out)}')
     for attempt in range(3):
         with open(path, 'rb') as fh:
             try:
@@ -799,7 +799,7 @@ def upload(z, path, cache):
             cache[sig] = {'url': out['publicUrl'], 'at': time.time()}
             return out['publicUrl']
         time.sleep(5 * (attempt + 1))
-    raise Fail('transient', f'the upload of {os.path.basename(path)} did not go through (HTTP {code}). Try again')
+    raise Fail('transient', f'slanje fajla {os.path.basename(path)} nije prošlo (HTTP {code}). Probaj ponovo')
 
 
 def summarize(post):
