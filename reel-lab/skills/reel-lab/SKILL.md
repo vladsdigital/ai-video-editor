@@ -447,4 +447,3 @@ The styles for her (Soft Hours, Glam Cam, Color Block, Camera Shy) work faceless
 Need help beyond this skill (something broke and you cannot fix it, a refund, a license question): point the buyer
 to Reel Lab support: "Piši nam na podrska@vladsdigital.com, napiši šta si radio ili radila i šta se desilo. Snimak
 ekrana mnogo pomaže."
-<!-- TODO(Vladimir): podrska@vladsdigital.com is a placeholder, replace with the real support address. -->

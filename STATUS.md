@@ -19,7 +19,6 @@ Faza: razvoj
 ## Šta fali od Vladimira
 - Snimci i materijal (spisak u poslednjoj poruci u chatu).
 - Da li repo sme da bude javan.
-- Pravi email podrške (sada placeholder podrska@vladsdigital.com).
 - Pismena dozvola autora.
 
 ## Otvorena pitanja / rizici

@@ -107,7 +107,6 @@ Posle ažuriranja otvori novi čet, da Claude učita novu verziju.
 
 ## Pomoć
 
-<!-- TODO(Vladimir): podrska@vladsdigital.com je privremena adresa, zameni je pravom. -->
 Piši na podrska@vladsdigital.com. Napiši šta si radio ili radila i šta se desilo. Snimak ekrana mnogo pomaže.
 
 ---
