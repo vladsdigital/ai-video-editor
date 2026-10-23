@@ -170,12 +170,52 @@ def font_faces(css_path=None):
     return out
 
 
-def cyrillic_fallback_css():
+def unicode_range(chars):
+    """'čćđ' -> 'U+010D, U+0107, U+0111'"""
+    return ', '.join(f'U+{ord(c):04X}' for c in dict.fromkeys(chars) if not c.isspace())
+
+
+def latin_standin_css(faces=None, standins_path=None):
+    """Decorative faces that lack a few Serbian letters upstream (and may not be modified under their reserved name):
+    fonts/standins.json names a look-alike face for exactly those letters. Written for Latin AND Cyrillic reels."""
+    try:
+        with open(standins_path or os.path.join(HERE, 'fonts', 'standins.json'), encoding='utf-8') as fh:
+            table = json.load(fh)
+    except (OSError, ValueError):
+        return ''
+    rules = []
+    for fam, weight, style, _, stretch in (faces if faces is not None else font_faces()):
+        ent = table.get(fam)
+        if not isinstance(ent, dict) or not ent.get('files') or not ent.get('chars'):
+            continue
+        if ent.get('folder', 'reel-lab/engine/fonts') != 'reel-lab/engine/fonts':
+            continue                      # a carousel-only stand-in: its file is not in the reel's assets/fonts
+        files = ent['files']
+        def score(k):
+            w, _, s = k.partition('-')
+            return (s != style, abs(int(w) - weight) if w.isdigit() else 999)
+        key = f'{weight}-{style}'
+        pick = files.get(key) or files[min(files, key=score)]
+        chars = (ent.get('chars_by_weight') or {}).get(key) or ent['chars']
+        sx = f'font-stretch:{stretch};' if stretch else ''
+        rules.append(f"@font-face{{font-family:'{fam}';font-weight:{weight};font-style:{style};{sx}font-display:block;"
+                     f"src:url('assets/fonts/{pick}') format('woff2');unicode-range:{unicode_range(chars)}}}")
+    return '\n'.join(rules) + ('\n' if rules else '')
+
+
+def fallback_css():
+    """Every per-letter stand-in the reel's page needs: missing Serbian Latin letters always, Cyrillic when the reel
+    is in Cyrillic."""
+    faces = font_faces()
+    return latin_standin_css(faces) + cyrillic_fallback_css(faces)
+
+
+def cyrillic_fallback_css(faces=None):
     """Cyrillic captions: give every Latin-only face a stand-in for its Cyrillic letters (nearest weight, same style
     when the stand-in has it). Empty in Latin."""
     if SCRIPT != 'cyrillic':
         return ''
-    faces = font_faces()
+    faces = faces if faces is not None else font_faces()
     rules = []
     for fam, weight, style, _, stretch in faces:
         sub = CYR_STANDIN.get(fam)
@@ -1640,7 +1680,7 @@ def document(b, footage, safe=False, audio_track=9):
 <meta name="viewport" content="width=1080, height=1920" />
 <link rel="stylesheet" href="assets/fonts/fonts.css" />
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-<style>{cyrillic_fallback_css()}{BASE_CSS}{''.join(b.css)}
+<style>{fallback_css()}{BASE_CSS}{''.join(b.css)}
 </style>
 </head>
 <body>

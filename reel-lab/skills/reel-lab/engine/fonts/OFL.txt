@@ -1,6 +1,6 @@
 The font files in this folder come from the Google Fonts repository (https://github.com/google/fonts). All of them
 except Permanent Marker are licensed under the SIL Open Font License, Version 1.1, reproduced in full below:
-Amatic SC, Archivo, Archivo Black, Arimo, Bad Script, Barlow Condensed, Bebas Neue, Caveat, Cormorant Garamond,
+Amatic SC, Archivo, Archivo Black, Arimo, Bad Script, Barlow Condensed, Bebas Neue, Berkshire Swash, Caveat, Cormorant Garamond,
 Covered By Your Grace, Dela Gothic One, DM Serif Display, Elsie Swash Caps, Figtree, Fira Sans Extra Condensed,
 Instrument Serif, Inter, Inter Tight, JetBrains Mono, Lobster, Lora, Manrope, Marck Script, Montserrat, Newsreader,
 Nunito, Onest, Oswald, Pacifico, Pangolin, Pixelify Sans, Playfair Display, Poppins, Roboto Condensed, Rubik,
@@ -10,11 +10,17 @@ https://fonts.google.com and in its folder at https://github.com/google/fonts/tr
 
 Most files are Modified Versions of the upstream fonts: cut down to the Latin, Latin Extended and Cyrillic
 characters and, for some, fixed to one weight or width. The families whose copyright notice names a Reserved Font
-Name (Elsie Swash Caps, Lobster, Lora, Marck Script, Playfair Display, Russo One) are the unmodified upstream fonts,
-only packed as WOFF2.
+Name (Berkshire Swash, Elsie Swash Caps, Lobster, Lora, Marck Script, Playfair Display, Russo One) are the
+unmodified upstream fonts, only packed as WOFF2.
+
+Covered By Your Grace (CoveredByYourGrace-400-normal.woff2) is a Modified Version: Đ đ (U+0110, U+0111) were added
+for Serbian, Croatian and Bosnian, built as composites of the font's own Eth, d and hyphen glyphs.
 
 Permanent Marker is NOT under the Open Font License. It is licensed under the Apache License, Version 2.0
 (https://www.apache.org/licenses/LICENSE-2.0). Copyright (c) 2010 by Font Diner, Inc. All rights reserved.
+Modification notice (Apache 2.0, section 4b): PermanentMarker-400-normal.woff2 is a modified file. Č č Ć ć Đ đ
+(U+010C, U+010D, U+0106, U+0107, U+0110, U+0111) were added as composites of the font's own C, c, caron, acute, Eth,
+d and hyphen glyphs, kerning of C, c, Eth and d copied to them, and the font was cut down to Latin characters.
 
 Example of a notice, as it stands in the Inter Tight project:
 

@@ -192,7 +192,33 @@ def font_faces(look):
         if f.get('stretch'):
             bits.append(f"font-stretch:{f['stretch']}")
         out.append('@font-face{' + ';'.join(bits) + ';font-display:block}')
+        # a decorative face that lacks a few Serbian letters upstream: the Studio's standins.json names a look-alike
+        # for exactly those letters (same family, unicode-range), so "Čačak" never falls back to a system font
+        ent = standins().get(f['family'])
+        if isinstance(ent, dict) and ent.get('files') and ent.get('chars'):
+            want = f"{f.get('weight', '400')}-{f.get('style', 'normal')}"
+            sp = font_file(ent['files'].get(want) or next(iter(ent['files'].values())), f['_folder'])
+            if sp:
+                chars = (ent.get('chars_by_weight') or {}).get(want) or ent['chars']
+                rng = ', '.join(f'U+{ord(c):04X}' for c in dict.fromkeys(chars) if not c.isspace())
+                out.append('@font-face{' + ';'.join(bits[:1] + [f"src:url('{uri(sp)}') format('woff2')"] + bits[2:])
+                           + f';unicode-range:{rng};font-display:block}}')
     return '\n'.join(out), missing
+
+
+_STANDINS = None
+
+
+def standins():
+    """fonts/standins.json of the Studio's caption engine ({} when absent)"""
+    global _STANDINS
+    if _STANDINS is None:
+        try:
+            with open(os.path.join(skillenv.SKILL_DIR, 'engine', 'fonts', 'standins.json'), encoding='utf-8') as fh:
+                _STANDINS = json.load(fh)
+        except (OSError, ValueError):
+            _STANDINS = {}
+    return _STANDINS
 
 
 def rebase_urls(css, folder):

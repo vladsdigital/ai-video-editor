@@ -498,3 +498,10 @@
   font-display: block;
   src: url('AmaticSC-700-normal.woff2') format('woff2');
 }
+@font-face {
+  font-family: 'Berkshire Swash';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('BerkshireSwash-400-normal.woff2') format('woff2');
+}

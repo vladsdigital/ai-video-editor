@@ -153,7 +153,7 @@ a face without it falls back to a system font for those letters.
 | Serif | Playfair Display 500i 600i 700, Lora 500 500i, Cormorant Garamond 600 500i | yes |
 | Serif | Instrument Serif 400 400i, DM Serif Display 400 400i, Newsreader 400 500 500i 600i | no |
 | Script / hand | Caveat 600, Marck Script 400, Bad Script 400, Pacifico 400, Lobster 400, Pangolin 400 (marker), Amatic SC 700 | yes |
-| Script / hand | Covered By Your Grace 400 (no đ Đ), Elsie Swash Caps 400 900 (no č ć đ), Permanent Marker 400 (Latin only, no č ć đ; file `PermanentMarker-400-normal.woff2`, not in fonts.css) | no |
+| Script / hand | Covered By Your Grace 400, Berkshire Swash 400, Elsie Swash Caps 400 900 (its č ć đ come from Berkshire Swash, see `standins.json`), Permanent Marker 400 (file `PermanentMarker-400-normal.woff2`, not in fonts.css) | no |
 | Mono / pixel | JetBrains Mono 500 | yes |
 | Mono / pixel | Pixelify Sans 500 600 700 (basic Cyrillic, no ђ ћ љ њ џ) | partly |
 

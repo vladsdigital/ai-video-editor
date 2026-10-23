@@ -1,7 +1,9 @@
 The font files in this folder come from Google Fonts. All of them are licensed under the SIL Open Font License,
 Version 1.1, reproduced in full below: Archivo, Bricolage Grotesque, Caveat, Cormorant Garamond, Courier Prime,
-Fraunces, IBM Plex Mono, Instrument Serif, Inter, Inter Tight, JetBrains Mono, Kalam, Mrs Saint Delafield,
-Nanum Pen Script, Space Grotesk.
+Fraunces, Great Vibes, IBM Plex Mono, Instrument Serif, Inter, Inter Tight, JetBrains Mono, Kalam,
+Mrs Saint Delafield, Nanum Pen Script, Patrick Hand, Space Grotesk.
+Great Vibes and Patrick Hand stand in for the letters č ć š ž đ that Mrs Saint Delafield and Nanum Pen Script lack
+(see ../../reel-lab/engine/fonts/standins.json).
 Copyright belongs to each family's authors: the copyright notice of every family is on its page at
 https://fonts.google.com and in its folder at https://github.com/google/fonts/tree/main/ofl
 

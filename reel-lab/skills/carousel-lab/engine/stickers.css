@@ -6,6 +6,9 @@
 @font-face { font-family: 'Nanum Pen Script'; src: url('../fonts/NanumPenScript-regular.woff2') format('woff2'); font-weight: 400; font-display: block; }
 @font-face { font-family: 'Kalam'; src: url('../fonts/Kalam-700.woff2') format('woff2'); font-weight: 700; font-display: block; }
 @font-face { font-family: 'Mrs Saint Delafield'; src: url('../fonts/MrsSaintDelafield-regular.woff2') format('woff2'); font-weight: 400; font-display: block; }
+/* Serbian letters these two faces lack upstream come from look-alikes (reel-lab/engine/fonts/standins.json) */
+@font-face { font-family: 'Nanum Pen Script'; src: url('../fonts/PatrickHand-regular.woff2') format('woff2'); font-weight: 400; font-display: block; unicode-range: U+010C-010D, U+0106-0107, U+0160-0161, U+017D-017E, U+0110-0111; }
+@font-face { font-family: 'Mrs Saint Delafield'; src: url('../fonts/GreatVibes-regular.woff2') format('woff2'); font-weight: 400; font-display: block; unicode-range: U+010C-010D, U+0106-0107, U+0110-0111; }
 @font-face { font-family: 'Courier Prime'; src: url('../fonts/CourierPrime-400.woff2') format('woff2'); font-weight: 400; font-display: block; }
 @font-face { font-family: 'Courier Prime'; src: url('../fonts/CourierPrime-700.woff2') format('woff2'); font-weight: 700; font-display: block; }
 @font-face { font-family: 'Cormorant Garamond'; src: url('../fonts/CormorantGaramond-var.woff2') format('woff2'); font-weight: 300 700; font-display: block; }
