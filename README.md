@@ -1,8 +1,8 @@
-# Reel Lab
+# AI Video Editor
 
 Ti snimiš klipove. Claude montira rils.
 
-Reel Lab je dodatak (plugin) za Claude koji od sirovih klipova pravi gotov Instagram rils u tvom stilu montaže:
+AI Video Editor je dodatak (plugin) za Claude koji od sirovih klipova pravi gotov Instagram rils u tvom stilu montaže:
 bira najbolje snimke, izbacuje pauze, pravi titlove na srpskom, hrvatskom, bosanskom ili engleskom (latinicom ili
 ćirilicom), dodaje efekte, pravi varijacije za trial reels i može sam da objavi umesto tebe.
 
@@ -14,14 +14,14 @@ bira najbolje snimke, izbacuje pauze, pravi titlove na srpskom, hrvatskom, bosan
 4. Nalepi ovaj link i klikni **Sync**:
 
 ```
-https://github.com/vladsdigital/reel-lab
+https://github.com/vladsdigital/ai-video-editor
 ```
 
-5. Sa liste instaliraj **Reel Lab**.
+5. Sa liste instaliraj **AI Video Editor**.
 6. Otvori novi čet i ukucaj:
 
 ```
-/reel-lab setup
+/ai-video-editor setup
 ```
 
 Podešavanje te pita gde ti stižu klipovi, na kom jeziku pričaš i da li titlovi idu latinicom ili ćirilicom. Onda
@@ -35,20 +35,20 @@ Samo ako koristiš Claude Code u Terminalu (Mac) ili PowerShell-u (Windows). Ove
 Claude-a. Svaki red nalepi posebno.
 
 ```bash
-claude plugin marketplace add vladsdigital/reel-lab
+claude plugin marketplace add vladsdigital/ai-video-editor
 ```
 
 ```bash
-claude plugin install reel-lab@reel-lab
+claude plugin install ai-video-editor@ai-video-editor
 ```
 
 Na Windowsu za ovaj put prvo treba da instaliraš [Git for Windows](https://git-scm.com/downloads).
 
-Onda otvori Claude Code i ukucaj `/reel-lab setup`.
+Onda otvori Claude Code i ukucaj `/ai-video-editor setup`.
 
 ## Tačniji titlovi uz Soniox (opciono)
 
-Reel Lab pravi transkript besplatno, na tvom računaru, bez interneta. Ako hoćeš primetno tačnije titlove na našem
+AI Video Editor pravi transkript besplatno, na tvom računaru, bez interneta. Ako hoćeš primetno tačnije titlove na našem
 jeziku (imena, padeži, naši izrazi), možeš da povežeš Soniox. Plaća se po korišćenju, oko par centi po rilsu.
 
 1. Napravi nalog na [console.soniox.com](https://console.soniox.com).
@@ -59,7 +59,7 @@ Ključ ostaje samo na tvom računaru. Ako se predomisliš, reci: "vrati besplatn
 
 ## Karuseli
 
-Reel Lab pravi i karusele, u tvom izgledu. U bilo kom četu reci:
+AI Video Editor pravi i karusele, u tvom izgledu. U bilo kom četu reci:
 
 ```
 napravi karusel o [tvoja tema]
@@ -78,7 +78,7 @@ korisničkom folderu, spremni za objavu.
 
 ## Objavljivanje
 
-Kad je rils gotov, reci "objavi ovo" ili "objavi moje trial rilsove". Reel Lab objavljuje na Instagram (kao običan
+Kad je rils gotov, reci "objavi ovo" ili "objavi moje trial rilsove". AI Video Editor objavljuje na Instagram (kao običan
 rils ili trial reel), TikTok, YouTube Shorts i Facebook: odmah, u vreme koje izabereš, ili sa razmakom od par
 minuta. Ide preko servisa Zernio, besplatno za prva 2 povezana naloga. Ništa ne ide napolje dok ne kažeš "može".
 
@@ -90,17 +90,17 @@ Popravke i novi efekti stižu kao ažuriranja. Tvoji izbori i tvoji stilovi osta
 da kažeš bilo kad:
 
 ```
-ažuriraj Reel Lab
+ažuriraj AI Video Editor
 ```
 
 **Iz terminala:** svaki red nalepi posebno.
 
 ```bash
-claude plugin marketplace update reel-lab
+claude plugin marketplace update ai-video-editor
 ```
 
 ```bash
-claude plugin update reel-lab@reel-lab
+claude plugin update ai-video-editor@ai-video-editor
 ```
 
 Posle ažuriranja otvori novi čet, da Claude učita novu verziju.
