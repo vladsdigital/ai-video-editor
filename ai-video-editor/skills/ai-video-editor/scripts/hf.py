@@ -13,6 +13,8 @@ runs where the shell stands, as before.
 Runs `npx --yes hyperframes@0.8.34 <arguments>` (the pinned version) with the Node 22+ that setup.py found first
 on PATH, so there is no `nvm use`, and without a shell, so Windows' npx.cmd is not a problem. Standard library only.
 The very first run downloads HyperFrames itself (one time, it can take a minute or two): say so once.
+An MP4 render on a Mac encodes on the video chip (--gpu, about a third of the CPU work) and renders again on the
+processor by itself if that fails. `--no-gpu` keeps it on the processor.
 """
 import os
 import sys
