@@ -1,3 +1,4 @@
 {
+  "1.1.0": "Render troši oko tri puta manje procesora na Macu (koristi video čip), pa se računar manje greje i baterija duže traje. Novi primeri u pickeru.",
   "1.0.0": "AI Video Editor 1.0: titlovi na srpskom, hrvatskom i bosanskom, latinicom ili ćirilicom, Soniox za tačniji transkript i novi fontovi sa našim slovima."
 }

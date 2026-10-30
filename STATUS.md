@@ -1,8 +1,9 @@
 # Status: AI Video Editor
-Ažurirano: 29.10.2026.
+Ažurirano: 30.10.2026.
 Faza: razvoj
 
 ## Gde smo stali
+- 30.10: verzija 1.1.0 (whats-new.json), da kupci dobiju ponudu za ažuriranje.
 - 29.10: MP4 render na Macu sad ide na video čip (`--gpu`, u `skillenv.run_hyperframes`), sa automatskim povratkom na procesor ako ne uspe; `--no-gpu` ga isključuje. Mereno na rilsu od 30 s: procesor 136 → 43 jezgro-sekundi, 33 → 24 s, slika ista (SSIM 0,997), fajl veći (18 → ~50 MB). Manje Chrome radnika nije pomoglo. Cutout (RVM) nije meren, on verovatno najviše greje kod efekata.
 - 27.10: svi preview klipovi u Pickeru zamenjeni Vladimirovim snimcima iz studija (Movies/Ai profit lab reels): 20 titlova + 9 stilova (klip 15-23-59, projekat ~/reel-edits/primeri-studio), 46 efekata (8 klipova, ~/reel-edits/efekti-studio), sa posterima (oči otvorene). Spojeno u main i pushovano 28.10. Slabiji: inside-out (nema pravog b-rolla), clone, orbit, spatial-glass, vertigo.
 - AI Video Editor 1.0 radi od početka do kraja na Vladimirovom Macu: setup, preuzimanja, ingest, rez, transkript, glava u kadru, titlovi, render (14 s rils za 19 s), provere, telefonska kopija, glasnija kopija.

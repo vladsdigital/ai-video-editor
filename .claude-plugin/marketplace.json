@@ -10,7 +10,7 @@
       "name": "ai-video-editor",
       "source": "./ai-video-editor",
       "description": "Od sirovih 9:16 klipova pravi gotov Instagram rils u tvom stilu montaže, napravljenom po rilsovima koje voliš ili izabranom u Studio Pickeru: najbolji snimci, rezovi bez pauza, titlovi na srpskom, hrvatskom, bosanskom ili engleskom (latinica ili ćirilica), opciono tačniji transkript preko Sonioxa, animacije, 46 efekata i zvuk. Plus karuseli u tvom izgledu i objavljivanje na Instagram (i trial reels), TikTok i YouTube umesto tebe.",
-      "version": "1.0.0"
+      "version": "1.1.0"
     }
   ]
 }
