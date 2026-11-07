@@ -10,6 +10,8 @@ Run from the slot folder (effect.md has the full run order):
 import json
 import math
 import os
+import shutil
+import subprocess
 
 from PIL import ImageFont
 
@@ -77,9 +79,44 @@ def keys(sel, at, frames, extra=''):
     return f"tl.to('{sel}',{{keyframes:{json.dumps(kf)}{extra}}},{V.T(at):.3f});"
 
 
+def lowest_chin(s):
+    """The layout's head box can stop above the real chin, and a speaker leans. When the reel has a cutout, the lowest
+    neck over this slot's frames (the narrowest row under the head) moves s.chin down. No cutout: the layout stands."""
+    sub = os.path.join(s.clip.get('project') or '', 'assets', 'subject.webm')
+    if not os.path.isfile(sub):
+        return
+    try:
+        import numpy as np
+        w, h = 270, 480
+        raw = subprocess.run([shutil.which('ffmpeg') or 'ffmpeg', '-v', 'error', '-c:v', 'libvpx-vp9', '-ss', f'{s.t0:.3f}', '-t', f'{s.dur:.3f}', '-i', sub,
+                              '-vf', f"select='not(mod(n\\,{max(1, s.frames // 14)}))',alphaextract,scale={w}:{h}", '-fps_mode', 'passthrough',
+                              '-f', 'rawvideo', '-pix_fmt', 'gray', '-'], capture_output=True).stdout
+        a = np.frombuffer(raw, dtype=np.uint8)
+        n = len(a) // (w * h)
+        necks = []
+        for fr in a[:n * w * h].reshape(n, h, w):
+            rows = (fr > 128).sum(1)
+            lit = np.where(rows >= 6)[0]
+            if not len(lit):
+                continue
+            t = lit[0]
+            hw = rows[t:t + 45].max()                 # the head's width, from its top part
+            lo, hi = t + int(.5 * hw), min(h - 1, t + int(1.9 * hw))
+            below = np.where(rows[lo:hi] > 1.7 * hw)[0]   # stop where the shoulders start
+            hi = lo + below[0] if len(below) else hi
+            if hi > lo:
+                necks.append((lo + int(np.argmin(rows[lo:hi]))) * 4 + 40)      # 40 px: the jaw sits over the narrowest row
+        if necks and max(necks) > s.chin:
+            print(f'placement: chin moved from y {s.chin} to y {max(necks)} (the lowest neck in this slot, from the cutout)')
+            s.chin = max(necks)
+    except (OSError, ValueError, ImportError):
+        pass
+
+
 def main():
     s = V.Slot()
     s.dur = int(s.frames / V.FPS * 1000) / 1000      # rounded down: a duration rounded up renders one frame too many
+    lowest_chin(s)
     print('words: ' + s.word_list())
     print(s.where())
     if not SLAB.strip() or not PAYOFF.strip():
@@ -105,12 +142,19 @@ def main():
     fserif = font(S['serif_font'], S['serif_weight'], S['serif_italic'])
     top = V.SAFE_TOP + 8
     room = s.head_top - 18 - top
+    # no room above the head: the whole stack moves to the chest, under the chin
+    chest_top = s.chin + 24
+    on_chest = room < 110
+    if on_chest:
+        top = chest_top
+        room = V.SAFE_BOTTOM - chest_top - 96 - 190     # the tags and a small payoff still fit under it
+        print(f'placement: no room above the head (top at y {s.head_top}), so the slab sits on the chest from y {top:.0f}')
     full = 408                                        # the stack's full height: slab 204 and second box 210, 6 px shared
     if not SECOND.strip():
         full = 204
     k = min(1.0, room / full)
     if room < 110:
-        V.die(f'no room above the head for the slab: the head top is at y {s.head_top} and the safe zone starts at {V.SAFE_TOP}')
+        V.die(f'no room for the slab above the head (top at y {s.head_top}) or on the chest (chin at y {s.chin})')
     word = V.cased(V.bare(SLAB.strip()), S['case'])
     fs = 187 * k
     wide = lambda f, t, z, tr=0: f.getlength(t) * z / 1000 + tr * z * (len(t) - 1)
@@ -140,7 +184,7 @@ def main():
 
     tags = [V.cased(V.bare(w), S['case']) for w in TAGS]
     bottom = V.SAFE_BOTTOM - 6
-    tag_top = s.chin + 16
+    tag_top = (y2 + h2 if sec else y1 + h1) + 12 if on_chest else s.chin + 16
     right = 1080 - V.SAFE_RIGHT - 6
     left = V.SAFE_SIDE + 10
     tfs, row_h, tag_w = 62.0, 0, []
@@ -150,7 +194,7 @@ def main():
         tfs = min(62.0, (right - left - gap * (len(tags) - 1)) / (sum(base) + .44 * len(tags)))
         tag_w = [b * tfs + .44 * tfs for b in base]
         row_h = tfs * 1.42
-    pay_top = tag_top + row_h - 4 if tags else s.chin + 30
+    pay_top = tag_top + row_h - 4 if tags else (tag_top if on_chest else s.chin + 30)
     pay = V.cased(PAYOFF.strip(), S['serif_case'])
     pfs = 190.0
     pw = wide(fserif, pay, pfs) + 72
@@ -190,7 +234,8 @@ def main():
 
     # ---- motion, frame by frame
     p.hidden.append('#sl')
-    d0 = min(480 * k, s.head_top + 150 - y1 - h1)     # the slab starts this far below its place, at most in the hair
+    # the slab starts this far below its place, at most in the hair
+    d0 = 480 * k if on_chest else min(480 * k, s.head_top + 150 - y1 - h1)
     p.js.append(f"gsap.set('#sl',{{y:{d0:.0f},scale:.72,rotation:2.4}});")
     p.js.append(f"tl.set('#sl',{{autoAlpha:1}},{V.T(t_slab):.3f});")
     p.js.append(keys('#sl', t_slab, [dict(y=d0 * .38, scale=.86, rotation=2.6), dict(y=d0 * .13, scale=.96, rotation=-1.4),

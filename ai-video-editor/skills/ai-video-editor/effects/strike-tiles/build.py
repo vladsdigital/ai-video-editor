@@ -39,7 +39,7 @@ WORD = ''           # the italic word that rises in their place. Required
 T_WORD = None       # when it lands (a word, seconds). None = when WORD is said
 T_OUT = None        # when the word starts to fade. None = 0.55 s after it lands
 STRIKE_AFTER = .24  # seconds from a tile popping up to its strike starting
-Y = None            # y of the top of the tiles, px. None = as close to the top of the safe zone as the room allows
+Y = None            # y of the top of the tiles, px. None = above the head as the room allows, or on the chest with no room there
 SCALE = None        # size against full size (tiles 225 px). None = as large as the room above the head allows
 SOUND = .3          # volume of the pops, the pen and the fall. 0 = silent
 # ==== END CLIP ====
@@ -90,13 +90,18 @@ def main():
     bottom_max = s.head_top - 12
     room = bottom_max - V.SAFE_TOP - 16
     k = SCALE if SCALE else min(1.0, room / stack, (1080 - 2 * V.SAFE_SIDE - 20) / (TILE + (n - 1) * PITCH))
+    # no room above the head: the row sits on the chest, under the chin
+    below = (Y > s.chin) if Y is not None else k < .55
+    if below:
+        k = SCALE if SCALE else min(1.0, (V.SAFE_BOTTOM - 6 - s.chin - 24) / stack, (1080 - 2 * V.SAFE_SIDE - 20) / (TILE + (n - 1) * PITCH))
+        print('placement: no room above the head, so the tiles sit on the chest')
     if k < .55:
         V.die(f'the tiles need more room above the head than this clip has ({room} px between the safe zone and the head)')
     px = lambda v: round(v * k, 1)
     tw, pitch = px(TILE), px(PITCH)
     row_w = tw + (n - 1) * pitch
     left = min(max(V.SAFE_SIDE + 10, s.cx - row_w / 2), 1080 - V.SAFE_SIDE - 10 - row_w)
-    top = int(Y) if Y is not None else max(V.SAFE_TOP + 16, bottom_max - px(stack))
+    top = int(Y) if Y is not None else int(s.chin + 24) if below else max(V.SAFE_TOP + 16, bottom_max - px(stack))
     print(f'  tiles: scale {k:.2f} ({tw:.0f} px), row from x {left:.0f}, top y {top}, room {room} px')
 
     # where they fall: the side of the head with room, so nothing crosses the face
@@ -166,7 +171,8 @@ def main():
             else:
                 span = 1080 - V.SAFE_SIDE - 22 - tw - side_r
                 dest = side_r + 16 + (span * i / (n - 1) if n > 1 else span / 2)
-            p.js.append(f"tl.to('#st{i}',{{x:{dest - here:.1f},duration:.13,ease:'power2.out'}},{V.T(t_word + lag):.3f});")
+            if not below:      # on the chest they just drop
+                p.js.append(f"tl.to('#st{i}',{{x:{dest - here:.1f},duration:.13,ease:'power2.out'}},{V.T(t_word + lag):.3f});")
             p.js.append(f"tl.to('#st{i}',{{y:{1980 - top},duration:.5,ease:'power2.in'}},{V.T(t_word + lag):.3f});")
             p.js.append(f"tl.to('#stw{i}',{{rotation:{-12 - 6 * i if fall_left else 12 + 6 * i},duration:.5,ease:'power1.in'}},{V.T(t_word + lag) + .01:.3f});")
         else:

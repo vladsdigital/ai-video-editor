@@ -5,7 +5,7 @@
 **Trigger phrases:** "count my raw length down to this reel", "shrink the frame into itself".
 
 ## Footage it needs, and where it fails
-- About 190 px between the safe zone top and the top of the head, for the plaque.
+- About 190 px between the safe zone top and the top of the head for the plaque, else 190 px on the chest (the plaque moves there and build.py prints the --caption-y value that puts the captions under it). Declines with neither.
 - Room for the small frame: above the head when that gives a third of the picture's height, else in the wall on the side with more room. Declines under 20% of the frame's size.
 - A cut after the line, with about 0.4 s of the next shot in the slot. About 2.8 s before the cut; declines under 2.1 s.
 - Real lengths: reads the reel's source clips and `segments.json`. Declines rather than making them up.

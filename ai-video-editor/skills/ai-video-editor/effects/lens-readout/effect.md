@@ -5,7 +5,7 @@
 **Trigger phrases:** "do the lens strip and pull out when I say X", "zoom out with the lens numbers".
 
 ## Footage it needs, and where it fails
-- One continuous shot of 2 s or more, the head with about 130 px above it inside the safe zone. No room: it declines.
+- One continuous shot of 2 s or more. With about 130 px above the head inside the safe zone everything sits there. With less, the strip sits under the punched-in chin and the words on the chest. It declines only when neither fits.
 - Start the slot on a cut of the reel: the picture then opens punched in. Anywhere else it eases into the punch over 8 frames first.
 - The punch is an upscale of the footage: on a 1080 source it looks a little soft until the pull ends.
 

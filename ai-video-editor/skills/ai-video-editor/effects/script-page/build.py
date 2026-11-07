@@ -21,7 +21,7 @@ STYLE = dict(
     said='#A5A093',               # lines before and after the current one
     slug='#6C685E',               # scene headings
     ink='#111111',                # the current words
-    mark='#D4C399',               # the marker
+    mark='#B5D6BC',               # the marker (a light shade of the effect colour)
 )
 # ==== END STYLE ====
 
@@ -69,7 +69,7 @@ def around(s):
     t0, t1 = s.t0, s.t0 + s.dur
     def pick(g):
         a, b = g['frame'] / 30, (g['frame'] + g['frames']) / 30
-        return [{'text': w['text'], 'start': 0, 'end': 0, 't': w['start']} for w in all_w if a - .03 <= w['start'] < b - .03]
+        return [{'text': w['text'], 'start': 0, 'end': 0, 't': w['start']} for w in all_w if a - .12 <= w['start'] < b - .12]      # a word that starts on the cut belongs to the shot after it
     here = next((i for i, g in enumerate(segs) if g['frame'] / 30 <= t0 + .03 < (g['frame'] + g['frames']) / 30), None)
     if here is None:
         return [], [], [], []
@@ -100,6 +100,7 @@ def main():
         V.die('no words in this slot: the page is made of what the speaker says')
     S = STYLE
     prev, before, after, nxt = around(s)
+    s.words = [w for w in s.words if w['start'] < s.dur - .12]      # a word starting on the slot's end belongs to the next shot
     first = next((w for w in s.words if w['start'] > .02), s.words[0])
     s.words = s.words[s.words.index(first):]
     t_in = T_IN if T_IN is not None else max(0.0, s.words[0]['start'] - .1)

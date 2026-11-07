@@ -22,9 +22,10 @@ STYLE = dict(
     plate='#FFFFFF',               # cards
     ink='#0F0F0F',                 # words on cards
     mute='#9B9B96',
-    green='#1B3C2E',               # the big letters over a light background, the Post button (deep forest green)
+    green='#1B3C2E',               # the Post button (deep forest green)
+    letter_dark='#0C1C15',         # the big letters over a light background: nearly black, so they hold on any colour
     cream='#F4F1E4',               # the big letters over a dark background (cream paper)
-    sage='#7F9D8B',                # the plain avatar tile
+    sage='#3F6B55',                # the plain avatar tile
     ring='#8FE3B6',
     heart='#B9506B',
     thread='#FFFFFF',              # the line from comment to replies
@@ -112,13 +113,19 @@ def main():
     nr = len(REPLIES)
     room = s.head_top + 45 - top
     u = min(1.0, room / ((nr + 1) * 116 + nr * 15))
-    if u < .6:
-        V.die(f'the head starts at y {s.head_top}: no room for the cards above it. It needs a wide or medium shot')
-    box_h, gap = 116 * u, 15 * u
-    y_pre = s.head_top - box_h - 8
-    y_post = s.head_top + 45 - (nr + 1) * box_h - nr * gap
-    if y_post < top:
-        y_post = top
+    over_head = u >= .6
+    if over_head:
+        box_h, gap = 116 * u, 15 * u
+        y_pre = s.head_top - box_h - 8
+        y_post = max(top, s.head_top + 45 - (nr + 1) * box_h - nr * gap)
+    else:                      # no room over the head: everything goes on the chest
+        top = int(max(s.chin + 60, s.chest - 300))
+        u = min(1.0, (V.SAFE_BOTTOM - 20 - top) / ((nr + 1) * 116 + nr * 15))
+        if u < .6:
+            V.die(f'no room for the cards over the head or on the chest on this clip (head top {s.head_top}, chin {s.chin})')
+        box_h, gap = 116 * u, 15 * u
+        y_pre, y_post = top + 214, top
+        print(f'  no room over the head: everything sits on the chest from y {top}. In a reel add with --captions hide')
     cap_room = y_pre - 24 - top
     box_x, box_w = 90, 900
     # the big word: as wide as the demo's look, stopped by the room over the box
@@ -169,7 +176,7 @@ def main():
 .bl{{position:absolute;left:0;top:0;width:1080px;height:1920px;perspective:1000px;perspective-origin:540px {y_pre:.0f}px;font-family:'{S['font']}';font-weight:{S['weight']};font-size:{size:.1f}px;line-height:1}}
 .bl span{{position:absolute;white-space:pre;will-change:transform,opacity}}
 #lc{{color:{S['cream']}}}
-#ld{{color:{S['green']};-webkit-mask-image:url(assets/lightmask.png);mask-image:url(assets/lightmask.png);-webkit-mask-size:1080px 1920px;mask-size:1080px 1920px}}
+#ld{{color:{S['letter_dark']};-webkit-mask-image:url(assets/lightmask.png);mask-image:url(assets/lightmask.png);-webkit-mask-size:1080px 1920px;mask-size:1080px 1920px}}
 .av{{position:absolute;border-radius:50%;background:{S['sage']};overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff}}
 .av svg{{width:72%;height:72%;fill:#fff}}
 .av img{{width:100%;height:100%;object-fit:cover}}

@@ -6,7 +6,9 @@
  "hi": "no",
  "reel_captions": "keep",
  "captions_note": "built with CAPTIONS=0 in a reel: the reel's own captions stay on top of the grid, in the buyer's style",
- "reel_env": ["CAPTIONS=0"],
+ "reel_env": [
+  "CAPTIONS=0"
+ ],
  "in_a_reel": [
   "CLIPS is a folder of the buyer's own videos, at least 8, each 1.7 s or longer. No videos from the buyer = leave the effect out",
   "the slot opens and closes on the plain picture: about 0.3 s before the shrink and at least 0.2 s after the way back"
@@ -25,5 +27,6 @@
   "name": "clips",
   "min": 8,
   "what": "the buyer's own videos (mp4 or mov: their reels or clips, each 1.7 s or longer). Only material they may show"
- }
+ },
+ "accent": true
 }

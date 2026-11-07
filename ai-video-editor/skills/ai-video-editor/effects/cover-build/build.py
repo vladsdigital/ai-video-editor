@@ -29,8 +29,8 @@ STYLE = dict(
     gold='#C4AA5E',                # frame and small labels
     paper='#F6F2E8',               # barcode ticket
     paper_ink='#1B1B16',
-    sticker='#C6B562',             # the sticker
-    sticker_ink='#2C2710',
+    sticker='#17392E',             # the sticker
+    sticker_ink='#F3ECDE',
 )
 # ==== END STYLE ====
 
@@ -136,8 +136,12 @@ def main():
     mast_top_min = top_safe + 18 + block + 44                  # small line sits 34 px above the caps
     head_top, chin = s.head_top, s.chin
     room = head_top + 48 - mast_top_min                         # the letters reach 48 px down behind the head
-    if room < 110:
-        V.die(f'the head starts at y {head_top}: there is no room for a masthead under the safe zone. Leave this effect out on this shot')
+    tight = room < 110       # a high head: the masthead goes further behind it and the coverlines move beside it
+    if tight:
+        mast_top_min = top_safe + 18 + 44
+        if head_top - mast_top_min < 20:
+            V.die(f'the head starts at y {head_top}: there is no room for a masthead under the safe zone. Leave this effect out on this shot')
+        room = 170 * 1.0
     font_file = 'assets/fonts/DMSerifDisplay-400-normal.woff2'
     CAP, BASE = face_metrics(font_file)
     unit = text_width(font_file, MASTHEAD, 100)
@@ -148,7 +152,7 @@ def main():
     cap_h = fs * CAP
     mast_base = head_top + 48
     mast_cap_top = mast_base - cap_h
-    if mast_cap_top < mast_top_min:
+    if tight or mast_cap_top < mast_top_min:
         mast_cap_top = mast_top_min
         mast_base = mast_cap_top + cap_h
     width = text_width(font_file, MASTHEAD, fs) or unit * fs / 100
@@ -157,7 +161,8 @@ def main():
     L, T = SIDE, top_safe
     R = 1080 - SIDE
     B = int(BOTTOM if BOTTOM is not None else min(chin + 44, V.SAFE_RIGHT_FROM - 5))
-    lab_y = T + 18
+    lab_y = (mast_base + 34) if tight else T + 18
+    low = lab_y + 30 + n_lines * 47 + 22        # under the coverlines, on a high head
     head = (s.layout or {}).get('head') or {}
     room_r = R - int(head.get('side_right') or s.cx + 170)
     room_l = int(head.get('side_left') or s.cx - 170) - L
@@ -167,8 +172,10 @@ def main():
         print(f'note: only {max(room_r, room_l)} px of wall beside the head: no sticker on this shot')
     stick_on = bool(STICKER[1]) and r_stick >= 58
     stick_x = (R - 12 - r_stick) if side == 'right' else (L + 12 + r_stick)
-    stick_y = max(mast_base + r_stick + 40, chin - 232)
-    tick_x, tick_y, tick_w = L + 26, mast_base + 108, 159
+    stick_y = (low + r_stick) if tight else max(mast_base + r_stick + 40, chin - 232)
+    tick_x, tick_y, tick_w = L + 26, (low if tight else mast_base + 108), 159
+    if BOTTOM is None:
+        B = int(min(max(B, stick_y + r_stick + 24, tick_y + 130), V.SAFE_RIGHT_FROM - 5))
     if side == 'left' and stick_on:
         tick_x = R - 26 - tick_w
     print(f'  page: frame {L},{T} to {R},{B}; masthead {fs:.0f}px, caps y {mast_cap_top:.0f} to {mast_base:.0f}, {width:.0f} px wide; head top {head_top}, chin {chin}')
@@ -257,7 +264,7 @@ def main():
         audio = (f'<audio id="sfx0" src="assets/sfx/click-soft.mp3" data-start="{max(0, t_stick - .01):.3f}" data-duration=".25" '
                  f'data-track-index="10" data-volume="{SOUND:.3f}"></audio>')
     dur = s.dur
-    v = f'muted playsinline data-start="0" data-media-start="0" data-duration="{dur:.4f}"'
+    v = f'muted playsinline data-start="0" data-media-start="0" data-duration="{int(dur * 1000) / 1000:.3f}"'
     blend = f"mix-blend-mode:{S['mast_blend']};" if S['mast_blend'] != 'normal' else ''
     css = f'''
 *{{margin:0;padding:0;box-sizing:border-box}}
@@ -295,8 +302,8 @@ html,body{{width:1080px;height:1920px;overflow:hidden;background:#000}}
 <style>{css}</style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-start="0" data-duration="{dur:.4f}" data-width="1080" data-height="1920">
-  <audio id="bga" src="assets/aroll.mp4" data-start="0" data-media-start="0" data-duration="{dur:.4f}" data-track-index="2" data-volume="1"></audio>
+<div id="root" data-composition-id="main" data-start="0" data-duration="{int(dur * 1000) / 1000:.3f}" data-width="1080" data-height="1920">
+  <audio id="bga" src="assets/aroll.mp4" data-start="0" data-media-start="0" data-duration="{int(dur * 1000) / 1000:.3f}" data-track-index="2" data-volume="1"></audio>
   {audio}
   <div id="stage">
     <video id="bgv" class="lay" src="assets/aroll.mp4" {v} data-track-index="0"></video>
@@ -311,7 +318,7 @@ html,body{{width:1080px;height:1920px;overflow:hidden;background:#000}}
 window.__timelines = window.__timelines || {{}};
 const tl = gsap.timeline({{ paused: true }});
 {chr(10).join(js)}
-tl.set({{}}, {{}}, {dur:.3f});
+tl.set({{}}, {{}}, {int(dur * 1000) / 1000:.3f});
 window.__timelines["main"] = tl;
 </script>
 </body>

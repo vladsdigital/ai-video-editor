@@ -6,7 +6,7 @@
 
 ## Footage it needs, and where it fails
 - One continuous shot of about 4 s or more. The first named word about 1.6 s after the start, or the scroll gets cut short (build.py says so).
-- A face that fits under the panel: declines when less than 480 px of panel is left, or when the face would leave the frame.
+- With 480 px or more between the chin and the safe zone bottom, the panel rests on the upper body and the picture does not move. Otherwise the picture drops so the face sits under the panel: declines when less than 480 px of panel is left, or when the face would leave the frame.
 - The top 220 px of the picture stay still while the rest drops. A wall or ceiling is invisible; something moving up there would show a seam.
 - The panel crosses the face for about 3 frames on the way up and down, then rests clear of it.
 

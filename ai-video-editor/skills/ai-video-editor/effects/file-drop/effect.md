@@ -5,10 +5,10 @@
 **Trigger phrases:** "show my raw file dropping in", "drop the clip in", "stamp my takes".
 
 ## Footage it needs, and where it fails
-- Any camera. About 240 px of wall above the head (y 228 down to the top of the head); declines with less. Declines under about 2.3 s.
+- Any camera. About 240 px of wall above the head, or else about 240 px on the chest under the chin; declines with neither, and under about 2.3 s.
 
 ## Adapting to the footage
-- The zone's height comes from the room above the head. The player opens on the side with more wall beside the head (it would cover the face if it sat in the middle on a medium shot); with no room there it stays small above the head.
+- The zone's height comes from the room above the head. The player opens on the side with more wall beside the head (it would cover the face if it sat in the middle on a medium shot); with no room there it stays small above the head. With no wall above the head the zone and player sit on the chest, the file card comes up from below so it never crosses the face, and the reel's captions are hidden while it is up.
 - The file name, length, size and picture are the real raw clip's, from the reel's `sources.json` and `segments.json`, or `RAW_FILE`.
 
 ## Slot inputs

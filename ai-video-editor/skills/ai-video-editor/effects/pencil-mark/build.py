@@ -16,7 +16,7 @@ V.PREVIEW = True          # this effect changes the picture, so the footage is a
 
 # ==== STYLE (the reel's look wins: match this block to the reel's caption style before building) ====
 STYLE = dict(
-    pencil='#CC6478',     # the pencil
+    pencil='#1C3729',     # the pencil (the effect colour)
     font='Caveat',        # the handwritten word: a family in assets/fonts/fonts.css
     weight=600,
     word_px=190,
@@ -101,12 +101,20 @@ def main():
         word_x = max(V.SAFE_SIDE + 40, min(330, cx0 - rx - w_est - 10)) if cx0 - rx - w_est > 60 else V.SAFE_SIDE + 40
     else:
         word_x = 1080 - V.SAFE_RIGHT - 40 - w_est
-    if word_y + 20 > top_edge + 40 and abs(word_x + w_est / 2 - cx0) < rx:
-        V.die('the head fills the frame on this clip: there is no room for the word beside the circle')
+    beside = top_edge - 80 < V.SAFE_TOP + word_px * .72      # no wall above the head: the word goes level with the eyes, beside it
+    if beside:
+        word_y = cy0 - ry * .3
+        room = cx0 - rx - V.SAFE_SIDE - 30 if side == 'left' else 1080 - V.SAFE_SIDE - 30 - cx0 - rx
+        if room < w_est + 50:
+            V.die('the head fills the frame on this clip: there is no room for the word beside the circle')
+        word_x = max(V.SAFE_SIDE + 30, cx0 - rx - w_est - 90) if side == 'left' else min(1080 - V.SAFE_SIDE - 30 - w_est, cx0 + rx + 90)
     # the arrow: from the end of the word (or its start, on the right) curving down into the top of the circle
     a0 = (word_x + w_est * .9, word_y - word_px * .16) if side == 'left' else (word_x - 16, word_y - word_px * .16)
     a1 = (cx0 - rx * .34 if side == 'left' else cx0 + rx * .34, top_edge - 24)
     mid = ((a0[0] + a1[0]) / 2 + (40 if side == 'left' else -40), a0[1] - 26)
+    if beside:                                                # a short arc across into the circle's side
+        a1 = (cx0 - rx * 1.06 if side == 'left' else cx0 + rx * 1.06, cy0 - ry * .08)
+        mid = ((a0[0] + a1[0]) / 2, a0[1] - 44)
     tip = math.atan2(a1[1] - mid[1], a1[0] - mid[0])
     def barb(ang, ln=44):
         return f'M{a1[0] + ln * math.cos(tip + ang):.1f} {a1[1] + ln * math.sin(tip + ang):.1f}L{a1[0]:.1f} {a1[1]:.1f}'

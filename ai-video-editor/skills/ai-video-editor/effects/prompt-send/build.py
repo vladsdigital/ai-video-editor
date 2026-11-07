@@ -19,7 +19,7 @@ STYLE = dict(
     ink='#17170F',                 # typed words and result
     dimmed='#85827A',              # the words after they are sent
     label='#8F8E82',               # the small label
-    dot='#C4A55C',                 # the small dot before the label after sending
+    dot='#3F6B55',                 # the small dot before the label after sending
     green='#1B3C2E',               # the button (deep forest green)
     mark='#FFFFFF',                # arrow, spinner, check
 )
@@ -84,8 +84,11 @@ def main():
     top = int(TOP if TOP is not None else 272)
     if TOP is None and top + bar_h > s.head_top + 10:
         top = max(V.SAFE_TOP + 8, s.head_top + 10 - bar_h)
-    if top + bar_h > s.head_top + 40:
-        V.die(f'the head starts at y {s.head_top}: no room for the bar above it. It needs a wide or medium shot')
+    if top + bar_h > s.head_top + 40 or top < V.SAFE_TOP:      # no room over the head: the bar goes on the chest
+        top = int(TOP if TOP is not None else min(max(s.chin + 60, s.chest), V.SAFE_BOTTOM - bar_h - 10))
+        if top < s.chin + 20:
+            V.die(f'no room for the bar over the head or on the chest on this clip (head top {s.head_top}, chin {s.chin})')
+        print(f'  no room over the head: the bar sits on the chest at y {top}. In a reel add with --captions hide')
     area = bar_w - 47 * 2 - 84 - 20
     fs_t = min(46, area / (len(text) * .53))
 

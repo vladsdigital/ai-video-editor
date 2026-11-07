@@ -6,7 +6,7 @@
 
 ## Footage it needs, and where it fails
 - A name, a note and a reply of up to about 110 characters each (two lines).
-- Room above the head: about 200 px between the safe zone (y 220) and the head. A tight selfie stops with one line saying how much room there is.
+- Room above the head: about 200 px between the safe zone (y 220) and the head. With less, the cards sit on the chest under the chin instead. No room there either: it stops with one line saying so.
 - Any camera: the cards are fixed to the screen, placed from `layout.json`.
 
 ## Adapting to the footage

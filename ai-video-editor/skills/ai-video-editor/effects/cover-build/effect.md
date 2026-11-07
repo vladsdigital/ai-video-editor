@@ -5,7 +5,7 @@
 **Trigger phrases:** "build a magazine cover behind me", "make this line a full cover with a masthead and a barcode".
 
 ## Footage it needs, and where it fails
-- Top of the head at about y 360 or lower. Declines when there is no room for the masthead above the head.
+- A head that starts below about y 290. With little room above it, the masthead goes further behind the head and the coverlines, barcode and sticker move beside it. Declines above that.
 - A cut after the line, with about 0.4 s of the next shot in the slot (`fx_new.py` asks for exactly one cut in the span).
 - About 1.8 s of the line before the cut. A still or slowly drifting camera; the page is fixed to the screen.
 - A clean cutout: the head and raised hands pass in front of the page.

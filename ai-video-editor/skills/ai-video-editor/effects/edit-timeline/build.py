@@ -30,10 +30,10 @@ STYLE = dict(
     words='#C95F70',               # the row of word blocks
     moments='#D5B25F',             # the row of moments
     phrases='#F4EFE3',             # the row of phrase blocks
-    voice='#6F8D7D',               # the voice row
-    voice_ink='#CFE0D4',
-    bed='#8A7740',                 # the second sound row
-    bed_ink='#D9C27B',
+    voice='#2A5A48',               # the voice row
+    voice_ink='#F3ECDE',
+    bed='#1C4034',                 # the second sound row
+    bed_ink='#F3ECDE',
     head='#E8697B',                # the playhead
     radius=20,
 )
@@ -127,10 +127,18 @@ def main():
     top = V.SAFE_TOP + 2
     bottom = s.head_top - 8
     height = bottom - top
-    if height < 250:
-        V.die(f'the head starts at y {s.head_top}: only {max(height, 0)} px above it inside the safe zone, the panel needs 250. Leave this effect out on this shot')
-    height = min(height, 593)
-    top = bottom - height
+    if height >= 250:
+        height = min(height, 593)
+        top = bottom - height
+    else:                                  # a high head: the chest instead, clear of the caption line
+        head_ = (s.layout or {}).get('head') or {}
+        chin2 = max(s.chin, s.head_top + 1.6 * int(head_.get('width') or 300))   # the measured box can stop at the nose
+        top = int(chin2 + 36)
+        height = min(V.SAFE_BOTTOM - 40 - top, 300)
+        bottom = top + height
+        if height < 250:
+            V.die(f'no room for the panel: {s.head_top - 8 - V.SAFE_TOP} px above the head and {max(height, 0)} px on the chest, it needs 250. Leave this effect out on this shot')
+        print(f'placement: no room above the head, so the panel sits on the chest. In a reel: fx_add.py ... --caption-y {bottom + 12}')
     head_h = max(42, int(height * .135))
     rule_h = max(30, int(height * .10))
     row_h = (height - head_h - rule_h - 8) // len(ROWS)

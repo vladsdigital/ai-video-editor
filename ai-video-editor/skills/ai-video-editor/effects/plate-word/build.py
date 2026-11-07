@@ -9,6 +9,8 @@ Run from the slot folder (effect.md has the full run order):
                                                CAPTIONS=0 no stack: the plate alone)
 """
 import os
+import shutil
+import subprocess
 
 from PIL import ImageFont
 
@@ -68,9 +70,44 @@ def auto_stack(s, t_word):
     return rows[-MAX_BOXES:]
 
 
+def lowest_chin(s):
+    """The layout's head box can stop above the real chin, and a speaker leans. When the reel has a cutout, the lowest
+    neck over this slot's frames (the narrowest row under the head) moves s.chin down. No cutout: the layout stands."""
+    sub = os.path.join(s.clip.get('project') or '', 'assets', 'subject.webm')
+    if not os.path.isfile(sub):
+        return
+    try:
+        import numpy as np
+        w, h = 270, 480
+        raw = subprocess.run([shutil.which('ffmpeg') or 'ffmpeg', '-v', 'error', '-c:v', 'libvpx-vp9', '-ss', f'{s.t0:.3f}', '-t', f'{s.dur:.3f}', '-i', sub,
+                              '-vf', f"select='not(mod(n\\,{max(1, s.frames // 14)}))',alphaextract,scale={w}:{h}", '-fps_mode', 'passthrough',
+                              '-f', 'rawvideo', '-pix_fmt', 'gray', '-'], capture_output=True).stdout
+        a = np.frombuffer(raw, dtype=np.uint8)
+        n = len(a) // (w * h)
+        necks = []
+        for fr in a[:n * w * h].reshape(n, h, w):
+            rows = (fr > 128).sum(1)
+            lit = np.where(rows >= 6)[0]
+            if not len(lit):
+                continue
+            t = lit[0]
+            hw = rows[t:t + 45].max()                 # the head's width, from its top part
+            lo, hi = t + int(.5 * hw), min(h - 1, t + int(1.9 * hw))
+            below = np.where(rows[lo:hi] > 1.7 * hw)[0]   # stop where the shoulders start
+            hi = lo + below[0] if len(below) else hi
+            if hi > lo:
+                necks.append((lo + int(np.argmin(rows[lo:hi]))) * 4 + 40)      # 40 px: the jaw sits over the narrowest row
+        if necks and max(necks) > s.chin:
+            print(f'placement: chin moved from y {s.chin} to y {max(necks)} (the lowest neck in this slot, from the cutout)')
+            s.chin = max(necks)
+    except (OSError, ValueError, ImportError):
+        pass
+
+
 def main():
     s = V.Slot()
     s.dur = int(s.frames / V.FPS * 1000) / 1000      # rounded down: a duration rounded up renders one frame too many
+    lowest_chin(s)
     print('words: ' + s.word_list())
     print(s.where())
     if not WORD.strip():

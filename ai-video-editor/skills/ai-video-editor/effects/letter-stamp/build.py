@@ -37,7 +37,7 @@ T_OUT = None        # when the word goes. None = stays to the end of the slot if
                     # else fades 0.8 s after the word was said plus the rest of its line (at most the slot end)
 STAGGER = 2         # frames between two letters
 WIDTH = 0.90        # width of the word, share of the frame width (it shrinks when there is no height for it)
-TUCK = None         # share of the letter height that sits behind the head. None = 0.14 for stamp, 0.26 for drop
+TUCK = None         # share of the letter height behind the head. None = 0.14 for stamp, 0.26 for drop, up to 0.5 when the room is short
 LEAD = ''           # optional first line, stamped above WORD a beat earlier ("ima preko" over "500"). '' = one word only
 T_LEAD = None       # slot second LEAD starts. None = when its first word is said
 GROUND = None       # a colour: on the first letter of WORD the whole room cuts to this flat colour, the speaker stays.
@@ -160,6 +160,9 @@ def main():
         s_lead = min(s_lead, size / 1.15)               # a long word is never smaller than the line above it
     else:
         s_lead, size = 0, width / wide(word)
+    if TUCK is None and not lead:                     # a tall head: the word goes further behind it before it gets small
+        while tuck < .5 and (tall(word) - tuck * cap1) * size > top - box_top:
+            tuck += .02
     gap = .03 * s_lead
     need = (tall(word) - tuck * cap1) * size + (tall(lead) * s_lead + gap if lead else 0)
     if need > top - box_top:

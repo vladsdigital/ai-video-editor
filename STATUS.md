@@ -3,6 +3,7 @@ Ažurirano: 07.11.2026.
 Faza: razvoj
 
 ## Gde smo stali
+- 07.11 (2): zelena izbačena: novi efekti su podrazumevano narandžasti (`#FF6A1A`), a u pickeru je dodat izbor boje (8 boja + svoja, `accentColor` u picks, `fxlib.apply_accent`). Svih 38 efekata izrenderovano na probnom snimku `svi 7` (osim key-rain, nema mesta iznad glave), spojeno u `~/Desktop/svi7-svi-efekti.mp4`. Efekti sad umeju na grudi kad iznad glave nema mesta.
 - 07.11: 39 novih efekata (ukupno 85), rekreirani jedan na jedan po javnim demo klipovima sa justyn.ai/masterclass, sa našim kodom i našim nazivima, svi u listi i pickeru sa pregledom na Vladimirovom snimku. Verzija 1.2.0. Grana `feat/novi-efekti`, nije spojena ni pushovana. Upisano u plan rilsa: 7 efekata (`fx_add`); pun rils nije izrenderovan jer licenca nije aktivna na ovom Macu (probni projekat `~/reel-edits/efekti-proba`). Zvuk nije slušan.
 - 30.10: verzija 1.1.0 (whats-new.json), da kupci dobiju ponudu za ažuriranje.
 - 29.10: MP4 render na Macu sad ide na video čip (`--gpu`, u `skillenv.run_hyperframes`), sa automatskim povratkom na procesor ako ne uspe; `--no-gpu` ga isključuje. Mereno na rilsu od 30 s: procesor 136 → 43 jezgro-sekundi, 33 → 24 s, slika ista (SSIM 0,997), fajl veći (18 → ~50 MB). Manje Chrome radnika nije pomoglo. Cutout (RVM) nije meren, on verovatno najviše greje kod efekata.
@@ -28,7 +29,7 @@ Faza: razvoj
 - Pismena dozvola autora.
 
 ## Otvorena pitanja / rizici
-- Novi efekti po podrazumevanim bojama namerno liče na tuđi komercijalni proizvod (zelena i krem). Vladimirova odluka; menja se u STYLE bloku.
+- layout.py brada: na svi 7 kaže 676, a stvarna je oko 780 do 830; agenti su ručno zaobilazili. Treba popraviti merenje.
 - Odstupanja od dema: ništa preko lica (key-rain, page-roll, marked-sheet, walk-card, file-drop, plate-word, color-picker). Bez pravih logoa. wipe-set (blinds, barn, clock) i pokreti u camera-cuts nisu vidljivi u demu pa su pravljeni po nazivu. cover-build i counter-dive traže rez u slotu.
 - Sačuvani picks: efekat van izbora kupca ne ulazi u rils dok ga ne štiklira.
 - Efekti ne prebacuju SVOJ tekst na ćirilicu (titlovi da); ui-world limit 15 znakova nije proširen za srpski.

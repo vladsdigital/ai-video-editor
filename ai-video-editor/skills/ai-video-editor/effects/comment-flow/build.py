@@ -23,7 +23,7 @@ STYLE = dict(
     mute='#9B9B96',                # placeholder and meta line
     green='#1F3D30',               # send and follow button (deep forest green)
     cream='#F4F1E4',               # the pressed button's fill (cream paper)
-    sage='#7F9D8B',                # the plain avatar tile
+    sage='#3F6B55',                # the plain avatar tile
     ring='#8FE3B6',                # the ring of the follow avatar
     heart='#B9506B',               # the like
 )
@@ -84,11 +84,16 @@ def main():
 
     # ---- where: the whole top stack ends on the hair at most, and scales with the room over the head
     top = HEAD_Y if HEAD_Y is not None else V.SAFE_TOP + 8
+    pill_h_ = 114
     lines = len(HEADLINE)
     need = (80 * lines + 34 + 112 + 15 + 112)
     u = min(1.0, (s.head_top + 52 - top) / need)
-    if u < .62:
-        V.die(f'the head starts at y {s.head_top}: no room for the cards above it. It needs a wide or medium shot')
+    if u < .62:                # no room over the head: the stack goes on the chest
+        top = HEAD_Y if HEAD_Y is not None else int(max(s.chin + 60, s.chest - 300))
+        u = min(1.0, (V.SAFE_BOTTOM - pill_h_ - 40 - top) / need)
+        if u < .62:
+            V.die(f'no room for the cards over the head or on the chest on this clip (head top {s.head_top}, chin {s.chin})')
+        print(f'  no room over the head: the cards sit on the chest from y {top}. In a reel add with --captions hide')
     hl_h, gap1, box_h, gap2 = 80 * u, 34 * u, 112 * u, 15 * u
     y_box = top + hl_h * lines + gap1
     y_rep = y_box + box_h + gap2

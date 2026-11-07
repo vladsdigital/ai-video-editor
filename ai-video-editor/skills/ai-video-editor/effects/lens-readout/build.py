@@ -8,6 +8,8 @@ Run from the slot folder (effect.md has the full run order):
 """
 import json
 import os
+import shutil
+import subprocess
 
 from PIL import ImageFont
 
@@ -95,9 +97,44 @@ def pop(p, sel, at, size):
     p.js.append(f"tl.to('{sel}',{{keyframes:{json.dumps(kf)}}},{V.T(at):.3f});")
 
 
+def lowest_chin(s):
+    """The layout's head box can stop above the real chin, and a speaker leans. When the reel has a cutout, the lowest
+    neck over this slot's frames (the narrowest row under the head) moves s.chin down. No cutout: the layout stands."""
+    sub = os.path.join(s.clip.get('project') or '', 'assets', 'subject.webm')
+    if not os.path.isfile(sub):
+        return
+    try:
+        import numpy as np
+        w, h = 270, 480
+        raw = subprocess.run([shutil.which('ffmpeg') or 'ffmpeg', '-v', 'error', '-c:v', 'libvpx-vp9', '-ss', f'{s.t0:.3f}', '-t', f'{s.dur:.3f}', '-i', sub,
+                              '-vf', f"select='not(mod(n\\,{max(1, s.frames // 14)}))',alphaextract,scale={w}:{h}", '-fps_mode', 'passthrough',
+                              '-f', 'rawvideo', '-pix_fmt', 'gray', '-'], capture_output=True).stdout
+        a = np.frombuffer(raw, dtype=np.uint8)
+        n = len(a) // (w * h)
+        necks = []
+        for fr in a[:n * w * h].reshape(n, h, w):
+            rows = (fr > 128).sum(1)
+            lit = np.where(rows >= 6)[0]
+            if not len(lit):
+                continue
+            t = lit[0]
+            hw = rows[t:t + 45].max()                 # the head's width, from its top part
+            lo, hi = t + int(.5 * hw), min(h - 1, t + int(1.9 * hw))
+            below = np.where(rows[lo:hi] > 1.7 * hw)[0]   # stop where the shoulders start
+            hi = lo + below[0] if len(below) else hi
+            if hi > lo:
+                necks.append((lo + int(np.argmin(rows[lo:hi]))) * 4 + 40)      # 40 px: the jaw sits over the narrowest row
+        if necks and max(necks) > s.chin:
+            print(f'placement: chin moved from y {s.chin} to y {max(necks)} (the lowest neck in this slot, from the cutout)')
+            s.chin = max(necks)
+    except (OSError, ValueError, ImportError):
+        pass
+
+
 def main():
     s = V.Slot()
     s.dur = int(s.frames / V.FPS * 1000) / 1000      # rounded down: a duration rounded up renders one frame too many
+    lowest_chin(s)
     V.PREVIEW = True                                 # the picture itself moves: the render holds the footage
     print('words: ' + s.word_list())
     print(s.where())
@@ -115,11 +152,20 @@ def main():
     # ---- where
     top = V.SAFE_TOP + 8
     room = s.head_top - 18 - top
-    if room < 130:
-        V.die(f'no room above the head for the strip: the head top is at y {s.head_top} and the safe zone starts at {V.SAFE_TOP}')
-    k_strip = min(1.0, room / (STRIP_H + 20))
+    # no room above the head: the strip sits under the punched-in chin, the words on the chest under the real chin
+    chest_top = s.chin + 24
+    on_chest = room < 130
+    if on_chest:
+        low = s.head_top + (chest_top - s.head_top) * PUNCH + 10
+        if low + STRIP_H > V.SAFE_BOTTOM - 6:
+            V.die(f'no room for the strip above the head (top at y {s.head_top}) or under the punched-in chin (y {low:.0f})')
+        k_strip, strip_y = 1.0, low
+        top, room = chest_top, V.SAFE_BOTTOM - 6 - chest_top
+        print(f'placement: no room above the head (top at y {s.head_top}), so the strip sits at y {low:.0f} and the words from y {top:.0f}')
+    else:
+        k_strip = min(1.0, room / (STRIP_H + 20))
+        strip_y = top + (room - STRIP_H * k_strip) / 2    # in the middle of the room above the head
     strip_h, strip_w = STRIP_H * k_strip, min(STRIP_W, 1080 - 2 * V.SAFE_SIDE - 20)
-    strip_y = top + (room - strip_h) / 2            # in the middle of the room above the head
     strip_x = (1080 - strip_w) / 2
     stop = STOP * k_strip
     origin_x, origin_y = min(max(s.cx, 300), 780), s.head_top
@@ -140,6 +186,8 @@ def main():
 .lt{{position:absolute;inset:0}}
 .rl{{position:absolute;height:3px;transform-origin:0 50%}}
 """)
+    if on_chest:                                     # words over a shirt need the dark behind them
+        p.css.append(".lt svg{filter:drop-shadow(0 2px 3px rgba(0,0,0,.75)) drop-shadow(0 0 22px rgba(0,0,0,.7))}")
     n = len(NUMBERS)
     # the scale runs past both ends so the strip is never empty
     ticks = []

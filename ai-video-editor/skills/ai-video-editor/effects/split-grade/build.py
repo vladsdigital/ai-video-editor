@@ -21,7 +21,7 @@ STYLE = dict(
     serif_font='Newsreader', serif_italic=True,
     ink='#F3EEE3',                 # cream: tag text, and the line stays white
     accent=None,
-    card='#16291F',                # forest green: the tag on the plain side
+    card='#1F3A2B',                # the effect colour: the tag on the plain side
     shadow=False,
 )
 # ==== END STYLE ====

@@ -285,7 +285,11 @@ def check_picks(raw, catalog):
     sections, error = clean_sections(raw.get('effectSections'), effects, strict=True)
     if error:
         return None, error
+    accent = raw.get('accentColor')
+    if accent is not None and not (isinstance(accent, str) and re.fullmatch(r'#[0-9a-fA-F]{6}', accent)):
+        return None, 'Boja efekata mora biti u obliku #RRGGBB.'
     return {'mode': mode, 'style': style, 'captionStyle': cap, 'effects': effects, 'effectSections': sections,
+            'accentColor': accent,
             'updated': datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat()}, None
 
 
@@ -306,6 +310,8 @@ def load_picks(path, catalog):
     picks['effectSections'] = clean_sections(raw.get('effectSections'), picks['effects'], strict=False)[0]
     if raw.get('mode') == 'preset' and raw.get('style') in styles and styles[raw['style']]['ready']:
         picks['mode'], picks['style'] = 'preset', raw['style']
+    if isinstance(raw.get('accentColor'), str) and re.fullmatch(r'#[0-9a-fA-F]{6}', raw['accentColor']):
+        picks['accentColor'] = raw['accentColor']
     if isinstance(raw.get('updated'), str):
         picks['updated'] = raw['updated'][:40]
     return picks

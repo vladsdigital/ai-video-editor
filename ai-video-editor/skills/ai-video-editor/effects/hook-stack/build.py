@@ -26,8 +26,8 @@ STYLE = dict(
     plate_font='Instrument Serif',   # the small captions on their plate
     backdrop='#1A3829',              # the solid backdrop behind the cutout (deep forest green)
     ink='#F3EFE2',                   # words (cream paper)
-    accent='#C4A55C',                # the coloured last word of the italic line, and the timecode's frames
-    dim='#6E8C7B',                   # the words not said yet on the plate, and the timecode's zeros
+    accent='#0C1C15',                # the last word of the italic line, and the timecode's frames (nearly black, holds on any backdrop)
+    dim='#12241B',                   # the words not said yet on the plate, and the timecode's zeros (a dark shade of the backdrop)
 )
 # ==== END STYLE ====
 
@@ -50,6 +50,7 @@ SOUND = 0.34                               # the low hit under the italic line. 
 
 F = 1 / 30
 TOP = V.SAFE_TOP + 6          # highest ink
+MIN_HEAD_TOP, MAX_SHIFT = 470, 240     # the head has to start this low for the lines; the most the speaker may move down for it
 
 
 def font_of(fname, size=1000):
@@ -95,8 +96,13 @@ def main():
         V.die('SERIF takes 2 lines, STACK 1 to 3 pairs, ITALIC a pair')
     if not os.path.exists('assets/subject.webm'):
         V.die('this effect stands the speaker in front of a backdrop: it needs the clean cutout (setup.py --matting)')
-    if s.head_top < TOP + 190:
-        V.die(f'the head starts at y {s.head_top}: no room for the lines above it. It needs headroom, a wide or medium shot')
+    # little headroom: the speaker is moved down on the backdrop to make it, and the backdrop is up from the first line
+    shift = max(0, MIN_HEAD_TOP - s.head_top)
+    if shift > MAX_SHIFT:
+        V.die(f'the head starts at y {s.head_top}: too high to make room for the lines. It needs a wide or medium shot')
+    if shift and KEEP + KEEP_FRONT:
+        V.die('KEEP needs the speaker to stay in place, and this clip has too little headroom for that: empty KEEP and KEEP_FRONT')
+    head_top, chin = s.head_top + shift, s.chin + shift
     S = STYLE
     plate_on = V.env('CAPTIONS', '1') != '0'
 
@@ -125,7 +131,7 @@ def main():
         V.die('the lines are out of order in time: check the words and TIMES')
 
     # ---- sizes, all measured: the heavy stack and the serif sit between the top of the safe zone and the head
-    room = s.head_top + 70
+    room = head_top + 70
     sy = S['serif_stretch']
     sf, hf, itf = S['serif_file'], S['heavy_file'], S['italic_file']
     tr = S['heavy_tracking']
@@ -148,7 +154,7 @@ def main():
     base_1 = TOP + top_h * squeeze
     base_2 = base_1 + 12 + bot_h * squeeze
     # italic: rests on top of the head after the punch
-    punch_top = s.chin - (s.chin - s.head_top) * PUNCH
+    punch_top = chin - (chin - head_top) * PUNCH
     full = ITALIC[0] + ' ' + ITALIC[1]
     fs_i = fit(itf, full, 985, max_size=250)
     i_w0, i_up, i_dn = ink(itf, ITALIC[0])
@@ -272,7 +278,11 @@ def main():
     for k in range(len(SERIF[1])):
         p.hidden.append(f'#sbc{k}')
     p.hidden += ['#green', '#tc', '#i1', '#i2'] + tops + bots
-    set_(','.join(['#green'] + (['#kb'] if KEEP else []) + (['#kf'] if KEEP_FRONT else [])), '{autoAlpha:1}', t_b)
+    t_flip = t_a if shift else t_b
+    set_(','.join(['#green'] + (['#kb'] if KEEP else []) + (['#kf'] if KEEP_FRONT else [])), '{autoAlpha:1}', t_flip)
+    if shift:
+        set_('#fgw', f'{{y:{shift}}}', t_flip)
+        print(f'  little headroom: the speaker moves down {shift} px on the backdrop, which is up from the first line')
     land('sa', SERIF[0], t_a, t_b)
     land('sb', SERIF[1], t_b, t_pairs[0][0])
     # the serif leaves: top line rolls up out of its window, bottom line drops away letter by letter

@@ -27,5 +27,6 @@
   "name": "clips",
   "min": 8,
   "what": "the buyer's own videos (mp4 or mov: their reels or clips). Only material they may show"
- }
+ },
+ "accent": true
 }

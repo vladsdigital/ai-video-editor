@@ -113,6 +113,8 @@ def main():
 
     upper = [w['text'] for w in said[:len(said) - BIG]] if BIG else [w['text'] for w in said]
     lower = [w['text'] for w in said[len(said) - BIG:]] if BIG else []
+    last = lower if lower else upper                  # a line cut from a longer sentence does not end on a comma
+    last[-1] = last[-1].rstrip(',;:')
     lines, px = wrap(upper, LINE_PX, 730)
     big_px = BIG_PX
     n_big = sum(len(w) + 1 for w in lower)

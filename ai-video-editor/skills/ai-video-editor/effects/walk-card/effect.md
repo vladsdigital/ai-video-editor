@@ -9,7 +9,8 @@ Ask for their own walkthrough video: one video (the chapters jump through it, `S
 
 ## Footage it needs, and where it fails
 - **Wide shot, head top below about y 820:** the card sits above the head at full size (764 x 573). This is the look it was made for.
-- **Medium shot:** there is no room above the head, so it sits beside the head in the larger free side, smaller (385 px wide on a 1080 frame with the head at x 440 to 830), and the title has room for about 16 characters.
+- **Chin above about y 700:** with no room above the head it sits on the chest under the chin, a little smaller, and `build.py` prints the `--caption-y` value for the reel's captions.
+- **Medium shot with a low chin:** it sits beside the head in the larger free side, smaller (385 px wide on a 1080 frame with the head at x 440 to 830), and the title has room for about 16 characters.
 - **Close-up with no room either side:** it declines with one line. It never covers the face.
 - An overlay: any camera, and the span may cross cuts as long as every shot in it leaves the same space free.
 
@@ -26,7 +27,7 @@ Ask for their own walkthrough video: one video (the chapters jump through it, `S
 | `T_END` | when the card starts to close | `None` = 0.9 s after the last chapter starts |
 | `SOURCE_AT` | one video: seconds where each chapter starts | `None` = spread through it |
 | `FOCUS` | which part of a tall video the 16:9 picture keeps | .3 |
-| `PLACE`, `HEAD_TOP` | `'auto'`, `'above'`, `'side'`; head top when measured wrong | `'auto'`, `None` |
+| `PLACE`, `HEAD_TOP` | `'auto'`, `'above'`, `'chest'`, `'side'`; head top when measured wrong | `'auto'`, `None` |
 
 STYLE block: `panel`, the title, chapter and number fonts, `ink`, `track`, `radius`, and the `cap_` lines.
 **Switches:** `SAFE=1` guide with footage (snapshots only), `CAPTIONS=0` no caption line (the default in a reel: the reel's captions keep running), `SFX=0` no sounds.

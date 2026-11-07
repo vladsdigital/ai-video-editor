@@ -6,7 +6,7 @@
 
 ## Footage it needs, and where it fails
 - One line: a key word, optionally a second word, a few words, a short payoff.
-- Room above the head (110 px or more in the safe zone) and under the chin (about 200 px). Without them it declines. The slab shrinks with the room above the head: the full size needs about 410 px.
+- Room above the head (110 px or more in the safe zone) and under the chin (about 200 px). With less above the head, the whole stack moves to the chest under the chin. It declines only when the chest has no room either. The slab shrinks with the room above the head: the full size needs about 410 px.
 
 ## Slot inputs
 An OVERLAY effect: the final build is transparent, `hf render` writes `renders/<slot>.webm`, and the reel lays it over its own footage, so the span may cross a cut. `words.json`, `clip.json`, the reel's `layout.json`. Pillow from the skill's own Python, to measure the words.

@@ -45,7 +45,7 @@ T_OUT = None        # when the panel starts to fade. None = 0.72 s after the wor
 MODE = 'EDIT MODE'  # corner label, left
 COUNT = '{n} items' # corner label, right: '{n} items', or a dict for languages with more plural forms {0: '...', 2: '...'}
 BADGE = 'minus'     # the small mark on each tile: 'minus' or 'x'
-Y = None            # y of the bottom of the panel, px. None = just above the head from layout.json
+Y = None            # y of the bottom of the panel, px. None = just above the head from layout.json, or on the chest with no room there
 SCALE = None        # size against the full-size panel (882 x 330 px). None = as large as the room above the head allows
 SOUND = .3          # volume of the pops, the fall and the word. 0 = silent
 # ==== END CLIP ====
@@ -111,6 +111,14 @@ def main():
     room = bottom - V.SAFE_TOP - 6
     n = len(TILES)
     k = SCALE if SCALE else min(1.0, room / PH, (1080 - 2 * V.SAFE_SIDE - 20) / PW, (PW - 2 * TX) / (n * PITCH))
+    # no room above the head: the panel sits on the chest, under the chin
+    below = (Y > s.chin) if Y is not None else k < .58
+    if below:
+        limit = (Y if Y is not None else V.SAFE_BOTTOM - 6) - s.chin - 24
+        k = SCALE if SCALE else min(1.0, limit / PH, (1080 - 2 * V.SAFE_SIDE - 20) / PW, (PW - 2 * TX) / (n * PITCH))
+        if Y is None:
+            bottom = int(s.chin + 24 + PH * k)
+        print('placement: no room above the head, so the panel sits on the chest')
     if k < .58:
         V.die(f'the panel needs more room above the head than this clip has ({room} px between the safe zone and the head)')
     px = lambda v: round(v * k, 1)
@@ -213,7 +221,7 @@ def main():
             # spread over the open side, so they fall apart from each other
             edge, span = (V.SAFE_SIDE + 6, side_l - V.SAFE_SIDE - 22 - tw) if fall_side == 'left' else (side_r + 16, 1080 - V.SAFE_SIDE - 22 - tw - side_r)
             dest = edge + (span * pos_of[j] / (len(alive) - 1) if len(alive) > 1 else span / 2)
-            dx = dest - (left + px(TX) + pos_of[j] * px(PITCH))
+            dx = 0 if below else dest - (left + px(TX) + pos_of[j] * px(PITCH))      # on the chest they just drop
             p.js.append(f"tl.to('#ads{j}',{{x:{seat + dx:.1f},duration:.14,ease:'power2.out'}},{V.T(t_word + lag):.3f});")
             p.js.append(f"tl.to('#ads{j}',{{y:{1980 - top:.0f},duration:.52,ease:'power2.in'}},{V.T(t_word + lag):.3f});")
             p.js.append(f"tl.to('#adw{j}',{{rotation:{rot},duration:.52,ease:'power1.in'}},{V.T(t_word + lag):.3f});")

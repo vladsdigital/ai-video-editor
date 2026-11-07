@@ -7,8 +7,10 @@ An effect in effects/index.json is one of two kinds ("status"):
            reel). Make a slot with fx_new.py, fill the CLIP block, run the listed commands, add it with fx_add.py.
   recipe   the finished build of one real reel: the editing Claude adapts it by hand (see effects/INDEX.md).
 """
+import colorsys
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -233,3 +235,75 @@ def head_check(project, slot, t0, limit=60):
             'poster behind the head can fool the quick measurement). Look at work/layout/check.jpg, then run layout.py '
             'again (it uses the clean cutout now that it is installed) or correct "head" and "bands" in layout.json, '
             'and rebuild the reel: captions and the self-check both read those numbers.')
+
+
+# ---- The buyer's effect colour. A pack with "accent": true in slot.json keeps its colours in the source as a green
+# family (dark greens are cards, pale greens are small text) plus old gold for accent words. fx_new.py swaps them in the
+# slot for shades of the colour picked in the Picker, so one setting recolours every such effect.
+DEFAULT_ACCENT = '#FF6A1A'
+_HEX = re.compile(r'#[0-9a-fA-F]{6}(?![0-9a-fA-F])')
+
+
+def _rgb(h):
+    return [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+
+
+def _hex(c):
+    return '#%02X%02X%02X' % tuple(round(max(0.0, min(1.0, v)) * 255) for v in c)
+
+
+def _mix(a, b, t):
+    return [x + (y - x) * t for x, y in zip(a, b)]
+
+
+def _lum(c):
+    lin = [v / 12.92 if v <= .03928 else ((v + .055) / 1.055) ** 2.4 for v in c]
+    return .2126 * lin[0] + .7152 * lin[1] + .0722 * lin[2]
+
+
+def clean_accent(color):
+    """A '#RRGGBB' the cream words stay readable on: a light colour is darkened until they do. Bad input -> default."""
+    if not (isinstance(color, str) and re.fullmatch(r'#[0-9a-fA-F]{6}', color)):
+        color = DEFAULT_ACCENT
+    c, cream = _rgb(color), _lum(_rgb('#F3EFE2'))
+    while (cream + .05) / (_lum(c) + .05) < 2.4:
+        c = [v * .96 for v in c]
+    return _hex(c)
+
+
+def accent_shade(h, accent):
+    """The shade of the accent that stands in for one source colour. Colours outside the two families stay."""
+    r, g, b = _rgb(h)
+    hue, sat, val = colorsys.rgb_to_hsv(r, g, b)
+    hue *= 360
+    a, white, black = _rgb(accent), [1, 1, 1], [0, 0, 0]
+    if 38 <= hue <= 46 and sat >= .45:          # old gold: accent words
+        return _hex(_mix(a, white, .72))
+    if not (75 <= hue <= 170 and sat >= .1):
+        return h
+    if val < .12:                               # near-black panels and shadows
+        return _hex(_mix(a, black, .86))
+    if val < .175:                              # dark panels
+        return _hex(_mix(a, black, .5))
+    if val < .3:                                # the cards and backdrops: the colour itself
+        return accent
+    if val < .5:
+        return _hex(_mix(a, white, .18))
+    return _hex(_mix(a, white, .66))            # small text on the cards, ticks
+
+
+def apply_accent(slot, accent):
+    """Swap the colours in a slot's own code. Run once, on a fresh copy of the pack (or on a slot still in the source colours)."""
+    accent = clean_accent(accent)
+    for name in os.listdir(slot):
+        path = os.path.join(slot, name)
+        if not (os.path.isfile(path) and name.endswith(('.py', '.html', '.css', '.js'))):
+            continue
+        with open(path, encoding='utf-8') as fh:
+            text = fh.read()
+        new = _HEX.sub(lambda m: accent_shade(m.group(0), accent), text)
+        new = re.sub(r'(deep |dark |flat |solid )?forest green', 'the effect colour', new)
+        if new != text:
+            with open(path, 'w', encoding='utf-8', newline='\n') as fh:
+                fh.write(new)
+    return accent

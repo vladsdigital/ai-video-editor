@@ -21,5 +21,6 @@
   "run build.py      # guide off",
   "hf render",
   "run check.py      # frame count, plain first frame, work/check/sheet.jpg, phone copy"
- ]
+ ],
+ "accent": true
 }

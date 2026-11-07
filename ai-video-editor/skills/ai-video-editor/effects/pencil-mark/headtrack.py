@@ -118,8 +118,8 @@ def track(slot):
             arr[a:b] = ndimage.gaussian_filter1d(ndimage.median_filter(arr[a:b], 5, mode='nearest'), 1.6, mode='nearest')
         s, _ = seg_size(slot, a)
         wm = float(np.median(w[a:b]))
-        # layout.json's chin is the better measure of the head's length. Without it: a head is about 1.45 widths tall
-        size[a:b] = s if s and .9 * wm < s < 2.4 * wm else 1.45 * wm
+        # layout.json's chin is the better measure of the head's length, unless it stops short of the chin (under 1.25 widths). A head is about 1.4 widths tall
+        size[a:b] = s if s and 1.25 * wm < s < 2.4 * wm else 1.4 * wm
     out = {'cx': x.round(1).tolist(), 'top': t.round(1).tolist(), 'chin': (t + size).round(1).tolist(),
            'cy': (t + size / 2).round(1).tolist(), 'width': float(np.median(w)), 'height': float(np.median(size)), 'measured': True}
     os.makedirs('work', exist_ok=True)

@@ -30,7 +30,8 @@ STYLE = dict(
 ON = None           # the word the grade takes its first step on (a word from words.json) or seconds.
                     # None = the first word at least 0.7 s into the slot
 TITLE = 'UZORCI'    # the card's title
-LABELS = dict(cloth='ODEĆA', wall='ZID', light='SVETLO', shade='SENKA', accent='AKCENAT')   # names of the five samples
+LABELS = dict(dark='TAMNA', light='SVETLA', neutral='SIVA', red='CRVENA', orange='NARANDŽASTA', yellow='ŽUTA', green='ZELENA',
+              blue='PLAVA', purple='LJUBIČASTA')   # the name under each swatch, in the reel's language
 OUT = 'auto'        # 'auto' = card and grade leave in the last 0.4 s. None = they stay to the end (the slot ends on a cut)
 SFX_GAIN = 1.0
 # ==== END CLIP ====
@@ -55,6 +56,19 @@ def grab(path, frame, alpha=False, extra=()):
     return np.frombuffer(raw, np.uint8).reshape(1920, 1080, c).astype(float)
 
 
+def colour_name(c):
+    """which entry of LABELS a measured colour (0-255) belongs to"""
+    r, g, b = c / 255
+    hi, lo = max(r, g, b), min(r, g, b)
+    if hi < .16:
+        return 'dark'
+    if hi - lo < .12 or (hi - lo) / hi < .18:
+        return 'light' if hi > .75 else 'neutral'
+    h = ((g - b) / (hi - lo) % 6 if hi == r else (b - r) / (hi - lo) + 2 if hi == g else (r - g) / (hi - lo) + 4) * 60
+    return ('red' if h < 15 or h >= 335 else 'orange' if h < 42 else 'yellow' if h < 70 else 'green' if h < 170
+            else 'blue' if h < 255 else 'purple')
+
+
 def crosses(a, b, box):
     """does the straight line a to b touch the box (x0, y0, x1, y1)?"""
     for u in np.linspace(0, 1, 40):
@@ -70,12 +84,13 @@ def measure(frame, head_box, card_box, slot_xy):
     if not os.path.exists('assets/subject.webm'):
         V.die('assets/subject.webm is missing: this effect reads the speaker\'s cutout to tell clothes from the wall. Make the slot again with the cutout')
     rgb = grab('assets/aroll.mp4', frame)
+    rgb0, rgb1 = grab('assets/aroll.mp4', max(0, frame - 6)), grab('assets/aroll.mp4', frame + 6)
     alpha = grab('assets/subject.webm', frame, alpha=True, extra=('-c:v', 'libvpx-vp9'))[..., 3] / 255
     cells = []
     for y in range(V.SAFE_TOP + 20, V.SAFE_BOTTOM - BLOCK, BLOCK):
         for x in range(V.SAFE_SIDE + 10, 1080 - V.SAFE_SIDE - 40, BLOCK):
             cx, cy = x + BLOCK / 2, y + BLOCK / 2
-            if head_box[0] < cx < head_box[2] and head_box[1] < cy < head_box[3]:
+            if head_box[0] < cx < head_box[2] and cy < head_box[3] + 180:    # the face, above it, and far enough below it for the cursor's body
                 continue
             if card_box[0] - 30 < cx < card_box[2] + 30 and card_box[1] - 30 < cy < card_box[3] + 30:
                 continue
@@ -86,30 +101,21 @@ def measure(frame, head_box, card_box, slot_xy):
             if b.std(0).mean() > 16 or (.05 < a.mean() < .95):
                 continue
             m = b.mean(0)
+            if max(np.abs(r[y:y + BLOCK, x:x + BLOCK].reshape(-1, 3).mean(0) - m).max() for r in (rgb0, rgb1)) > 12:
+                continue                     # a hand passing through: the code would not match what is there at the tap
             cells.append(dict(x=cx, y=cy, c=m, luma=float(m @ (.2126, .7152, .0722)), sat=float(m.max() - m.min()), sub=a.mean() >= .95))
     bg, sub = [c for c in cells if not c['sub']], [c for c in cells if c['sub']]
     if len(bg) < 3 or len(cells) < 12:
         V.die('there is not enough calm picture off the face on this clip to sample five colours')
 
-    def near(pool, target):
-        return min(pool, key=lambda c: float(np.abs(c['c'] - target).sum()))
-
-    def far(pool, chosen):
-        return [c for c in pool if all(float(np.abs(c['c'] - o['c']).sum()) > 40 and abs(c['x'] - o['x']) + abs(c['y'] - o['y']) > 120 for o in chosen)] or pool
-
-    chosen, kinds = [], []
-    if sub:
-        chosen.append(near(sub, np.median([c['c'] for c in sub], 0)))
-        kinds.append('cloth')
-    chosen.append(near(far(bg, chosen), np.median([c['c'] for c in bg], 0)))
-    kinds.append('wall')
-    chosen.append(max(far(bg, chosen), key=lambda c: c['luma']))
-    kinds.append('light')
-    chosen.append(min(far(cells, chosen), key=lambda c: c['luma']))
-    kinds.append('shade')
+    # five colours as far apart as the picture offers, starting from the clothes (or the wall on a clip with no clothes in reach)
+    pool = sub or bg
+    first = min(pool, key=lambda c: float(np.abs(c['c'] - np.median([o['c'] for o in pool], 0)).sum()))
+    chosen = [first]
     while len(chosen) < 5:
-        chosen.append(max(far(cells, chosen), key=lambda c: c['sat']))
-        kinds.append('accent')
+        chosen.append(max(cells, key=lambda c: min(float(np.abs(c['c'] - o['c']).sum()) for o in chosen)
+                          if all(abs(c['x'] - o['x']) + abs(c['y'] - o['y']) > 120 for o in chosen) else -1))
+    kinds = [colour_name(c['c']) for c in chosen]
     pts = [(k, c['x'], c['y']) for k, c in zip(kinds, chosen)]
     start = (slot_xy[0] + 500, slot_xy[1] + 500)
     best = min(itertools.permutations(pts), key=lambda order: sum(crosses(a[1:], b[1:], head_box) for a, b in zip(order, order[1:])) * 10000
@@ -219,7 +225,7 @@ def main():
     for i, r in enumerate(rows):
         path.append((r['x'], r['y'], f0 + PICKS[i]))
     leave = f0 + PICKS[4] + 8
-    path.append((1180 if side < 0 else -100, rows[4]['y'] - 200, leave))
+    path.append((1180 if rows[4]['x'] > s.cx else -100, rows[4]['y'] - 120, leave))    # out on its own side, never over the face
     js.append(f"gsap.set('#drop',{{autoAlpha:0,x:{start[0]:.0f},y:{start[1] - 78:.0f}}});tl.set('#drop',{{autoAlpha:1}},{t(f0):.3f});tl.set('#drop',{{autoAlpha:0}},{t(leave):.3f});")
     for (x0, y0, a), (x1, y1, b) in zip(path, path[1:]):
         for f in range(a + 1, b + 1):

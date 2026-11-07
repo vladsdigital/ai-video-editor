@@ -26,5 +26,6 @@
   "name": "clips",
   "min": 1,
   "what": "the buyer's own walkthrough video (mp4 or mov, one video or one per chapter). Only material they may show"
- }
+ },
+ "accent": true
 }

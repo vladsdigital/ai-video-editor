@@ -6,11 +6,11 @@
 
 ## Footage it needs, and where it fails
 - A spoken sentence of up to about 70 characters.
-- Room above the head: about 250 px between the safe zone (y 220) and the head. Wide and medium shots. A tight selfie stops with one line saying how much room there is.
+- Room above the head: about 250 px between the safe zone (y 220) and the head. With less, the printer sits on the chest instead, under the chin. No room there either: it stops with one line saying so.
 - Any camera: the receipt is fixed to the screen, placed from `layout.json`.
 
 ## Adapting to the footage
-- The bar sits just above the head and follows the head's x (kept inside the safe zone). The whole receipt scales as one piece to fit the room above the head (full size is 525 px wide, three lines about 370 px tall), so its proportions never change. Under 58% of full size it declines.
+- The bar sits just above the head and follows the head's x (kept inside the safe zone). The whole receipt scales as one piece to fit the room above the head (full size is 525 px wide, three lines about 370 px tall), so its proportions never change. Under 58% of full size above the head it moves to the chest, and the paper then leaves sideways instead of up across the face.
 - The reel's captions stay on, on the chest, and the receipt repeats the words from above the head.
 
 ## Slot inputs

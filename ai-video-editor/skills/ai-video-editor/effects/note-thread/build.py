@@ -47,7 +47,7 @@ T_TYPE = None       # when the note starts to type (a word or seconds). None = 0
 T_REPLY = None      # when the reply slides in (a word or seconds). None = 0.25 s after the note is done
 T_OUT = None        # when it all fades. None = 1.0 s after the reply, or the slot end
 TYPE_RATE = .024    # seconds per letter
-Y = None            # y of the bottom of the grown card, px. None = just above the head from layout.json
+Y = None            # y of the bottom of the grown card, px. None = just above the head from layout.json, or on the chest with no room there
 SCALE = None        # size against full size (cream card 1000 px wide). None = as large as the room above the head allows
 SOUND = .3          # volume of the keys and the card. 0 = silent
 # ==== END CLIP ====
@@ -115,6 +115,14 @@ def main():
     bottom = int(Y) if Y is not None else s.head_top - 12
     room = bottom - V.SAFE_TOP - 6
     k = SCALE if SCALE else min(1.0, room / stack, (1080 - 2 * V.SAFE_SIDE - 16) / CW)
+    # no room above the head: the cards sit on the chest, under the chin
+    below = (Y > s.chin) if Y is not None else k < .62
+    if below:
+        limit = (Y if Y is not None else V.SAFE_BOTTOM - 6) - s.chin - 24
+        k = SCALE if SCALE else min(1.0, limit / stack, (1080 - 2 * V.SAFE_SIDE - 16) / CW)
+        if Y is None:
+            bottom = int(s.chin + 24 + stack * k)
+        print('placement: no room above the head, so the note sits on the chest')
     if k < .62:
         V.die(f'the note needs more room above the head than this clip has ({room} px between the safe zone and the head)')
     px = lambda v: round(v * k, 1)

@@ -6,7 +6,7 @@
 
 ## Footage it needs, and where it fails
 - A line that names 1 to 4 things and ends on one word, with about half a second between the last name and that word.
-- Room above the head: about 150 px between the safe zone (y 220) and the head. A tight selfie stops with one line saying how much room there is.
+- Room above the head: about 150 px between the safe zone (y 220) and the head. With less, the row sits on the chest under the chin instead, and the tiles simply drop. No room there either: it stops with one line saying so.
 - Any camera: the tiles are fixed to the screen, placed from `layout.json`.
 
 ## Adapting to the footage

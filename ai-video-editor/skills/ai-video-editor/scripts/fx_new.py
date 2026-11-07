@@ -81,6 +81,7 @@ def parse():
     ap.add_argument('--prompt', default='Claude, Claude Code, skill.')
     ap.add_argument('--no-transcribe', action='store_true')
     ap.add_argument('--picks')
+    ap.add_argument('--accent')
     ap.add_argument('--buyer-files')
     ap.add_argument('--force', action='store_true')
     ap.add_argument('-h', '--help', action='store_true')
@@ -187,6 +188,10 @@ def main():
     # ---------------------------------------------------------------- 1 + 2: effect files, fonts, sounds, template
     copy_tree(src_dir, slot, a.force, skip=('example', 'slot.json'))
     shutil.copyfile(os.path.join(src_dir, 'slot.json'), os.path.join(slot, 'slot.json'))
+    if meta.get('accent'):
+        chosen = a.accent or skillenv.effective_picks(a.project and skillenv.path_arg(a.project),
+                                                      skillenv.path_arg(a.picks) if a.picks else None)[0].get('accentColor')
+        print(f'effect colour: {fxlib.apply_accent(slot, chosen)}')
     # the language lists (weak words, numbers, the comment verbs) and the reel's script, for effects that read the
     # words: a slot is run on its own (python3 build.py), so it gets engine/lang.py and a lang.json beside it
     shutil.copyfile(os.path.join(ENGINE, 'lang.py'), os.path.join(slot, 'lang.py'))

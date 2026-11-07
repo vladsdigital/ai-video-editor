@@ -141,6 +141,14 @@ main { padding-bottom: 56px; }
 @keyframes clapline { 0% { border-bottom-color: var(--orange); } 100% { border-bottom-color: var(--line); } }
 .slate.clapped .slate-f { animation: clapline .9s ease-out both; }
 .h2 { font-size: clamp(44px, 11.5vw, 76px); }
+.accent { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 0 0 18px; }
+.accent-t { font-weight: 600; color: var(--cream); }
+.accent-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.accent-row button { width: 34px; height: 34px; border-radius: 50%; border: 0; padding: 0; cursor: pointer; box-shadow: inset 0 0 0 1px var(--line-2); }
+.accent-row button[aria-pressed="true"] { outline: 2px solid var(--cream); outline-offset: 2px; }
+.accent-own { display: inline-flex; align-items: center; gap: 8px; color: var(--cream-2); cursor: pointer; }
+.accent-own input { width: 34px; height: 34px; padding: 0; border: 0; background: none; cursor: pointer; }
+.accent-n { flex-basis: 100%; color: var(--taupe); font-size: 14px; }
 .note { margin-top: 10px; color: var(--cream-2); font-size: 16.5px; max-width: 34em; text-wrap: pretty; }
 .sec-hd { margin-bottom: 22px; }
 
@@ -357,6 +365,12 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
         </button>
         <button class="all" type="button" id="all">Izaberi sve</button>
       </div>
+      <div class="accent" role="group" aria-labelledby="accent-t">
+        <span class="accent-t" id="accent-t">Boja efekata</span>
+        <div class="accent-row" id="accent-row"></div>
+        <label class="accent-own"><input type="color" id="accent-own" aria-label="Izaberi svoju boju"><span>Svoja boja</span></label>
+        <small class="accent-n">Kartice i pozadine u novim efektima biće u ovoj boji. Primeri ispod su u narandžastoj. Previše svetlu boju malo potamnimo, da slova ostanu čitljiva.</small>
+      </div>
       <div class="grid" id="effects" role="group" aria-labelledby="h-effects"></div>
     </section>
   </div>
@@ -411,7 +425,7 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
   var C = null;                                   // the catalog
   var by = { caption: {}, effect: {}, style: {} };
   var S = {
-    mode: 'custom', style: null, captionStyle: null, effects: {},
+    mode: 'custom', style: null, captionStyle: null, effects: {}, accent: '#FF6A1A',
     partsOn: false,                               // the "different parts of my video" switch
     parts: {},                                    // effect key -> { hook: true, middle: false, end: false }: the parts tapped for it. None tapped = anywhere
     before: null,                                 // the captions and effects from before an overall style was picked
@@ -691,9 +705,24 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
       if (!st || !st.ready) return null;
       style = st.key;
     }
-    return { mode: style ? 'preset' : 'custom', style: style, captionStyle: S.captionStyle, effects: effectKeys(), effectSections: sections() };
+    return { mode: style ? 'preset' : 'custom', style: style, captionStyle: S.captionStyle, effects: effectKeys(), effectSections: sections(), accentColor: S.accent };
   }
-  function sig(p) { return p ? JSON.stringify([p.mode, p.style, p.captionStyle, p.effects, p.effectSections]) : ''; }
+  function sig(p) { return p ? JSON.stringify([p.mode, p.style, p.captionStyle, p.effects, p.effectSections, p.accentColor]) : ''; }
+
+  var ACCENTS = [['#FF6A1A', 'Narandžasta'], ['#D8342B', 'Crvena'], ['#D6246E', 'Roze'], ['#6D3BD1', 'Ljubičasta'], ['#1F5FD9', 'Plava'], ['#0E8C8C', 'Tirkizna'], ['#16744A', 'Zelena'], ['#1C1C22', 'Crna']];
+  function drawAccent() {
+    var row = $('accent-row');
+    row.textContent = '';
+    ACCENTS.forEach(function (a) {
+      var b = D.createElement('button');
+      b.type = 'button'; b.style.background = a[0]; b.title = a[1]; b.setAttribute('aria-label', a[1]);
+      b.setAttribute('aria-pressed', a[0].toLowerCase() === S.accent.toLowerCase() ? 'true' : 'false');
+      b.addEventListener('click', function () { setAccent(a[0]); });
+      row.appendChild(b);
+    });
+    $('accent-own').value = S.accent;
+  }
+  function setAccent(c) { S.accent = c; drawAccent(); sync(); }
 
   function summary() {
     var st = by.style[S.style], cap = by.caption[S.captionStyle], n = effectKeys().length, out = [];
@@ -778,7 +807,7 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
     $('save').classList.toggle('is-saved', saved);
     $('save-t').textContent = saved ? 'Sačuvano' : 'Sačuvaj izbor';
 
-    if (FILE) { try { localStorage.setItem(STORE, JSON.stringify({ mode: S.mode, style: S.style, captionStyle: S.captionStyle, effects: effectKeys(), effectSections: sections() })); } catch (e) {} }
+    if (FILE) { try { localStorage.setItem(STORE, JSON.stringify({ mode: S.mode, style: S.style, captionStyle: S.captionStyle, effects: effectKeys(), effectSections: sections(), accentColor: S.accent })); } catch (e) {} }
   }
 
   function setMode(mode) {
@@ -834,6 +863,7 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
   function apply(picks) {
     if (!picks) return;
     if (by.caption[picks.captionStyle]) S.captionStyle = picks.captionStyle;
+    if (/^#[0-9a-f]{6}$/i.test(picks.accentColor || '')) S.accent = picks.accentColor;
     S.effects = {}; S.parts = {};
     (picks.effects || []).forEach(function (k) { if (by.effect[k]) setEffect(k, true); });
     var sec = picks.effectSections;                // absent in picks saved before parts existed: effects land anywhere
@@ -851,6 +881,7 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
     if (C.parts && C.parts.length) PARTS = C.parts;
     render();
     apply(picks);
+    drawAccent();
     if (picks && picks.updated) savedSig = sig(payload());
     var tab = qs.get('tab');
     var fresh = !picks || (!picks.updated && !picks.captionStyle);
@@ -908,6 +939,8 @@ dialog::backdrop { background: rgba(9, 9, 10, .84); -webkit-backdrop-filter: blu
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t.value).then(done, function () { try { if (D.execCommand('copy')) done(); } catch (e) {} });
     else { try { if (D.execCommand('copy')) done(); } catch (e) {} }
   });
+
+  $('accent-own').addEventListener('input', function () { setAccent(this.value); });
 
   $('save').addEventListener('click', function () {
     var p = payload();

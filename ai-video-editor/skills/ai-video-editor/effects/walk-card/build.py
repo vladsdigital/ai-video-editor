@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""WALK CARD (explain): a card unfolds in the free space above the head (or beside it on a tighter shot): a 16:9 picture on
+"""WALK CARD (explain): a card unfolds in the free space above the head (or on the chest, or beside it, on a tighter shot): a 16:9 picture on
 top, a deep green panel with a serif title under it. A play button presses on a word, the buyer's own walkthrough
 video plays inside, and titled chapters skip by with a thin progress line. Then it folds away.
 
@@ -23,7 +23,7 @@ STYLE = dict(
     sub_weight=500,
     sub_px=25,
     mono_font='JetBrains Mono',    # chapter numbers and the small word in capitals
-    num_color='#B9C98A',
+    num_color='#F3EFE2',
     ink='#F3EFE2',                 # text on the panel and the filled part of the line (cream)
     track='#FFFFFF40',             # the empty part of the line
     radius=18,
@@ -50,7 +50,7 @@ PRESS_WORD = ''     # the word the play button presses on. The card starts unfol
 T_END = None        # slot seconds the card starts to close. None = 0.9 s after the last chapter starts
 SOURCE_AT = None    # one video: seconds in it where each chapter starts, [12, 40, ...]. None = spread through the video
 FOCUS = .3          # which part of a tall video the 16:9 picture keeps (0 = top, .5 = middle, 1 = bottom)
-PLACE = 'auto'      # 'auto' = above the head if it fits, else beside it. 'above' or 'side' forces it (still never on the face)
+PLACE = 'auto'      # 'auto' = above the head if it fits, else on the chest, else beside it. 'above', 'chest' or 'side' forces it
 HEAD_TOP = None     # top of the head, px, when layout.json has it wrong. None = measured
 # ==== END CLIP ====
 
@@ -123,12 +123,23 @@ def main():
     head = (s.layout or {}).get('head') or {}
     full_h = VIDEO_H + PANEL_H
     fits_above = TOP + full_h + 20 <= head_top
-    place = PLACE if PLACE != 'auto' else ('above' if fits_above else 'side')
+    # the measured chin often stops above the beard, so keep a quarter of the head's height clear under it
+    chest_top = s.chin + max(26, (s.chin - s.head_top) // 4)
+    chest_room = int(st['cap_y'] - st['cap_size'] * .7 - 20 - chest_top)
+    chest_w = min(CARD_W, int((chest_room - PANEL_H) * 16 / 9))
+    fits_chest = chest_w >= 480
+    place = PLACE if PLACE != 'auto' else ('above' if fits_above else 'chest' if fits_chest else 'side')
     if place == 'above':
         if not fits_above and not HEAD_TOP:
             V.die(f'the card is {full_h} px tall and there are only {head_top - TOP} px above the head on this clip. Use PLACE = \'side\' or a wider shot')
         w, cx, cy = CARD_W, 540, TOP + full_h // 2
         k = 1.0
+    elif place == 'chest':
+        if not fits_chest:
+            V.die(f'the card is {full_h} px tall and does not fit between the chin (y {s.chin}) and the captions on this clip. Use PLACE = \'side\'')
+        w, k = chest_w, chest_w / CARD_W
+        cx, cy = 540, None
+        print(f'placement: no room above the head ({head_top - TOP} px), so the card sits on the chest under the chin, {w} px wide. In a reel: add the slot with fx_add.py --captions hide, or --caption-y {int(st["cap_y"] - st["cap_size"] * .7)}')
     else:
         left_room = int(head.get('side_left') or head.get('left') or s.cx - 200) - V.SAFE_SIDE - 20
         right_room = 1080 - V.SAFE_SIDE - int(head.get('side_right') or head.get('right') or s.cx + 200) - 20
@@ -146,7 +157,9 @@ def main():
     pad = max(20, round(36 * k))
     ph = round(tpx * 1.32 + spx * 1.5 + pad * .95)
     h = vh + ph
-    if cy is None:
+    if place == 'chest':
+        cy = chest_top + h // 2
+    elif cy is None:
         cy = max(V.SAFE_TOP + 16, min(TOP, head_top - 200)) + h // 2
     # ---- the card
     p = X.Comp(s, st, overlay=True)

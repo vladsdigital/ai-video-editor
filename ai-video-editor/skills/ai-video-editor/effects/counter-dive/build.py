@@ -21,7 +21,7 @@ STYLE = dict(
     label_font='JetBrains Mono',    # the small label
     label_weight=500,
     plaque='#17392E',               # deep forest green
-    cell='#12302A',
+    cell='rgba(0,0,0,.2)',
     digit='#F3ECDE',                # cream
     label='#CDB56A',                # gold
     border='#F4EFE3',               # the thin line around the shrinking frame
@@ -97,9 +97,17 @@ def main():
     p_bottom = head_top - 12
     p_top = V.SAFE_TOP + 2
     p_h = min(p_bottom - p_top, 342)
-    if p_h < 190:
-        V.die(f'the head starts at y {head_top}: only {max(p_h, 0)} px above it inside the safe zone, the plaque needs 190. Leave this effect out on this shot')
-    p_top = p_bottom - p_h if p_h == 342 else p_top
+    if p_h >= 190:
+        p_top = p_bottom - p_h if p_h == 342 else p_top
+    else:                                  # a high head: the chest instead, clear of the caption line
+        head_ = (s.layout or {}).get('head') or {}
+        chin2 = max(s.chin, s.head_top + 1.6 * int(head_.get('width') or 300))   # the measured box can stop at the nose
+        p_top = int(chin2 + 36)
+        p_h = min(V.SAFE_BOTTOM - 40 - p_top, 300)
+        p_bottom = p_top + p_h
+        if p_h < 190:
+            V.die(f'no room for the plaque: {head_top - 12 - V.SAFE_TOP} px above the head and {max(p_h, 0)} px on the chest, it needs 190. Leave this effect out on this shot')
+        print(f'placement: no room above the head, so the plaque sits on the chest. In a reel: fx_add.py ... --caption-y {p_bottom + 12}')
     two_min = raw >= 600
     cells = 4 if two_min else 3
     lab_h = int(p_h * .17)
@@ -188,7 +196,7 @@ cvp();""")
     js.append(f"tl.set('#pq',{{autoAlpha:0}},{T(t(37)):.3f});")
 
     # ---------------------------------------------------------------- the frames inside each other
-    v = f'muted playsinline data-start="0" data-media-start="0" data-duration="{s.dur:.4f}"'
+    v = f'muted playsinline data-start="0" data-media-start="0" data-duration="{int(s.dur * 1000) / 1000:.3f}"'
     levels = max(1, min(int(LEVELS), 5))
     nest = ''
     for L in range(levels, 0, -1):
@@ -254,8 +262,8 @@ html,body{{width:1080px;height:1920px;overflow:hidden;background:#000}}
 <style>{css}</style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-start="0" data-duration="{s.dur:.4f}" data-width="1080" data-height="1920">
-  <audio id="bga" src="assets/aroll.mp4" data-start="0" data-media-start="0" data-duration="{s.dur:.4f}" data-track-index="2" data-volume="1"></audio>
+<div id="root" data-composition-id="main" data-start="0" data-duration="{int(s.dur * 1000) / 1000:.3f}" data-width="1080" data-height="1920">
+  <audio id="bga" src="assets/aroll.mp4" data-start="0" data-media-start="0" data-duration="{int(s.dur * 1000) / 1000:.3f}" data-track-index="2" data-volume="1"></audio>
   {audio}
   <div id="stage">
     <video id="bgv" class="lay" src="assets/aroll.mp4" {v} data-track-index="0"></video>
@@ -268,7 +276,7 @@ html,body{{width:1080px;height:1920px;overflow:hidden;background:#000}}
 window.__timelines = window.__timelines || {{}};
 const tl = gsap.timeline({{ paused: true }});
 {chr(10).join(js)}
-tl.set({{}}, {{}}, {s.dur:.3f});
+tl.set({{}}, {{}}, {int(s.dur * 1000) / 1000:.3f});
 window.__timelines["main"] = tl;
 </script>
 </body>

@@ -177,7 +177,7 @@ def main():
 #cam{{position:absolute;left:0;top:0;width:1080px;height:1920px}}
 #cam video{{position:absolute;left:0;width:1080px;height:1920px;object-fit:cover}}
 #camv{{top:0}}
-#camm{{top:-1920px;transform:scaleY(-1);filter:blur(14px)}}
+#camm{{top:0;transform-origin:50% 0;transform:scaleY({-max(1.0, slide / max(1, s.head_top - 30)):.3f});filter:blur(14px)}}
 #paper{{position:absolute;left:{PAPER_X}px;top:{PAPER_Y}px;width:{PAPER_W}px;height:{PAPER_H}px;background:{S["paper"]};box-shadow:0 14px 34px rgba(0,0,0,.42);transform-origin:50% 40%}}
 .st{{position:absolute;left:22px;width:{strip_w}px;height:{FRAME_H + 2 * BAND}px;background:{S["film"]}}}
 .st>s{{position:absolute;left:4px;right:4px;height:8px;display:block;background:repeating-linear-gradient(90deg,{S["hole"]} 0 9px,transparent 9px 21px)}}

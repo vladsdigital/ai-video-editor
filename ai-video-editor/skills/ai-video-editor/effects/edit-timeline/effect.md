@@ -5,7 +5,7 @@
 **Trigger phrases:** "build this reel's timeline above my head", "show the edit on screen".
 
 ## Footage it needs, and where it fails
-- About 250 px between the safe zone top (y 222) and the top of the head. Declines without it.
+- About 250 px between the safe zone top (y 222) and the top of the head, else 250 px on the chest (the panel moves there and build.py prints the --caption-y value that puts the captions under it). Declines with neither.
 - A reel project: `segments.json`, `words.json`, `assets/aroll.mp4`. Declines on a loose clip, because there is no edit to show.
 - Any camera, any number of cuts: it is an overlay.
 

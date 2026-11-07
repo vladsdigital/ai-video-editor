@@ -24,8 +24,8 @@ STYLE = dict(
     sans_weight=500,
     mono_font='JetBrains Mono',    # bars, labels, times
     mono_weight=500,
-    page='#17372C',                # deep forest green
-    page_dim='#0E2219',            # the page once it is dimmed
+    page='#0F241C',                # deep forest green, dark
+    page_dim='#0B1712',            # the page once it is dimmed
     bar='#F3ECDE',                 # cream bar on top of the panel
     bar_ink='#23261E',
     ink='#EFEADC',
@@ -132,10 +132,15 @@ def main():
     push = max(0, bottom + 8 - head_top)
     if chin + push > 1920 - 10:
         V.die(f'the face would leave the bottom of the frame ({chin + push} px): the shot is too tight for this effect')
+    head_ = (s.layout or {}).get('head') or {}
+    chin2 = max(s.chin, s.head_top + 1.6 * int(head_.get('width') or 300))   # the measured box can stop at the nose
+    if PANEL_BOTTOM is None and V.SAFE_BOTTOM - 2 - (chin2 + 36) >= 480:    # room on the upper body: the picture stays
+        top, bottom, push = int(chin2 + 36), V.SAFE_BOTTOM - 2, 0
     height = bottom - top
     left = (1080 - PANEL_W) // 2
     print(f'  panel y {top} to {bottom}; the picture drops {push} px, so the face sits at y {head_top + push} to {chin + push}')
-    print(f'  in a reel: add the slot with  fx_add.py ... --caption-y {bottom - 38}  so the captions ride the panel\'s lower edge')
+    if push:
+        print(f'  in a reel: add the slot with  fx_add.py ... --caption-y {bottom - 38}  so the captions ride the panel\'s lower edge')
 
     # ---------------------------------------------------------------- times
     t_in = when(s, T_IN, .1)
@@ -270,7 +275,7 @@ def main():
                  f'<audio id="sfx1" src="assets/sfx/whoosh-short.mp3" data-start="{max(0, t_out - .1):.3f}" data-duration=".6" data-track-index="11" data-volume="{SOUND * .7:.3f}"></audio>')
     n_cuts = len(read_json(os.path.join(proj, 'segments.json'), []) or []) if proj else 0
     bar_right = f'{n_cuts} kadrova' if n_cuts else ''
-    v = f'muted playsinline data-start="0" data-media-start="0" data-duration="{s.dur:.4f}"'
+    v = f'muted playsinline data-start="0" data-media-start="0" data-duration="{int(s.dur * 1000) / 1000:.3f}"'
     css = f'''
 *{{margin:0;padding:0;box-sizing:border-box}}
 html,body{{width:1080px;height:1920px;overflow:hidden;background:#000}}
@@ -313,8 +318,8 @@ html,body{{width:1080px;height:1920px;overflow:hidden;background:#000}}
 <style>{css}</style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-start="0" data-duration="{s.dur:.4f}" data-width="1080" data-height="1920">
-  <audio id="bga" src="assets/aroll.mp4" data-start="0" data-media-start="0" data-duration="{s.dur:.4f}" data-track-index="2" data-volume="1"></audio>
+<div id="root" data-composition-id="main" data-start="0" data-duration="{int(s.dur * 1000) / 1000:.3f}" data-width="1080" data-height="1920">
+  <audio id="bga" src="assets/aroll.mp4" data-start="0" data-media-start="0" data-duration="{int(s.dur * 1000) / 1000:.3f}" data-track-index="2" data-volume="1"></audio>
   {audio}
   <video id="bgv" class="lay" src="assets/aroll.mp4" {v} data-track-index="0"></video>
   <div id="drop"><video id="drv" class="lay" src="assets/aroll.mp4" {v} data-track-index="1"></video></div>
@@ -328,7 +333,7 @@ html,body{{width:1080px;height:1920px;overflow:hidden;background:#000}}
 window.__timelines = window.__timelines || {{}};
 const tl = gsap.timeline({{ paused: true }});
 {chr(10).join(js)}
-tl.set({{}}, {{}}, {s.dur:.3f});
+tl.set({{}}, {{}}, {int(s.dur * 1000) / 1000:.3f});
 window.__timelines["main"] = tl;
 </script>
 </body>

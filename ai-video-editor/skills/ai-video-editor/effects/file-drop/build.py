@@ -50,8 +50,9 @@ T_OUT = None        # it fades. None = 0.2 s before the slot ends
 # ==== END CLIP ====
 
 ZONE_W, ZONE_H_MAX = 798, 495
-ZONE_Y = 228
+ZONE_TOP = 228
 HEAD_GAP = 14
+CHIN_PAD = .35                 # room left under the measured chin on the chest, against the head's height
 ZONE_H_MIN = 240
 PLAYER_W_MAX = 336
 FILE_W = 585
@@ -103,16 +104,26 @@ def main():
     if not 1 <= len(STAMPS) <= 2:
         V.die('STAMPS holds one or two stamps')
     # ---- where things go
-    zone_h = min(ZONE_H_MAX, s.head_top - HEAD_GAP - ZONE_Y)
-    if zone_h < ZONE_H_MIN:
-        V.die(f'{s.head_top - HEAD_GAP - ZONE_Y} px of wall above the head: the drop zone needs about {ZONE_H_MIN}. This framing is too tight for it')
+    ZONE_Y = ZONE_TOP
+    zone_h = min(ZONE_H_MAX, s.head_top - HEAD_GAP - ZONE_TOP)
+    chest = zone_h < ZONE_H_MIN            # no wall above the head: the whole thing goes on the chest, under the chin
+    if chest:
+        ZONE_Y = int(s.chin + max(24, (s.chin - s.head_top) * CHIN_PAD))   # the measured chin can stop short of the beard
+        zone_h = min(ZONE_H_MAX, V.SAFE_BOTTOM - 6 - ZONE_Y)
+        if zone_h < ZONE_H_MIN:
+            V.die(f'no room for the drop zone: {s.head_top - HEAD_GAP - ZONE_TOP} px above the head and {V.SAFE_BOTTOM - 6 - ZONE_Y} px under the chin, it needs about {ZONE_H_MIN}')
     zone_x = int((1080 - ZONE_W) / 2)
     head = (s.layout or {}).get('head') or {}
     half = (head.get('width') or 380) / 2 + 12
     room_l, room_r = s.cx - half - V.SAFE_SIDE - 16, 1080 - V.SAFE_SIDE - 16 - (s.cx + half)
     side = 'left' if room_l >= room_r else 'right'
     room = max(room_l, room_r)
-    if room >= 260:
+    if chest:
+        ph = min(int(PLAYER_W_MAX * 16 / 9), V.SAFE_BOTTOM - 6 - 78 - ZONE_Y)
+        pw = int(ph * 9 / 16)
+        px, py = int(540 - pw / 2), ZONE_Y
+        side = 'chest'
+    elif room >= 260:
         pw = int(min(PLAYER_W_MAX, room))
         px = V.SAFE_SIDE + 16 + int(max(0, (room - pw) / 2)) if side == 'left' else 1080 - V.SAFE_SIDE - 16 - pw - int(max(0, (room - pw) / 2))
         py = ZONE_Y
@@ -185,7 +196,7 @@ def main():
     p.js.append(f"tl.fromTo('#zone',{{autoAlpha:0,scale:.965}},{{autoAlpha:1,scale:1,duration:.2,ease:'power2.out',immediateRender:false}},{V.T(t_in):.3f});")
     p.js.append(f"tl.to('#ztx',{{autoAlpha:0,duration:.1}},{V.T(t_file - .06):.3f});")
     # the file falls in
-    p.js.append(f"tl.fromTo('#file',{{autoAlpha:1,y:{-file_h - 40},rotation:-4}},{{autoAlpha:1,y:{land_y},rotation:-.6,duration:.16,ease:'power2.in',immediateRender:false}},{V.T(t_file):.3f});")
+    p.js.append(f"tl.fromTo('#file',{{autoAlpha:1,y:{1920 + 40 if chest else -file_h - 40},rotation:-4}},{{autoAlpha:1,y:{land_y},rotation:-.6,duration:.16,ease:'power2.in',immediateRender:false}},{V.T(t_file):.3f});")
     p.js.append(f"tl.to('#file',{{y:{land_y - 8},duration:.06,ease:'power2.out'}},{V.T(t_land):.3f});")
     p.js.append(f"tl.to('#file',{{y:{land_y},rotation:0,duration:.1,ease:'power2.in'}},{V.T(t_land + .067):.3f});")
     p.sound('click-soft', t_land, .4)
@@ -211,6 +222,8 @@ def main():
             continue
         p.js.append(f"tl.to('{el}',{{autoAlpha:0,duration:.14,ease:'none'}},{V.T(t_out):.3f});")
     p.write()
+    if chest:
+        s.hide_hint([(t_in, t_gone)])
     print(f'  zone {ZONE_W} x {zone_h} at y {ZONE_Y}, player {pw} x {ph} at x {px} ({side}). Zone {t_in:.2f}s, file falls {t_file:.2f}s, opens {t_open:.2f}s, stamps {t_stamp:.2f} and {t_stamp2:.2f}s, fades {t_out:.2f}s')
     print(f'snapshot at: {t_in + .3:.2f},{t_land + .1:.2f},{t_open + .1:.2f},{t_player + .1:.2f},{t_stamp + .05:.2f},{t_stamp2 + .3:.2f},{min(s.dur - .02, t_gone + .01):.2f}')
 

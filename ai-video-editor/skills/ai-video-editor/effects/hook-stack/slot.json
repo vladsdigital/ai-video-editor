@@ -6,7 +6,9 @@
  "hi": "no",
  "reel_captions": "keep",
  "captions_note": "the big lines are the effect. The small plate is its own captions for a reel with none: with the reel's captions on, build with CAPTIONS=0 and keep them",
- "reel_env": ["CAPTIONS=0"],
+ "reel_env": [
+  "CAPTIONS=0"
+ ],
  "in_a_reel": [
   "this is the reel's opening line: start the slot on the first word, end it on the cut after the line",
   "write the lines in the CLIP block in the order said, the speaker's own words, capitals for SERIF and STACK",
@@ -21,5 +23,6 @@
   "run build.py      # guide off",
   "hf render",
   "run check.py      # frame count, work/check/sheet.jpg, phone copy"
- ]
+ ],
+ "accent": true
 }

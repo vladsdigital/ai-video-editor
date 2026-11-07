@@ -38,7 +38,7 @@ TOTAL_VALUE = '1 SENTENCE'     # the total line, right
 T_START = None      # when the first word of TEXT is said (slot seconds). None = found in words.json
 T_DONE = None       # when the total line prints. None = when the last word of TEXT ends
 HOLD = .4           # seconds the finished receipt stays before it tears off
-Y = None            # y of the top of the printer bar, px. None = just above the head from layout.json
+Y = None            # y of the top of the printer bar, px. None = just above the head from layout.json, or on the chest with no room there
 SCALE = None        # size against the full-size receipt (525 px wide). None = as large as the room above the head allows
 SOUND = .22         # volume of the paper feed and the tear. 0 = silent
 # ==== END CLIP ====
@@ -105,12 +105,18 @@ def main():
     H = c_total + 34
     room = (Y + BAR_H if Y is not None else s.head_top - 10) - V.SAFE_TOP - 6
     k = SCALE if SCALE else min(1.0, room / (H + BAR_H - SLOT))
+    # no room above the head: the bar sits on the chest, the paper grows up to just under the chin and leaves sideways
+    below = (Y > s.chin) if Y is not None else k < .58
+    if below:
+        top_y = s.chin + 24
+        k = SCALE if SCALE else min(1.0, ((Y if Y is not None else V.SAFE_BOTTOM - 6 - BAR_H) - top_y) / (H - SLOT))
+        print('placement: no room above the head, so the printer sits on the chest')
     if k < .58:
         V.die(f'the receipt needs more room above the head than this clip has ({room} px between the safe zone and the '
               'head): shorten TEXT, or pick a wider shot')
     px = lambda v: round(v * k, 1)
     bar_w, bar_h, slot_y = px(BAR_W), px(BAR_H), px(SLOT)
-    bar_y = int(Y) if Y is not None else int(s.head_top - 10 - bar_h)
+    bar_y = int(Y) if Y is not None else int(s.chin + 24 + px(H - SLOT)) if below else int(s.head_top - 10 - bar_h)
     width = px(W)
     bar_l = int(min(max(V.SAFE_SIDE, s.cx - bar_w / 2), 1080 - V.SAFE_SIDE - bar_w))
     left = bar_l + (bar_w - width) / 2
@@ -168,8 +174,11 @@ def main():
     # the tear, a quarter of a second in all: a tilt, a lift with the tilt swung back, then away up and to the right
     full = px(H)
     p.js.append(f"tl.to('#rcp',{{y:{-full - px(14)},rotation:-2.6,duration:.05,ease:'power2.out'}},{V.T(t_tear):.3f});")
-    p.js.append(f"tl.to('#rcp',{{y:{-full - px(120)},x:{px(30)},rotation:1,duration:.07,ease:'sine.in'}},{V.T(t_tear) + .05:.3f});")
-    p.js.append(f"tl.to('#rcp',{{y:{-bar_y - full - 120},x:{px(420)},rotation:7,duration:.14,ease:'power1.in'}},{V.T(t_tear) + .12:.3f});")
+    p.js.append(f"tl.to('#rcp',{{y:{-full - px(30 if below else 120)},x:{px(30)},rotation:1,duration:.07,ease:'sine.in'}},{V.T(t_tear) + .05:.3f});")
+    if below:      # never up across the face
+        p.js.append(f"tl.to('#rcp',{{y:{-full - px(40)},x:{1180 - left:.0f},rotation:7,duration:.14,ease:'power1.in'}},{V.T(t_tear) + .12:.3f});")
+    else:
+        p.js.append(f"tl.to('#rcp',{{y:{-bar_y - full - 120},x:{px(420)},rotation:7,duration:.14,ease:'power1.in'}},{V.T(t_tear) + .12:.3f});")
     p.js.append(f"tl.to('#rcb',{{autoAlpha:0,duration:.12,ease:'none'}},{V.T(t_bar_out):.3f});")
     if SOUND:
         p.sound('click', t_tear, SOUND)

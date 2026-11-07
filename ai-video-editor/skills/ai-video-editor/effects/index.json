@@ -1418,7 +1418,7 @@
    "tracking": "none (screen-fixed, placed from layout.json)",
    "extra": [],
    "material": "none (one spoken line: a key word, then a payoff)",
-   "notes": "Needs about 110 px between the top of the safe zone and the head, and about 200 px under the chin; it declines without them. Less room above the head gives a smaller slab.",
+   "notes": "Needs about 110 px between the top of the safe zone and the head, and about 200 px under the chin; it declines without them. Less room above the head gives a smaller slab. No room above the head: it moves to the chest, under the chin, and declines only when the chest has no room either.",
    "status": "ready"
   },
   {
@@ -1442,7 +1442,7 @@
    "tracking": "none (the pull is centred on the head from layout.json)",
    "extra": [],
    "material": "none (a line said after the pull)",
-   "notes": "Needs about 130 px above the head inside the safe zone, and a slot of 2 s or more. The opening punch-in is an upscale, so a 1080 source looks a little soft for its first half second.",
+   "notes": "Needs about 130 px above the head inside the safe zone, and a slot of 2 s or more. The opening punch-in is an upscale, so a 1080 source looks a little soft for its first half second. No room above the head: it moves to the chest, under the chin, and declines only when the chest has no room either.",
    "status": "ready"
   },
   {
@@ -1588,7 +1588,7 @@
    "tracking": "none (screen-fixed, placed from layout.json)",
    "extra": [],
    "material": "none (a spoken sentence of up to about 70 characters)",
-   "notes": "Needs about 250 px between the top of the safe zone and the head: a tight selfie declines. Plain paper and bar, never a real product's name.",
+   "notes": "Needs about 250 px between the top of the safe zone and the head: a tight selfie declines. Plain paper and bar, never a real product's name. No room above the head: it moves to the chest, under the chin, and declines only when the chest has no room either.",
    "status": "ready"
   },
   {
@@ -1612,7 +1612,7 @@
    "tracking": "none (screen-fixed, placed from layout.json)",
    "extra": [],
    "material": "none (2 to 6 things the speaker names and a closing word); the buyer's own tile images are optional",
-   "notes": "Needs about 200 px between the top of the safe zone and the head: a tight selfie declines. Plain lettered tiles by default, never a real product's logo.",
+   "notes": "Needs about 200 px between the top of the safe zone and the head: a tight selfie declines. Plain lettered tiles by default, never a real product's logo. No room above the head: it moves to the chest, under the chin, and declines only when the chest has no room either.",
    "status": "ready"
   },
   {
@@ -1636,7 +1636,7 @@
    "tracking": "none (screen-fixed, placed from layout.json)",
    "extra": [],
    "material": "none (1 to 4 things the speaker names and a closing word); the buyer's own tile images are optional",
-   "notes": "Needs about 150 px between the top of the safe zone and the head: a tight selfie declines. Plain lettered tiles by default, never a real product's logo.",
+   "notes": "Needs about 150 px between the top of the safe zone and the head: a tight selfie declines. Plain lettered tiles by default, never a real product's logo. No room above the head: it moves to the chest, under the chin, and declines only when the chest has no room either.",
    "status": "ready"
   },
   {
@@ -1683,7 +1683,7 @@
    "tracking": "none (screen-fixed, placed from layout.json)",
    "extra": [],
    "material": "none (a name, a note and a reply in the buyer's words); pictures for the two badges are optional",
-   "notes": "Needs about 200 px between the top of the safe zone and the head: a tight selfie declines. Plain cards and lettered badges, never a real product's interface.",
+   "notes": "Needs about 200 px between the top of the safe zone and the head: a tight selfie declines. Plain cards and lettered badges, never a real product's interface. No room above the head: it moves to the chest, under the chin, and declines only when the chest has no room either.",
    "status": "ready"
   },
   {
@@ -1753,7 +1753,7 @@
    "tracking": "none (screen-fixed, placed from layout.json)",
    "extra": [],
    "material": "none (the raw clip, its name and length come from the reel; the stamp words in the buyer's language)",
-   "notes": "Needs about 240 px of wall above the head for the card. The player goes on the side with more wall, or stays small above the head when there is none. A plain generic card, never a real app's screen.",
+   "notes": "Needs about 240 px of wall above the head for the card. The player goes on the side with more wall, or stays small above the head when there is none. A plain generic card, never a real app's screen. No room above the head: it moves to the chest, under the chin, and declines only when the chest has no room either.",
    "status": "ready"
   },
   {
@@ -1877,7 +1877,7 @@
    "tracking": "none (screen-fixed, placed from layout.json)",
    "extra": [],
    "material": "the buyer's handle, optionally their round picture (a plain letter tile otherwise)",
-   "notes": "The call to action, 4 to 7 s, with a keyword the speaker says. Needs room above the head for the cards: declines on a tight close-up. Plain generic cards, never a real app's screen. Keeps the reel's captions on.",
+   "notes": "The call to action, 4 to 7 s, with a keyword the speaker says. Needs room above the head for the cards: declines on a tight close-up. Plain generic cards, never a real app's screen. Keeps the reel's captions on. No room above the head: it moves to the chest, under the chin, and declines only when the chest has no room either.",
    "status": "ready"
   },
   {
@@ -1900,7 +1900,7 @@
    "tracking": "none (screen-fixed, placed from layout.json; the two-tone mask is one still of the slot)",
    "extra": [],
    "material": "the buyer's handle, optionally their round picture (a plain letter tile otherwise)",
-   "notes": "The call to action, 3 to 5 s, with a short keyword of 2 to 8 letters. Needs room above the head: declines on a tight close-up. The two-tone letters follow a still of the background, so a moving camera should turn TWO_TONE off. Plain generic cards, never a real app's screen.",
+   "notes": "The call to action, 3 to 5 s, with a short keyword of 2 to 8 letters. Needs room above the head: declines on a tight close-up. The two-tone letters follow a still of the background, so a moving camera should turn TWO_TONE off. Plain generic cards, never a real app's screen. No room above the head: it moves to the chest, under the chin, and declines only when the chest has no room either.",
    "status": "ready"
   },
   {
@@ -1924,7 +1924,7 @@
    "tracking": "none (screen-fixed, placed from layout.json)",
    "extra": [],
    "material": "none (a spoken instruction of up to about 60 characters and a short result)",
-   "notes": "Any line where the speaker tells an AI what to do and says what comes back, about 3 to 5 s. Needs room above the head: declines on a tight close-up. A plain bar, never a real app's screen.",
+   "notes": "Any line where the speaker tells an AI what to do and says what comes back, about 3 to 5 s. Needs room above the head: declines on a tight close-up. A plain bar, never a real app's screen. No room above the head: it moves to the chest, under the chin, and declines only when the chest has no room either.",
    "status": "ready"
   },
   {
@@ -1973,7 +1973,7 @@
    "tracking": "none (screen-fixed, placed above the head from layout.json)",
    "extra": [],
    "material": "none (the panel reads the reel's own segments, words and audio)",
-   "notes": "Needs about 250 px between the safe zone top and the top of the head; declines without it. Needs a reel project, because it shows the reel's own edit, so build it after the cuts are final. Fits a line about how the video was made.",
+   "notes": "Needs about 250 px between the safe zone top and the top of the head; declines without it. Needs a reel project, because it shows the reel's own edit, so build it after the cuts are final. Fits a line about how the video was made. No room above the head: it moves to the chest, under the chin, and declines only when the chest has no room either.",
    "status": "ready"
   },
   {
@@ -1998,7 +1998,7 @@
    "tracking": "none (screen-fixed, placed from layout.json)",
    "extra": [],
    "material": "none (the real raw and finished lengths come from the reel project, or the buyer types them)",
-   "notes": "The slot crosses the cut after the line, about 0.4 s into the next shot, with about 2.8 s before the cut (2.1 s at least). Needs about 190 px above the head for the plaque and room for the small frame above or beside the head. Declines without them, and never shows made-up lengths.",
+   "notes": "The slot crosses the cut after the line, about 0.4 s into the next shot, with about 2.8 s before the cut (2.1 s at least). Needs about 190 px above the head for the plaque and room for the small frame above or beside the head. Declines without them, and never shows made-up lengths. No room above the head: it moves to the chest, under the chin, and declines only when the chest has no room either.",
    "status": "ready"
   },
   {
@@ -2094,7 +2094,7 @@
    "tracking": "none (screen-fixed, placed from layout.json)",
    "extra": [],
    "material": "the buyer's own walkthrough video, plus a title and 2 to 5 chapter names",
-   "notes": "Full size above the head needs a wide shot with the head top below about y 820. On a medium shot it sits beside the head, smaller, and on a shot with no room either side it declines. Without the buyer's own video the effect is left out.",
+   "notes": "Full size above the head needs a wide shot with the head top below about y 820. On a medium shot it sits beside the head, smaller, and on a shot with no room either side it declines. Without the buyer's own video the effect is left out. No room above the head: it moves to the chest, under the chin, and declines only when the chest has no room either.",
    "status": "ready"
   },
   {
