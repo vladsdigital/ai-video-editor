@@ -29,7 +29,8 @@ os.makedirs(OUT, exist_ok=True)
 
 
 def read(path, w, h, pix='gray', pick=None):
-    vf = (f"select='{'+'.join(f'eq(n\\,{f})' for f in pick)}'," if pick else '') + f'scale={w}:{h}'
+    sel = '+'.join('eq(n\\,%d)' % f for f in pick) if pick else ''
+    vf = (f"select='{sel}'," if pick else '') + f'scale={w}:{h}'
     raw = subprocess.run([FF, '-v', 'error', '-i', path, '-vf', vf, '-fps_mode', 'passthrough', '-f', 'rawvideo', '-pix_fmt', pix, '-'],
                          capture_output=True).stdout
     c = 1 if pix == 'gray' else 3

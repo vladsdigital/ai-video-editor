@@ -3,6 +3,7 @@ Ažurirano: 07.11.2026.
 Faza: razvoj
 
 ## Gde smo stali
+- 07.11 (3): grana spojena u main i pushovana, verzija 1.2.0 (85 efekata). Spisak za landing: `docs/efekti-za-sajt.json`.
 - 07.11 (2): zelena izbačena: novi efekti su podrazumevano narandžasti (`#FF6A1A`), a u pickeru je dodat izbor boje (8 boja + svoja, `accentColor` u picks, `fxlib.apply_accent`). Svih 38 efekata izrenderovano na probnom snimku `svi 7` (osim key-rain, nema mesta iznad glave), spojeno u `~/Desktop/svi7-svi-efekti.mp4`. Efekti sad umeju na grudi kad iznad glave nema mesta.
 - 07.11: 39 novih efekata (ukupno 85), rekreirani jedan na jedan po javnim demo klipovima sa justyn.ai/masterclass, sa našim kodom i našim nazivima, svi u listi i pickeru sa pregledom na Vladimirovom snimku. Verzija 1.2.0. Grana `feat/novi-efekti`, nije spojena ni pushovana. Upisano u plan rilsa: 7 efekata (`fx_add`); pun rils nije izrenderovan jer licenca nije aktivna na ovom Macu (probni projekat `~/reel-edits/efekti-proba`). Zvuk nije slušan.
 - 30.10: verzija 1.1.0 (whats-new.json), da kupci dobiju ponudu za ažuriranje.
@@ -17,7 +18,7 @@ Faza: razvoj
 - Zvuk: provera u LUFS, `check_cuts.py --loud` pravi kopiju na -14 LUFS.
 
 ## Sledeći korak
-0. Aktivirati licencu, izrenderovati pun rils u `efekti-proba`, proveriti ivice i titlove, pa spojiti granu i pushovati.
+0. Aktivirati licencu i izrenderovati pun rils sa novim efektima (ivice, titlovi, zvuk). Landing stranica sa svih 85 efekata.
 1. Izmeriti cutout (rvm_cut) na efektu i videti da li može lakše (manja rezolucija, keš).
 2. Po želji: pravi b-roll za Inside Out i Green Screen, širi kadar za Clone.
 3. Test instalacije iz Claude aplikacije (repo je sada javan).
