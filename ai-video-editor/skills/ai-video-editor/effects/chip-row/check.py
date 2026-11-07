@@ -33,7 +33,7 @@ def main():
         print('!! index.html still has the red safe-zone guide: run build.py without SAFE=1 and render again')
     nfr = int(json.load(open('clip.json', encoding='utf-8'))['frames'])
     info = subprocess.run([FP, '-v', 'error', '-count_frames', '-select_streams', 'v:0', '-show_entries',
-                           'stream=width,height,nb_read_frames', '-of', 'csv=p=0', out], capture_output=True, text=True).stdout.strip()
+                           'stream=width,height,nb_read_frames', '-of', 'csv=p=0', out], capture_output=True, text=True).stdout.strip().rstrip(',')
     ok = info == f'1080,1920,{nfr}'
     print(f'render: {info}  (want 1080,1920,{nfr})  {"OK" if ok else "!! WRONG"}')
     os.makedirs('work/check', exist_ok=True)

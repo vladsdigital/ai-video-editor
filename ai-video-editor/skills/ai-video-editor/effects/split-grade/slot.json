@@ -1,0 +1,25 @@
+{
+ "key": "split-grade",
+ "pack": "split-grade",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the reel's captions run through the sweep; the only words of the effect are the two small tags",
+ "reel_env": [],
+ "in_a_reel": [
+  "COMMIT is the word the change lands on (a 'then' to 'now' line). Start the slot at least 0.6 s before it and leave 1 s after it",
+  "OUT = 'auto' unless the slot ends on a cut of the reel: then OUT = None and the grade holds until the cut",
+  "the two tags are the effect: set them from the reel's language, and the STYLE block from the reel's caption style"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit COMMIT and LABELS in the CLIP block",
+  "run build.py SAFE=1      # bakes the grade, prints the times and the handle place",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, plain first frame, work/check/sheet.jpg, phone copy"
+ ]
+}

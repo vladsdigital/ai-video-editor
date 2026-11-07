@@ -1,0 +1,24 @@
+{
+ "key": "picture-loop",
+ "pack": "picture-loop",
+ "imported": "2026-11-07",
+ "cutout": "layer",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "no words of its own: the reel's captions keep running",
+ "reel_env": [],
+ "in_a_reel": [
+  "one continuous shot, about 2 s or more, on a line like 'what you see here': the picture of the speaker hangs on the side with the most wall",
+  "the first and last frames of the slot are the plain shot"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit T_IN and T_BURST in the CLIP block when the defaults do not land",
+  "run build.py SAFE=1      # builds the picture loop from the shot and the cutout (about 1 min), prints the side and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

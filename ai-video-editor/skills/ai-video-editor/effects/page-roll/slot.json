@@ -1,0 +1,30 @@
+{
+ "key": "page-roll",
+ "pack": "page-roll",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the picture drops under the panel, so the reel's normal caption line would land on the face: add the slot with the --caption-y value build.py prints, and the captions ride the panel's lower edge",
+ "reel_env": [],
+ "buyer_folder": {
+  "name": "page",
+  "min": 0,
+  "what": "the buyer's own long screenshot to scroll through (one picture, at least 1.5 panels tall)"
+ },
+ "in_a_reel": [
+  "T_IN about 1.6 s before the first named word, so the page has time to scroll and zoom. The LIT lines use the speaker's own words",
+  "add the slot with fx_add.py --caption-y <the value build.py prints>",
+  "the buyer's style wins: set the STYLE block at the top of build.py to the reel's caption style (serif_font, sans_font, colours) before the first build; no real product's name or logo in BAR_LEFT or TITLE"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit BAR_LEFT, TITLE, LIT and T_IN in the CLIP block",
+  "run build.py SAFE=1      # prints the panel's place, the caption value, the times and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

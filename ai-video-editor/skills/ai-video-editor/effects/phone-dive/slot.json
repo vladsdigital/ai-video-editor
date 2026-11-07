@@ -1,0 +1,25 @@
+{
+ "key": "phone-dive",
+ "pack": "phone-dive",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "hi": "no",
+ "reel_captions": "hide",
+ "captions_note": "the title card and the line under the phone carry the words: fx_add.py hides the reel's captions for those two windows (work/reel_captions.json), and they run in the short full-frame stretch between. Set cap_font and cap_size in STYLE to the reel's caption style",
+ "reel_env": [],
+ "in_a_reel": [
+  "one continuous shot, about 3 s or more, that starts where the reel's previous shot ends: the card opens on the cut",
+  "TITLE is the speaker's own words, a time-jump line fits best. The plain phone has no logo and no real app",
+  "the card's first frame is the slot's first frame, the last frames are the plain shot"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit TITLE and the times in the CLIP block when the defaults do not land",
+  "run build.py SAFE=1      # prints the beats, the words and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

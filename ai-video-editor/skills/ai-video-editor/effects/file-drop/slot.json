@@ -1,0 +1,25 @@
+{
+ "key": "file-drop",
+ "pack": "file-drop",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "layer": "overlay",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the card and the player sit above the head and beside it: the reel's captions keep running in the chest band",
+ "reel_env": [],
+ "in_a_reel": [
+  "DROP_TEXT, PILL_TEXT and STAMPS are in the buyer's language and words; the file name, length and size are the real raw clip's. Generic look: no real app's screen or logo",
+  "about 2.5 to 3.5 s, on a line about handing over a raw clip"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit DROP_TEXT, PILL_TEXT and STAMPS in the CLIP block, in the buyer's language",
+  "run build.py SAFE=1      # cuts the raw clip for the player, prints the beats, the file line and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

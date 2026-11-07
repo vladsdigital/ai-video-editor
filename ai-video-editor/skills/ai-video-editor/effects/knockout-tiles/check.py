@@ -43,7 +43,7 @@ def main():
     lay = json.load(open('work/layout.json'))
     S = B.schedule(lay['at'], nfr, [g['spot'] for g in lay['tiles']])
     info = subprocess.run([FP, '-v', 'error', '-count_frames', '-select_streams', 'v:0', '-show_entries',
-                           'stream=width,height,nb_read_frames', '-of', 'csv=p=0', out], capture_output=True, text=True).stdout.strip()
+                           'stream=width,height,nb_read_frames', '-of', 'csv=p=0', out], capture_output=True, text=True).stdout.strip().rstrip(',')
     ok = info == f'1080,1920,{nfr}'
     print(f'render: {info}  (want 1080,1920,{nfr})  {"OK" if ok else "!! WRONG"}')
 

@@ -1,0 +1,30 @@
+{
+ "key": "strike-tiles",
+ "pack": "strike-tiles",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "layer": "overlay",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the tiles sit above the head and the reel's captions stay on over the chest",
+ "reel_env": [],
+ "buyer_folder": {
+  "name": "tiles",
+  "what": "optional: one image per tile, if the buyer wants their own pictures on the tiles (plain lettered tiles are the default)",
+  "min": 0
+ },
+ "in_a_reel": [
+  "TILES are the things the speaker names, each popping up on its word; plain lettered tiles or the buyer's own images, never a real product's logo the buyer does not own",
+  "the buyer's style wins: set the STYLE block at the top of build.py to the reel's caption style before the first build (effects/INDEX.md, Restyling an effect's own words)"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit TILES and WORD in the CLIP block",
+  "run build.py SAFE=1      # prints the tile size, the timing and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

@@ -207,8 +207,8 @@ class Page:
             audio.append(f'<audio id="sfx{k}" src="assets/sfx/{name}.mp3" data-start="{t:.3f}" data-duration="{d:.3f}" '
                          f'data-track-index="{10 + lane}" data-volume="{vol * gain:.3f}"></audio>')
         footage = ('' if not PREVIEW else
-                   f'<audio id="bga" src="assets/aroll.mp4" data-start="0" data-media-start="0" data-duration="{dur:.4f}" data-track-index="2" data-volume="1"></audio>\n'
-                   f'  <video id="bgv" class="full" src="assets/aroll.mp4" muted playsinline data-start="0" data-media-start="0" data-duration="{dur:.4f}" data-track-index="0"></video>')
+                   f'<audio id="bga" src="assets/aroll.mp4" data-start="0" data-media-start="0" data-duration="{int(dur * 1e4) / 1e4:.4f}" data-track-index="2" data-volume="1"></audio>\n'
+                   f'  <video id="bgv" class="full" src="assets/aroll.mp4" muted playsinline data-start="0" data-media-start="0" data-duration="{int(dur * 1e4) / 1e4:.4f}" data-track-index="0"></video>')
         hide = f"gsap.set({json.dumps(sorted(set(self.hidden)))}.join(','),{{autoAlpha:0}});" if self.hidden else ''
         page = f'''<!doctype html>
 <html lang="en" data-resolution="portrait">
@@ -227,7 +227,7 @@ html,body{{width:1080px;height:1920px;overflow:hidden;background:{'#000' if PREV
 </style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-start="0" data-duration="{dur:.4f}" data-width="1080" data-height="1920">
+<div id="root" data-composition-id="main" data-start="0" data-duration="{int(dur * 1e4) / 1e4:.4f}" data-width="1080" data-height="1920">
   {footage}
   {chr(10).join(audio)}
   <div id="fx">

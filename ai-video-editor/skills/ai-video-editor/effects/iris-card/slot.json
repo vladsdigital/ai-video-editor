@@ -1,0 +1,25 @@
+{
+ "key": "iris-card",
+ "pack": "iris-card",
+ "imported": "2026-11-07",
+ "cutout": "layer",
+ "layer": "overlay",
+ "hi": "no",
+ "reel_captions": "hide",
+ "captions_note": "the card carries those words: fx_add.py hides the reel's captions only while the iris and card are up (work/reel_captions.json)",
+ "reel_env": [],
+ "in_a_reel": [
+  "LINE is one short line the speaker says, up to about 8 words; start the slot about 0.7 s before its first word (the close may sit on the end of the line before, across a cut) and end it about 0.3 s after its last word",
+  "the buyer's style wins: set the STYLE block at the top of build.py to the reel's look before the first build (effects/INDEX.md, Restyling an effect's own words)"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit LINE and BIG in the CLIP block",
+  "run build.py SAFE=1      # measures the head, prints the times and the snapshot list",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

@@ -1,0 +1,26 @@
+{
+ "key": "comment-flow",
+ "pack": "comment-flow",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "layer": "overlay",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the cards sit above the head and the follow pill under the caption line, so the reel's captions keep running",
+ "reel_env": [],
+ "in_a_reel": [
+  "the call to action at the end of the reel: start the slot about 0.5 s before the keyword is said, 4 to 7 s long",
+  "HANDLE and SUB are the buyer's real handle and a true line; no real product's logo or interface: it is a plain field",
+  "the buyer's style wins: set the STYLE block at the top of build.py to the reel's fonts and colours before the first build (effects/INDEX.md, Restyling an effect's own words)"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit HEADLINE, KEYWORD, HANDLE, REPLY, SUB in the CLIP block",
+  "run build.py SAFE=1      # prints the pace, the place and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

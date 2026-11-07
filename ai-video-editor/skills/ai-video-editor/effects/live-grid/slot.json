@@ -1,0 +1,31 @@
+{
+ "key": "live-grid",
+ "pack": "live-grid",
+ "imported": "2026-11-07",
+ "cutout": "layer",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "built with CAPTIONS=0 in a reel: the reel's own captions carry the words; the wall stays behind the speaker",
+ "reel_env": [
+  "CAPTIONS=0"
+ ],
+ "in_a_reel": [
+  "CLIPS is a folder of the buyer's own videos, at least 6, each 2 s or longer. No videos from the buyer = leave the effect out",
+  "leave GRADE to the reel; the wall needs a clean cutout. The slot needs about 2.1 s of one continuous shot"
+ ],
+ "sounds": {},
+ "steps": [
+  "put the buyer's videos in the slot's clips folder and set WORD (the word the first tile starts falling on) in the CLIP block",
+  "run build.py SAFE=1 CAPTIONS=0      # prints the beats and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py CAPTIONS=0      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ],
+ "buyer_folder": {
+  "name": "clips",
+  "min": 6,
+  "what": "the buyer's own videos (mp4 or mov: their reels or clips, each 2 s or longer). Only material they may show"
+ }
+}

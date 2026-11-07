@@ -1,0 +1,25 @@
+{
+ "key": "marked-sheet",
+ "pack": "marked-sheet",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the reel's captions keep running under the speaker's chin: add the slot with the --caption-y value build.py prints, because the shot moves down while the sheet is up. The handwritten words are the effect: set hand_font and hand in STYLE when the reel's look asks for it",
+ "reel_env": [],
+ "in_a_reel": [
+  "one continuous shot, about 3 s. The sheet drops in on the first word and flies off before the slot ends",
+  "the shot slides down while the sheet is up, so the sheet never covers the face. Look at the top of the frame in a SAFE=1 snapshot: the wall above is a blurred mirror of the wall",
+  "add it with fx_add.py --caption-y <the value build.py printed>"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit MARKS (which frames get a circle or a cross, the handwritten word, when) and TAG in the CLIP block",
+  "run build.py SAFE=1      # pulls the frames, prints the beats, the slide, the caption line and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

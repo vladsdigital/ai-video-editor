@@ -1,0 +1,24 @@
+{
+ "key": "grade-curtain",
+ "pack": "grade-curtain",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the effect draws no words, the reel's captions run over it",
+ "reel_env": [],
+ "in_a_reel": [
+  "DROP is the word the mood turns on (a problem, a warning, a confession). Start the slot at least 0.1 s before it",
+  "LIFT = 'auto' rises just before the slot ends. LIFT = None only when the slot ends on a cut of the reel"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit DROP in the CLIP block",
+  "run build.py SAFE=1      # bakes the grade, prints the times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, plain first frame, work/check/sheet.jpg, phone copy"
+ ]
+}

@@ -1,0 +1,25 @@
+{
+ "key": "lens-readout",
+ "pack": "lens-readout",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "hi": "no",
+ "reel_captions": "hide",
+ "captions_note": "the reel's captions keep running under the chin during the strip and the pull; they are hidden only while the effect's own words are up (work/reel_captions.json)",
+ "reel_env": [],
+ "in_a_reel": [
+  "one continuous shot; start the slot on a cut of the reel when you can, the picture then opens punched in",
+  "HEAVY and ITALIC are the speaker's own words said after the pull",
+  "the buyer's style wins: set the STYLE block at the top of build.py to the reel's caption style before the first build (effects/INDEX.md, Restyling an effect's own words)"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit HEAVY and ITALIC in the CLIP block",
+  "run build.py SAFE=1      # prints the times, the places and the snapshot times",
+  "hf lint",
+  "hf snapshot --at 0.3,0.6,1.5      # use the times build.py printed",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg and landing.jpg, phone copy"
+ ]
+}

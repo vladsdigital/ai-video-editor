@@ -1,0 +1,25 @@
+{
+ "key": "letter-stamp",
+ "pack": "letter-stamp",
+ "imported": "2026-11-07",
+ "cutout": "layer",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the word is one the speaker says and sits above the head: the reel's captions keep running under the chin",
+ "reel_env": [],
+ "in_a_reel": [
+  "WORD is one word the speaker really says; best 4 to 7 letters",
+  "the buyer's style wins: set the STYLE block at the top of build.py to the reel's look before the first build (effects/INDEX.md, Restyling an effect's own words)",
+  "let the slot end on a cut of the reel when you can: the word then stays to the cut"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit WORD and MODE in the CLIP block",
+  "run build.py SAFE=1      # prints the size, the place and the snapshot times",
+  "hf lint",
+  "hf snapshot --at 0.4,1.0,1.6      # use the times build.py printed",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg and landing.jpg, phone copy"
+ ]
+}

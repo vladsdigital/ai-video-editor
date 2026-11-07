@@ -1,0 +1,25 @@
+{
+ "key": "frame-sheet",
+ "pack": "frame-sheet",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "hi": "no",
+ "reel_captions": "hide",
+ "captions_note": "the words above the grid carry the line: fx_add.py hides the reel's captions only while the sheet is up (work/reel_captions.json). Set the STYLE block to the reel's caption style",
+ "reel_env": [],
+ "in_a_reel": [
+  "one continuous shot, about 3 s, the sheet on a phrase of about 1.5 s: the cells are this shot's own frames and the dive lands back in it",
+  "the buyer's style wins: set STYLE (font, case, ink, and a ground colour from the reel's look) before the first build",
+  "fits a line about time or amount (hours, every second, how much work): the sheet is the picture of it"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit STYLE, and LINES or T_IN / T_DIVE in the CLIP block when the defaults do not land",
+  "run build.py SAFE=1      # pulls the frames, prints the beats and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

@@ -1,0 +1,26 @@
+{
+ "key": "slab-caption",
+ "pack": "slab-caption",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "layer": "overlay",
+ "hi": "no",
+ "reel_captions": "hide",
+ "captions_note": "the slab, the tags and the payoff carry those words: fx_add.py hides the reel's captions only while they are up (work/reel_captions.json)",
+ "reel_env": [],
+ "in_a_reel": [
+  "SLAB, SECOND, TAGS and PAYOFF are the speaker's own words, in the order said",
+  "the buyer's style wins: set the STYLE block at the top of build.py to the reel's caption style before the first build (effects/INDEX.md, Restyling an effect's own words)",
+  "the slot may run over a cut: the payoff needs about a second on screen"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit SLAB, SECOND, TAGS and PAYOFF in the CLIP block",
+  "run build.py SAFE=1      # prints the places, the snapshot times and the caption window",
+  "hf lint",
+  "hf snapshot --at 0.5,1.0,1.5      # use the times build.py printed",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

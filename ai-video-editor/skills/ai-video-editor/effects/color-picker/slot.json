@@ -1,0 +1,24 @@
+{
+ "key": "color-picker",
+ "pack": "color-picker",
+ "imported": "2026-11-07",
+ "cutout": "measure",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the words of the effect are the palette card's codes and labels; it sits beside the face, the reel's captions run under it",
+ "reel_env": [],
+ "in_a_reel": [
+  "ON is the word the grade starts to fall on. The card and the taps come 0.6 s before it, so start the slot at least 0.7 s before that word",
+  "OUT = 'auto' unless the slot ends on a cut of the reel. Set TITLE and LABELS in the reel's language, and the STYLE block from the reel's caption style"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit ON, TITLE and LABELS in the CLIP block",
+  "run build.py SAFE=1      # measures five colours off the clip, bakes the three grade steps, prints them",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, plain first frame, work/check/sheet.jpg, phone copy"
+ ]
+}

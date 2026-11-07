@@ -1,0 +1,25 @@
+{
+ "key": "board-deal",
+ "pack": "board-deal",
+ "imported": "2026-11-07",
+ "cutout": "layer",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the cards and the note are the effect; the reel's captions keep running in front of them. Set the STYLE block to the reel's look: the card lines take the reel's second voice",
+ "reel_env": [],
+ "in_a_reel": [
+  "one continuous shot, about 5.5 s or more. The speaker stays in front of the cards through the cutout",
+  "the cards are the reel's own shots with the line each shot says (segments.json). NOTE_TITLE, NOTE_LINES and NOTE_ROWS are the speaker's own words and true facts of the reel: never invent one",
+  "the deck lands on the side with more wall beside the head; build.py stops when there is no room"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit NOTE_TITLE, NOTE_LINES and NOTE_ROWS in the CLIP block: the speaker's own words and true facts",
+  "run build.py SAFE=1      # pulls the frames, prints the beats, the side and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

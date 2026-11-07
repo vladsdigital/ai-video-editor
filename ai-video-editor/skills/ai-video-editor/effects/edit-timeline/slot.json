@@ -1,0 +1,26 @@
+{
+ "key": "edit-timeline",
+ "pack": "edit-timeline",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "layer": "overlay",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the panel sits above the head, the reel's captions keep running under it",
+ "reel_env": [],
+ "in_a_reel": [
+  "build it after the reel's cuts are final: it reads segments.json, words.json and plan.json from the project, so a later re-cut needs a new build",
+  "T_IN and T_OUT are words of a line about how the video was made; the whole move is about 1.4 s, and a longer gap between them only holds the finished panel",
+  "the buyer's style wins: set the STYLE block at the top of build.py to the reel's caption style (title_font, title_weight, ink) before the first build; no real editing app's logo or interface"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit TITLE, T_IN and T_OUT in the CLIP block",
+  "run build.py SAFE=1      # prints the panel's place, the times and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "key": "walk-card",
+ "pack": "walk-card",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "graphics over the reel's own footage: built with CAPTIONS=0 in a reel, the reel's captions keep running",
+ "reel_env": [
+  "CAPTIONS=0"
+ ],
+ "in_a_reel": [
+  "CLIPS holds the buyer's own walkthrough video. No video from the buyer = leave the effect out",
+  "TITLE and the chapter names are the buyer's own words; no real product's logo or interface",
+  "on a medium shot the card sits beside the head, smaller; on a wide shot it sits above the head at full size"
+ ],
+ "sounds": {},
+ "steps": [
+  "put the buyer's walkthrough video in the slot's clips folder and fill TITLE, CHAPTERS and PRESS_WORD in the CLIP block",
+  "run build.py SAFE=1 CAPTIONS=0      # prints the beats and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py CAPTIONS=0      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ],
+ "buyer_folder": {
+  "name": "clips",
+  "min": 1,
+  "what": "the buyer's own walkthrough video (mp4 or mov, one video or one per chapter). Only material they may show"
+ },
+ "layer": "overlay"
+}

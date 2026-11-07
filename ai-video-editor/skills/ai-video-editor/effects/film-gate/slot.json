@@ -1,0 +1,25 @@
+{
+ "key": "film-gate",
+ "pack": "film-gate",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the only words of the effect are the tiny print on the film's edge; the reel's captions run over the picture",
+ "reel_env": [],
+ "in_a_reel": [
+  "ON is the first word of the line (old times, film, memories). Start the slot at least 0.1 s before it and give it 1.5 s or more",
+  "BACK = 'auto' cuts back just before the slot ends. BACK = None only when the slot ends on a cut of the reel",
+  "the slot's sound must hold the voice: the soundtrack strip is drawn from it. EDGE_PRINT goes in the reel's language"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit ON and EDGE_PRINT in the CLIP block",
+  "run build.py SAFE=1      # bakes the look, draws the soundtrack strip from the voice, prints the times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, plain first frame, work/check/sheet.jpg, phone copy"
+ ]
+}

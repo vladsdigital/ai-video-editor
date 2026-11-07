@@ -1,0 +1,26 @@
+{
+ "key": "script-page",
+ "pack": "script-page",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "layer": "overlay",
+ "hi": "no",
+ "reel_captions": "hide",
+ "captions_note": "the page carries those words: fx_add.py hides the reel's captions only while it is up (work/reel_captions.json)",
+ "reel_env": [],
+ "in_a_reel": [
+  "make the slot one line of the reel, 2 to 6 s, from just before its first word to the next cut or just after its last word",
+  "write NAME, PAREN, SCENE, SCENE_NEXT and CUT_LABEL in the reel's language; the dialogue comes from the reel's own words",
+  "the buyer's style wins: the STYLE block sets typeface and colours (effects/INDEX.md, Restyling an effect's own words)"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit NAME and the page labels in the CLIP block",
+  "run build.py SAFE=1      # prints the times and the snapshot list",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

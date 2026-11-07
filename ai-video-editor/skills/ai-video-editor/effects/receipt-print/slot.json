@@ -1,0 +1,25 @@
+{
+ "key": "receipt-print",
+ "pack": "receipt-print",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "layer": "overlay",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the receipt sits above the head and the reel's captions stay on over the chest",
+ "reel_env": [],
+ "in_a_reel": [
+  "TEXT is the sentence the speaker says, in their words; set HEADER, TO and the total line in the reel's language; no real product's name or logo",
+  "the slot must run about 1 s past the end of the sentence, so the paper can tear off and leave"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit TEXT, HEADER, TO, TOTAL_LABEL and TOTAL_VALUE in the CLIP block",
+  "run build.py SAFE=1      # prints the receipt size, its timing and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

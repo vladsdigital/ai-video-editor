@@ -1,0 +1,26 @@
+{
+ "key": "comment-letters",
+ "pack": "comment-letters",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "layer": "overlay",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "everything sits above the head, so the reel's captions keep running",
+ "reel_env": [],
+ "in_a_reel": [
+  "the call to action: start the slot about 0.5 s before the keyword is said, 3 to 5 s long",
+  "HANDLE is the buyer's real handle; no real product's logo or interface: plain cards",
+  "the buyer's style wins: set the STYLE block at the top of build.py to the reel's fonts and colours before the first build (effects/INDEX.md, Restyling an effect's own words)"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit KEYWORD, HANDLE and REPLIES in the CLIP block",
+  "run build.py SAFE=1      # writes the two-tone mask, prints the times, the place and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

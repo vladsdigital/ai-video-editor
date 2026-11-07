@@ -1,0 +1,25 @@
+{
+ "key": "pencil-mark",
+ "pack": "pencil-mark",
+ "imported": "2026-11-07",
+ "cutout": "layer",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the mark stays above the chin: the reel's captions keep running under it",
+ "reel_env": [],
+ "in_a_reel": [
+  "WORD is one short word with an arrow to the speaker, a word that points at them; TRIGGER is the spoken word the snap lands on. The slot needs about 1.6 s from the snap",
+  "the slot must either end on a cut, or set F_BACK a few frames before its end so the colour comes back inside the slot",
+  "the buyer's style wins: the STYLE block sets the pencil colour and the handwriting (effects/INDEX.md, Restyling an effect's own words)"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit WORD, TRIGGER and F_BACK in the CLIP block",
+  "run build.py SAFE=1      # measures the head, prints the frames and the snapshot list",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

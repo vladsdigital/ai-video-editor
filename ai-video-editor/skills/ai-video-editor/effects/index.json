@@ -1,51 +1,2124 @@
 {
  "about": "The effects, one flat list. Read by scripts/footage_check.py. shot = framings it works on, camera = camera moves it survives, wall = open wall it needs (none, beside = one side, both = both sides, above = over the head), cutout = none / quick (cutout.py) / clean (rvm_cut.py), extra = Python packages beyond the skill's own (setup.py --fx <key> installs them), status = ready (packaged: effects/<key>/slot.json, made with scripts/fx_new.py) or recipe (a demo build the editing Claude adapts by hand).",
  "effects": [
-  {"n": 1, "key": "orbit", "name": "Orbit", "does": "Your own reels circle around you, passing behind and in front.", "say": "put my reels in orbit around me", "shot": ["wide", "medium"], "camera": ["still", "drifting"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none (prep.py measures the ring from the cutout; the ring follows the head)", "extra": [], "material": "a folder of the buyer's own reel cover images (at least 4, 6 fills the default ring). Real view counts only if the buyer gives them", "notes": "Speaker centred, wide or medium, chin above about y 1000 so a card fits under the face. Fails on a close-up selfie, a speaker who fills the frame width or sits far off centre, a hand held above the head, a weak cutout and a walking camera. Without the buyer's own covers the effect is left out.", "status": "ready"},
-  {"n": 2, "key": "couch-wall", "name": "Couch Wall", "does": "Your reel covers become a grid on the wall behind you.", "say": "put my reels as a grid on the wall behind me", "shot": ["wide", "medium"], "camera": ["still", "drifting"], "wall": "above", "segments": 1, "cutout": "clean", "tracking": "room track, wall and furniture found by colour (prep.py)", "extra": ["scipy"], "material": "a folder of the buyer's own reel cover images (at least 4, 9 or more looks best). Real view counts only if the buyer gives them", "notes": "Needs a plain one-colour wall in the upper frame. Fails on a tight selfie, a patterned wall (wallpaper, brick, shelves, a window) and furniture or floor the same colour as the wall (draw those in IN_FRONT). Without the buyer's own covers the effect is left out.", "status": "ready"},
-  {"n": 3, "key": "ui-world", "name": "UI World", "does": "An app screen fills the frame and you stand in front of it.", "say": "put me in front of the Claude screen", "shot": ["wide", "medium"], "camera": ["still", "drifting"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none (laid out for the speaker's highest position)", "extra": ["scipy"], "material": "what the screen shows: the buyer's words for the packaged chat screen, or the buyer's own picture or screen recording. Any names on it are generic placeholders", "notes": "Still or near-still speaker facing the camera, head and shoulders in frame, one continuous shot. Nothing is tracked: a speaker who moves up and down a lot, walks, or raises hands above the head breaks it. Needs a clean cutout with both shoulders intact. A tight selfie leaves no room.", "status": "ready"},
-  {"n": 4, "key": "freeze-sticker", "name": "Freeze Sticker", "does": "Your freeze frame becomes a die-cut sticker with handwritten notes.", "say": "turn me into a sticker on this line", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none (one frame is frozen; bake.py measures its outline)", "extra": ["scipy"], "material": "the notes", "notes": "Medium or wide is best (head and chest with air around them); a close-up gives a large sticker with room for one or two short notes. Breaks on a freeze frame with motion blur, closed eyes or a hand across the face, a cutout that lost hair or fingers on that frame, a speaker cut by both sides of the frame, and a head cut by the top of the frame.", "status": "ready"},
-  {"n": 5, "key": "frame-break", "name": "Frame Break", "does": "The video shrinks into a card and your head and hands pop out of it.", "say": "shrink the video into a card and let me break out of it", "shot": ["wide", "medium"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none (prep.py measures head, body and hands from the cutout)", "extra": [], "material": "none", "notes": "One continuous shot, 3 to 6 s, head in the upper half with room above it. Best with a hand gesture that reaches sideways at chest height or higher; without one it still works as a head pop-out. Weak on a tight close-up and when the head touches the top of the frame. Needs a cutout that keeps hair and fingers. A hood or long hair over the shoulders needs HEAD typed in.", "status": "ready"},
-  {"n": 6, "key": "type-wall", "name": "Type Wall", "does": "Giant words march behind you and swap on the word you say.", "say": "put giant words behind me that change as I talk", "shot": ["wide", "medium"], "camera": ["still"], "wall": "above", "segments": 1, "cutout": "clean", "tracking": "none (prep.py measures the head; the wall is locked)", "extra": ["scipy"], "material": "none", "notes": "Locked camera only. Needs clear room above the head (head top at y 250 or lower in the frame). It replaces everything behind the speaker: furniture the speaker sits on has to be drawn in KEEP. Best on a short line with one word that matters; a word over about 7 letters does not fit.", "status": "ready"},
-  {"n": 7, "key": "the-stack", "name": "The Stack", "does": "Data cards with racing bars stack above you, you sit in a window below.", "say": "do the stacked data card layout on this line", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none (measure.py finds the head from the cutout; the window follows it)", "extra": [], "material": "the buyer's own figures: titles, labels, values and units for one to three small cards", "notes": "One speaker, head and shoulders in frame, one continuous take of 3 to 6 s. A very tight selfie holds about 5 rows in all (build.py stops and says how much to drop). A far-away wide shot is enlarged and goes soft. Hands above the head, a hood or two people give a wrong head box: type HEAD. Without the buyer's own figures the effect is left out.", "status": "ready"},
-  {"n": 8, "key": "digital-zoom", "name": "Digital Zoom", "does": "A slow creep onto your face, a hard snap on a key word, a whip back out.", "say": "punch in on my face when I say X", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "face (track.py)", "extra": [], "material": "none", "notes": "One continuous shot with the face visible the whole time. With --hi a 1728 px source stays sharp to 1.6x; from a 1080 source every zoom is an upscale (capped at 1.5x).", "status": "ready"},
-  {"n": 9, "key": "sticky-text", "name": "Sticky Text", "does": "A tag glued to your cap or chest that moves, tilts and scales with you.", "say": "stick a tag that says X to my cap", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "head and chest followed frame by frame from the cutout (track.py)", "extra": ["scipy"], "material": "none", "notes": "Works on handheld. 'cap' and 'chest' want a medium or close shot, 'head' (beside the head) wants room beside it. Breaks on a hand on or above the head, a hood or long hair hiding the neck, a second person, a head turn past about 40 degrees. When the cap is inside the top 220 px, 'cap' and 'head' are refused: use 'chest'.", "status": "ready"},
-  {"n": 10, "key": "odometer", "name": "Odometer", "does": "Numbers roll up digit by digit like a mileage counter.", "say": "roll the numbers up like an odometer when I say X", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none", "extra": [], "material": "the real number, from the buyer", "notes": "The panel sits behind the speaker, in open background beside or above the head. It stops with a clear message when the speaker fills the frame. Only a number the speaker actually says.", "status": "ready"},
-  {"n": 11, "key": "spotlight", "name": "Spotlight", "does": "The room goes dark and out of focus, you stay lit, the key words land big, the lights come back up.", "say": "put a spotlight on me when I say X", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none (prep.py measures the head on every frame; the light follows it)", "extra": ["scipy"], "material": "none", "notes": "One continuous shot of one person, 3 to 6 s. Best wide or medium with wall above and beside the head; on a close shot the light tightens to a glow. Needs a clean cutout: lost hair or fingers go dark with the room. Breaks on a hand above the head, two people, a hood or long hair over the shoulders, and a head that fills the frame (no room for the words).", "status": "ready"},
-  {"n": 12, "key": "comment-bubble", "name": "Comment Bubble", "does": "The comment keyword types itself, posts, and your reply with the link lands.", "say": "show the comment being typed and my reply when I say comment X", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none", "extra": [], "material": "the comment keyword (the cta mark in words.json). The commenter is a generic placeholder, never a real person", "notes": "The cutout is only used to measure the chin and the avatar crop (fx_new.py --no-cutout and CHIN_Y by hand skips it). Needs the top of the head in frame and about 1.5 s of the same shot after the line.", "status": "ready"},
-  {"n": 13, "key": "freeze-and-label", "name": "Freeze and Label", "does": "The picture freezes while you keep talking, tagged lines point at you.", "say": "freeze the frame on X and label me: A, B", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none (the picture is frozen: everything is measured once on the held frame)", "extra": ["scipy"], "material": "the labels", "notes": "Best wide or medium with room beside or above the speaker. The hold needs about 1 s per label. A tight selfie fits 1 or 2 short labels (build.py stops and says how many fit). Breaks on a blink or motion blur on the freeze word, a hood or long hair over the neck, a hand on the head, a second person. Hand points are found by skin colour and can miss a hand in front of the chest.", "status": "ready"},
-  {"n": 14, "key": "phone-mockup", "name": "Phone Mockup", "does": "A 3D phone flies in beside you playing a screen, taps land on your words.", "say": "put a phone next to me showing the app", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none (build.py finds the side with more room from the cutout)", "extra": ["scipy"], "material": "the buyer's own screen recording or picture for the phone, or the words for the packaged card", "notes": "Medium or wide is best; close works with 300 px or more of background beside the head, and a close-up that fills the frame stops with 'no room for a phone'. Needs a slot of 2 s or more, the tap word not in the first 0.6 s or last 0.5 s, and no hand parked over the tap point. Not for a speaker walking across the frame.", "status": "ready"},
-  {"n": 15, "key": "checklist", "name": "Checklist", "does": "A card builds on the wall and each step ticks as you say it.", "say": "put a checklist on screen for these three steps", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none (prep.py measures the clip)", "extra": [], "material": "2 to 4 steps, in the speaker's own words", "notes": "Needs open room above or beside the speaker. A close-up gives a small card. On a moving camera it switches to an opaque card by itself.", "status": "ready"},
-  {"n": 16, "key": "headline-wall", "name": "Headline Wall", "does": "The wall behind you fills with headline and post cards, the key word highlighted.", "say": "fill the wall behind me with headlines about X", "shot": ["wide", "medium"], "camera": ["still", "drifting", "moving"], "wall": "beside", "segments": 1, "cutout": "clean", "tracking": "room track (prep.py)", "extra": ["scipy"], "material": "the topic. Card text is written for the reel: generic outlets and placeholder names, never a real publication, person, number or made-up proof", "notes": "One continuous shot, 3 to 6 s, with visible wall beside or above the head. A moving camera is tracked. A window, mirror or open doorway behind the speaker breaks the track. A tight selfie has no room for the big cards.", "status": "ready"},
-  {"n": 17, "key": "zoom-through-cut", "name": "Zoom-Through Cut", "does": "The camera dives through you and comes out in the next shot.", "say": "make that cut a zoom-through", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 2, "cutout": "clean", "tracking": "none (prep.py finds the dive points)", "extra": ["scipy"], "material": "none", "notes": "Needs two different shots back to back (a real cut in the edit, not one continuous take), the speaker in both, and something dark and plain on the speaker to dive into. A cut in the middle of a word fights the move.", "status": "ready"},
-  {"n": 18, "key": "clone", "name": "Clone", "does": "More of you pop up beside you on the words, then sync up for the payoff.", "say": "clone me when I say like this, like this", "shot": ["wide"], "camera": ["still"], "wall": "both", "segments": 1, "cutout": "clean", "tracking": "room drift lock (bake.py)", "extra": ["scipy"], "material": "none", "notes": "Needs room on both sides and a furniture edge (sofa back, desk, counter) with wall above it for the clones to stand behind. No close-ups, no moving camera.", "status": "ready"},
-  {"n": 19, "key": "before-and-after", "name": "Before and After", "does": "A wipe line sweeps across your raw clip to reveal the edited version.", "say": "do a before/after wipe on this line", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none (measure.py finds the head; both sides are the same frames)", "extra": [], "material": "nothing needed. Optional: the buyer's own finished version of the same frames", "notes": "Any shot, any camera. Needs a line that is about a change. Weak when the payoff word comes in the first 0.3 s or less than 1.5 s of slot follows the sweep. On footage that is already dark the default grade may be too quiet: raise AFTER_GRADE. The buyer's own after file must be the same take with no punch-in, reframe or speed change.", "status": "ready"},
-  {"n": 20, "key": "chart-grow", "name": "Chart Grow", "does": "A line chart draws on the wall behind you and kicks up on your word.", "say": "draw a growth chart behind me that takes off when I say scale", "shot": ["wide", "medium"], "camera": ["still", "drifting"], "wall": "both", "segments": 1, "cutout": "clean", "tracking": "wall track for a drifting or handheld shot (measure.py); pinned on a still camera", "extra": ["scipy"], "material": "nothing needed. Optional: the buyer's own real figures and labels for the chart", "notes": "Needs open wall beside or above the head, best up and to the right where the line ends. A tight selfie stops with NO OPEN WALL. Breaks on a walking or panning camera, a wall with no texture on a handheld shot, hands flying through the top right during the kick, and a kick word in the first second of the slot.", "status": "ready"},
-  {"n": 21, "key": "pointer-callout", "name": "Pointer Callout", "does": "Cards tied to you by lines that stretch and swing as you move.", "say": "put callout cards on these three things and tie them to me", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "head, chest, shoulders and hands followed frame by frame from the cutout (track.py)", "extra": ["scipy"], "material": "the card texts", "notes": "Best wide or medium with clear background beside or above the speaker, and a speaker who moves or points. A tight selfie fits 1 or 2 short cards (build.py stops and says how many fit). Breaks on a hood or long hair hiding the neck, a hand on the head, a second person. Hand anchors fail with gloves, bare arms or skin-coloured clothes: tie those cards to head, chest or shoulder.", "status": "ready"},
-  {"n": 22, "key": "blackout", "name": "Blackout", "does": "The room dims on your line while you stay lit, the punch word slams in behind your head, and the lights snap back on the next line.", "say": "dim the room when I say X and bring the lights back on the next line", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none (prep.py measures the head while the room is dim; the word is fixed on screen)", "extra": ["scipy"], "material": "", "notes": "One person, a line of 1 to 3 s that ends on one punch word, then a cut or the next line. Best wide or medium with room above the head; on a close shot the word sits just above the head. Needs a clean cutout: background the cutout keeps stays lit, lost hair or fingers dim with the room. Breaks on a hand above the head, two people, a head that reaches the top of the safe zone (no room for the word: move it or turn it off) and a room that is already dark.", "status": "ready"},
-  {"n": 23, "key": "timeline-burn", "name": "Timeline Burn", "does": "A video-editing timeline assembles in front of you, overheats, catches fire on your word and crumbles into embers.", "say": "put an editing timeline on screen and burn it when I say X", "shot": ["wide", "medium"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none (build.py reads the head box from the cutout; the timeline is a screen overlay)", "extra": ["scipy"], "material": "", "notes": "Wide or medium shot with the chin above about y 980 (y 1100 without a caption line): the timeline sits under the chin in the lower third. A tight selfie stops with 'No room for the timeline'. Needs 1 s or more of the slot before the burn word and 1 s after it. Reads best on a dark or dimmed picture (DIM). Only a wide shot on a still camera was tested.", "status": "ready"},
-  {"n": 24, "key": "pull-back-reveal", "name": "Pull-Back Reveal", "does": "The live video shrinks into a card inside an app window: a checklist of the real edit ticks off, the shot timeline plays, a counter rolls up to the number you say.", "say": "pull back and show this video being edited", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "none", "tracking": "none (the whole picture goes into the card; nothing is measured)", "extra": [], "material": "the reel's own edit list (steps really done, each shot's length in frames) and, for the counter, a number the speaker says", "notes": "Any shot, any camera, no cutout. The checklist covers up to 170 px of the card's left edge: a face in the left quarter of the picture at mid height needs FACE set or shorter steps. The title bar covers the top 68 px of the clip, the timeline strip the bottom 240 px. Needs a slot of about 3.5 s or more. Only a handheld close-up was tested.", "status": "ready"},
-  {"n": 25, "key": "knockout-tiles", "name": "Knockout Tiles", "does": "Name tiles slam onto the wall behind you one per word, each gets struck out and knocked away; receipts can then stack up with a running total.", "say": "put these names on the wall behind me and knock each one out as I say it", "shot": ["wide", "medium"], "camera": ["still", "drifting"], "wall": "beside", "segments": 1, "cutout": "clean", "tracking": "none (prep.py reads the head, its movement and the clear wall from the cutout)", "extra": [], "material": "the names the speaker lists; for receipts, the amounts they say", "notes": "Wide or medium shot with about 400 x 150 px of clear wall beside the head, inside the safe zone. Still camera: the pieces are not tracked to the room. Needs the clean cutout. The running total needs about 150 px of wall above the head. A close-up stops with 'no clear wall'. Only a still wide shot was tested.", "status": "ready"},
-  {"n": 26, "key": "green-screen", "name": "Green Screen", "does": "You are cut out and shrunk to the bottom of the frame, and the whole screen behind you becomes the thing you are talking about.", "say": "green screen me over this video", "shot": ["medium", "wide"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "none (prep.py reads head top, chin, head width and the body's cut-off row from the cutout)", "extra": ["scipy"], "material": "the buyer's own video or picture of the thing they are talking about (at least one file in bg/)", "notes": "Medium is best (head, shoulders and chest). Wide works but the speaker is enlarged and turns soft above 1.3x. A close-up with less than about one head height of body under the chin stops with 'too tight'. Needs a clean cutout (the new background shows every matte fault), one speaker, a slot of 36 frames or more. Only a still camera was tested.", "status": "ready"},
-  {"n": 27, "key": "shatter-3d", "name": "Shatter 3D", "does": "The frame fractures into tiles at different depths, jolts on your key word, then shatters like glass to reveal the clean shot.", "say": "shatter the frame when I say X", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "the face tile follows the head measured on the cutout", "extra": ["opencv-python-headless"], "material": "", "notes": "Needs about 0.6 to 1.5 s between the break word and the punch word and about 1.2 s after it. The face tile always stays whole. Declines on a zoom while the frame is fractured.", "status": "ready"},
-  {"n": 28, "key": "paper-cut", "name": "Paper Cut", "does": "The room rips away to torn paper, you stay live as a white-edged cutout, and your phrase lands in cut-out letters before the collage tears back.", "say": "turn this line into a paper collage and spell X in cut-out letters", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "the cutout is live; the paper replaces the room", "extra": ["opencv-python-headless"], "material": "", "notes": "Picks above / below / beside from the head and chin. Declines when the face fills the frame both ways or the source zooms inside the slot.", "status": "ready"},
-  {"n": 29, "key": "doodle-boil", "name": "Doodle Boil", "does": "A hand-drawn chalk line traces your outline and boils, and chalk doodles draw on the words you pick.", "say": "draw a chalk outline around me and doodle a heart when I say X", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "the outline and the doodles follow the cutout every frame", "extra": ["opencv-python-headless"], "material": "", "notes": "Pick a doodle per word from the library in effect.md. build.py places them in open space off the face; it stops only when no space fits anywhere.", "status": "ready"},
-  {"n": 30, "key": "code-scan", "name": "Code Scan", "does": "The picture resolves into readable code with you as a brighter figure, a small terminal types your two lines, and it resolves back.", "say": "turn me into code when I say X", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "every frame is redrawn from the cutout", "extra": ["opencv-python-headless"], "material": "", "notes": "Hook or a 'this is how' beat. Without a cutout the whole picture becomes room code (voice-over). Declines on a hold under 0.6 s or a zoom inside the beat.", "status": "ready"},
-  {"n": 31, "key": "word-pile", "name": "Word Pile", "does": "The things you name drop as solid slabs with real physics, glance off your head, land on a line with a thud, then blow away.", "say": "drop these three names as blocks and pile them on a line", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "the head is re-measured every frame (colliders)", "extra": ["opencv-python-headless"], "material": "", "notes": "Fill the slab words with the things the speaker names. Declines when the chin is so low no slab fits above the line.", "status": "ready"},
-  {"n": 32, "key": "vertigo", "name": "Vertigo", "does": "A dolly zoom from one locked-off shot: you stay still while the room stretches away behind you, then it snaps back.", "say": "do a vertigo zoom on this line", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "beside", "segments": 1, "cutout": "clean", "tracking": "drift is tracked; a moving camera gets a gentler stretch", "extra": ["opencv-python-headless"], "material": "", "notes": "Needs a room with lines or things in it beside or above the head (a plain wall declines). Best on a still camera.", "status": "ready"},
-  {"n": 33, "key": "inside-out", "name": "Inside Out", "does": "Your body becomes a window showing a clip you choose, then it flips: you are solid and the clip becomes the room.", "say": "play this clip inside me, then swap the room to it", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "the window follows the cutout every frame", "extra": ["opencv-python-headless"], "material": "one b-roll clip or picture from the buyer", "notes": "Needs the buyer's own b-roll in fill/ (never a person). Needs the chest in shot. Declines on a zoom inside the slot.", "status": "ready"},
-  {"n": 34, "key": "scene-text", "name": "Scene Text", "does": "A word prints across your real wall like wallpaper, behind you and the things on the wall, then two big words land on it.", "say": "print X all over my wall and paint Y on it", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting"], "wall": "beside", "segments": 1, "cutout": "clean", "tracking": "camera track pins the print to the wall", "extra": ["opencv-python-headless"], "material": "", "notes": "Needs some plain wall behind or beside the speaker. Goes behind things on the wall by itself. Declines on a camera that travels.", "status": "ready"},
-  {"n": 35, "key": "cover-story", "name": "Cover Story", "does": "The live shot becomes a magazine cover: a serif masthead behind your head, a hairline border, small labels and one italic cover line.", "say": "make this line a magazine cover", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting"], "wall": "above", "segments": 1, "cutout": "clean", "tracking": "none (the page is fixed to the screen; the cutout follows the speaker)", "extra": ["opencv-python-headless"], "material": "", "notes": "Hook line said to camera. Picks the layout from the head: behind the head (medium), above it (selfie), clear above (wide). Declines when the head reaches the very top of the frame.", "status": "ready"},
-  {"n": 36, "key": "neon-sign", "name": "Neon Sign", "does": "Your phrase as a neon tube on your wall: it flickers on, the room dims and the sign lights the wall.", "say": "hang a neon sign that says X on my wall", "shot": ["wide", "medium"], "camera": ["still", "drifting"], "wall": "beside", "segments": 1, "cutout": "clean", "tracking": "camera track (shift, roll, scale) pins the sign to the wall", "extra": ["opencv-python-headless"], "material": "", "notes": "Needs plain wall beside or above the speaker that stays clear. Tries beside, above, a corner, one line, then declines. A punch-in zoom inside the slot breaks the tracking.", "status": "ready"},
-  {"n": 37, "key": "spatial-glass", "name": "Spatial Glass", "does": "Three frosted glass panes float at different depths around you, one behind you, one for each step you name.", "say": "float three glass panels around me for these three steps", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting"], "wall": "beside", "segments": 1, "cutout": "clean", "tracking": "the room is tracked and the panes ride it", "extra": ["opencv-python-headless"], "material": "", "notes": "Three steps the speaker names. Wide or medium gets three panes, a tight shot two smaller ones. Declines when the face fills the frame with no wall either side, or when the camera swings so far the face would cross the panes.", "status": "ready"},
-  {"n": 38, "key": "rack-focus", "name": "Rack Focus", "does": "A title starts as soft lens bokeh, focus pulls to it while you and the room go into real lens blur, then racks back.", "say": "rack focus to a title when I say X", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting"], "wall": "none", "segments": 1, "cutout": "clean", "tracking": "the title is glued to the lens", "extra": ["opencv-python-headless"], "material": "", "notes": "The title goes to the darkest calm spot off the face. Declines when the face fills every spot or the title would be sharp for under 0.55 s.", "status": "ready"},
-  {"n": 39, "key": "god-rays", "name": "God Rays", "does": "The room drops a stop and beams of light fan out from behind your head, with two small lines of type. For one reveal line.", "say": "backlight me with light rays when I say X", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting"], "wall": "above", "segments": 1, "cutout": "clean", "tracking": "the light is locked to the head every frame", "extra": ["opencv-python-headless"], "material": "", "notes": "Once per reel, on a reveal or turning-point line. Declines with nobody in shot or the speaker filling the frame.", "status": "ready"},
-  {"n": 40, "key": "glass-type", "name": "Glass Type", "does": "One word as thick clear glass letters on your wall, bending the light behind them.", "say": "put the word X in glass on my wall", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting"], "wall": "above", "segments": 1, "cutout": "clean", "tracking": "camera track pins the glass to the wall", "extra": ["opencv-python-headless"], "material": "", "notes": "Needs some open wall above or beside the head. Best with something behind to bend (window, lamp, panels); a plain wall still reads. Declines on a zoom inside the slot or a camera that travels.", "status": "ready"},
-  {"n": 41, "key": "depth-scatter", "name": "Depth Scatter", "does": "Your opening words land one by one at different sizes and heights, and each earlier word goes soft as the next one lands.", "say": "scatter my opening words", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "none", "tracking": "none (screen-fixed, placed from layout.json)", "extra": [], "material": "none (a spoken opening phrase of 2 to 6 words)", "notes": "Any framing. Close-up selfie with a low chin: the cluster moves above the head; no room above or below the face: it declines.", "status": "ready"},
-  {"n": 42, "key": "stat-stack", "name": "Stat Stack", "does": "The number you say lands huge over your chest, and a tiny caps line under it swaps on the words that follow.", "say": "make the number huge on this line", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "none", "tracking": "none (screen-fixed, placed from layout.json)", "extra": [], "material": "none (a number the speaker says)", "notes": "Any framing. A number that is only passing (a year, 'one of the') is not a stat: leave it out.", "status": "ready"},
-  {"n": 43, "key": "dot-counter", "name": "Dot Counter", "does": "A row of dots pops in when you say how many things are coming; filled dots show how far along you are.", "say": "pop a dot for each of the 3 things", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "none", "tracking": "none (screen-fixed, placed from layout.json)", "extra": [], "material": "none (a spoken count from 2 to 8)", "notes": "Any framing. Needs a real count ('3 things', 'five steps').", "status": "ready"},
-  {"n": 44, "key": "chip-row", "name": "Chip Row", "does": "As you list things, an outlined pill pops in for each one in a row under your captions.", "say": "pop a pill for each thing I list", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "none", "tracking": "none (screen-fixed, placed from layout.json)", "extra": [], "material": "none (a spoken list of 2 to 4 short things)", "notes": "Any framing. Long items shrink the row to the safe width.", "status": "ready"},
-  {"n": 45, "key": "prompt-box", "name": "Prompt Box", "does": "A glass input box appears over your chest and what you say you type into it types itself in, caret and all.", "say": "type my prompt on screen", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "none", "tracking": "none (screen-fixed, placed from layout.json)", "extra": [], "material": "none (a spoken instruction of up to about 60 characters)", "notes": "Any framing. A plain glass field, never a real app's screen.", "status": "ready"},
-  {"n": 46, "key": "serif-flow", "name": "Serif Flow", "does": "The picture cuts to a dark card and your process builds down it: serif italic steps, bold steps, thin lines drawing between them.", "say": "draw the process on a card", "shot": ["wide", "medium", "close"], "camera": ["still", "drifting", "moving"], "wall": "none", "segments": 1, "cutout": "none", "tracking": "none (screen-fixed, placed from layout.json)", "extra": [], "material": "none (a line that describes 2 to 4 steps)", "notes": "Any framing: the card is full frame, so the face is never covered.", "status": "ready"}
+  {
+   "n": 1,
+   "key": "orbit",
+   "name": "Orbit",
+   "does": "Your own reels circle around you, passing behind and in front.",
+   "say": "put my reels in orbit around me",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (prep.py measures the ring from the cutout; the ring follows the head)",
+   "extra": [],
+   "material": "a folder of the buyer's own reel cover images (at least 4, 6 fills the default ring). Real view counts only if the buyer gives them",
+   "notes": "Speaker centred, wide or medium, chin above about y 1000 so a card fits under the face. Fails on a close-up selfie, a speaker who fills the frame width or sits far off centre, a hand held above the head, a weak cutout and a walking camera. Without the buyer's own covers the effect is left out.",
+   "status": "ready"
+  },
+  {
+   "n": 2,
+   "key": "couch-wall",
+   "name": "Couch Wall",
+   "does": "Your reel covers become a grid on the wall behind you.",
+   "say": "put my reels as a grid on the wall behind me",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "above",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "room track, wall and furniture found by colour (prep.py)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "a folder of the buyer's own reel cover images (at least 4, 9 or more looks best). Real view counts only if the buyer gives them",
+   "notes": "Needs a plain one-colour wall in the upper frame. Fails on a tight selfie, a patterned wall (wallpaper, brick, shelves, a window) and furniture or floor the same colour as the wall (draw those in IN_FRONT). Without the buyer's own covers the effect is left out.",
+   "status": "ready"
+  },
+  {
+   "n": 3,
+   "key": "ui-world",
+   "name": "UI World",
+   "does": "An app screen fills the frame and you stand in front of it.",
+   "say": "put me in front of the Claude screen",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (laid out for the speaker's highest position)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "what the screen shows: the buyer's words for the packaged chat screen, or the buyer's own picture or screen recording. Any names on it are generic placeholders",
+   "notes": "Still or near-still speaker facing the camera, head and shoulders in frame, one continuous shot. Nothing is tracked: a speaker who moves up and down a lot, walks, or raises hands above the head breaks it. Needs a clean cutout with both shoulders intact. A tight selfie leaves no room.",
+   "status": "ready"
+  },
+  {
+   "n": 4,
+   "key": "freeze-sticker",
+   "name": "Freeze Sticker",
+   "does": "Your freeze frame becomes a die-cut sticker with handwritten notes.",
+   "say": "turn me into a sticker on this line",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (one frame is frozen; bake.py measures its outline)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "the notes",
+   "notes": "Medium or wide is best (head and chest with air around them); a close-up gives a large sticker with room for one or two short notes. Breaks on a freeze frame with motion blur, closed eyes or a hand across the face, a cutout that lost hair or fingers on that frame, a speaker cut by both sides of the frame, and a head cut by the top of the frame.",
+   "status": "ready"
+  },
+  {
+   "n": 5,
+   "key": "frame-break",
+   "name": "Frame Break",
+   "does": "The video shrinks into a card and your head and hands pop out of it.",
+   "say": "shrink the video into a card and let me break out of it",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (prep.py measures head, body and hands from the cutout)",
+   "extra": [],
+   "material": "none",
+   "notes": "One continuous shot, 3 to 6 s, head in the upper half with room above it. Best with a hand gesture that reaches sideways at chest height or higher; without one it still works as a head pop-out. Weak on a tight close-up and when the head touches the top of the frame. Needs a cutout that keeps hair and fingers. A hood or long hair over the shoulders needs HEAD typed in.",
+   "status": "ready"
+  },
+  {
+   "n": 6,
+   "key": "type-wall",
+   "name": "Type Wall",
+   "does": "Giant words march behind you and swap on the word you say.",
+   "say": "put giant words behind me that change as I talk",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still"
+   ],
+   "wall": "above",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (prep.py measures the head; the wall is locked)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "none",
+   "notes": "Locked camera only. Needs clear room above the head (head top at y 250 or lower in the frame). It replaces everything behind the speaker: furniture the speaker sits on has to be drawn in KEEP. Best on a short line with one word that matters; a word over about 7 letters does not fit.",
+   "status": "ready"
+  },
+  {
+   "n": 7,
+   "key": "the-stack",
+   "name": "The Stack",
+   "does": "Data cards with racing bars stack above you, you sit in a window below.",
+   "say": "do the stacked data card layout on this line",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (measure.py finds the head from the cutout; the window follows it)",
+   "extra": [],
+   "material": "the buyer's own figures: titles, labels, values and units for one to three small cards",
+   "notes": "One speaker, head and shoulders in frame, one continuous take of 3 to 6 s. A very tight selfie holds about 5 rows in all (build.py stops and says how much to drop). A far-away wide shot is enlarged and goes soft. Hands above the head, a hood or two people give a wrong head box: type HEAD. Without the buyer's own figures the effect is left out.",
+   "status": "ready"
+  },
+  {
+   "n": 8,
+   "key": "digital-zoom",
+   "name": "Digital Zoom",
+   "does": "A slow creep onto your face, a hard snap on a key word, a whip back out.",
+   "say": "punch in on my face when I say X",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "face (track.py)",
+   "extra": [],
+   "material": "none",
+   "notes": "One continuous shot with the face visible the whole time. With --hi a 1728 px source stays sharp to 1.6x; from a 1080 source every zoom is an upscale (capped at 1.5x).",
+   "status": "ready"
+  },
+  {
+   "n": 9,
+   "key": "sticky-text",
+   "name": "Sticky Text",
+   "does": "A tag glued to your cap or chest that moves, tilts and scales with you.",
+   "say": "stick a tag that says X to my cap",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "head and chest followed frame by frame from the cutout (track.py)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "none",
+   "notes": "Works on handheld. 'cap' and 'chest' want a medium or close shot, 'head' (beside the head) wants room beside it. Breaks on a hand on or above the head, a hood or long hair hiding the neck, a second person, a head turn past about 40 degrees. When the cap is inside the top 220 px, 'cap' and 'head' are refused: use 'chest'.",
+   "status": "ready"
+  },
+  {
+   "n": 10,
+   "key": "odometer",
+   "name": "Odometer",
+   "does": "Numbers roll up digit by digit like a mileage counter.",
+   "say": "roll the numbers up like an odometer when I say X",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none",
+   "extra": [],
+   "material": "the real number, from the buyer",
+   "notes": "The panel sits behind the speaker, in open background beside or above the head. It stops with a clear message when the speaker fills the frame. Only a number the speaker actually says.",
+   "status": "ready"
+  },
+  {
+   "n": 11,
+   "key": "spotlight",
+   "name": "Spotlight",
+   "does": "The room goes dark and out of focus, you stay lit, the key words land big, the lights come back up.",
+   "say": "put a spotlight on me when I say X",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (prep.py measures the head on every frame; the light follows it)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "none",
+   "notes": "One continuous shot of one person, 3 to 6 s. Best wide or medium with wall above and beside the head; on a close shot the light tightens to a glow. Needs a clean cutout: lost hair or fingers go dark with the room. Breaks on a hand above the head, two people, a hood or long hair over the shoulders, and a head that fills the frame (no room for the words).",
+   "status": "ready"
+  },
+  {
+   "n": 12,
+   "key": "comment-bubble",
+   "name": "Comment Bubble",
+   "does": "The comment keyword types itself, posts, and your reply with the link lands.",
+   "say": "show the comment being typed and my reply when I say comment X",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none",
+   "extra": [],
+   "material": "the comment keyword (the cta mark in words.json). The commenter is a generic placeholder, never a real person",
+   "notes": "The cutout is only used to measure the chin and the avatar crop (fx_new.py --no-cutout and CHIN_Y by hand skips it). Needs the top of the head in frame and about 1.5 s of the same shot after the line.",
+   "status": "ready"
+  },
+  {
+   "n": 13,
+   "key": "freeze-and-label",
+   "name": "Freeze and Label",
+   "does": "The picture freezes while you keep talking, tagged lines point at you.",
+   "say": "freeze the frame on X and label me: A, B",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (the picture is frozen: everything is measured once on the held frame)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "the labels",
+   "notes": "Best wide or medium with room beside or above the speaker. The hold needs about 1 s per label. A tight selfie fits 1 or 2 short labels (build.py stops and says how many fit). Breaks on a blink or motion blur on the freeze word, a hood or long hair over the neck, a hand on the head, a second person. Hand points are found by skin colour and can miss a hand in front of the chest.",
+   "status": "ready"
+  },
+  {
+   "n": 14,
+   "key": "phone-mockup",
+   "name": "Phone Mockup",
+   "does": "A 3D phone flies in beside you playing a screen, taps land on your words.",
+   "say": "put a phone next to me showing the app",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (build.py finds the side with more room from the cutout)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "the buyer's own screen recording or picture for the phone, or the words for the packaged card",
+   "notes": "Medium or wide is best; close works with 300 px or more of background beside the head, and a close-up that fills the frame stops with 'no room for a phone'. Needs a slot of 2 s or more, the tap word not in the first 0.6 s or last 0.5 s, and no hand parked over the tap point. Not for a speaker walking across the frame.",
+   "status": "ready"
+  },
+  {
+   "n": 15,
+   "key": "checklist",
+   "name": "Checklist",
+   "does": "A card builds on the wall and each step ticks as you say it.",
+   "say": "put a checklist on screen for these three steps",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (prep.py measures the clip)",
+   "extra": [],
+   "material": "2 to 4 steps, in the speaker's own words",
+   "notes": "Needs open room above or beside the speaker. A close-up gives a small card. On a moving camera it switches to an opaque card by itself.",
+   "status": "ready"
+  },
+  {
+   "n": 16,
+   "key": "headline-wall",
+   "name": "Headline Wall",
+   "does": "The wall behind you fills with headline and post cards, the key word highlighted.",
+   "say": "fill the wall behind me with headlines about X",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "beside",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "room track (prep.py)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "the topic. Card text is written for the reel: generic outlets and placeholder names, never a real publication, person, number or made-up proof",
+   "notes": "One continuous shot, 3 to 6 s, with visible wall beside or above the head. A moving camera is tracked. A window, mirror or open doorway behind the speaker breaks the track. A tight selfie has no room for the big cards.",
+   "status": "ready"
+  },
+  {
+   "n": 17,
+   "key": "zoom-through-cut",
+   "name": "Zoom-Through Cut",
+   "does": "The camera dives through you and comes out in the next shot.",
+   "say": "make that cut a zoom-through",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 2,
+   "cutout": "clean",
+   "tracking": "none (prep.py finds the dive points)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "none",
+   "notes": "Needs two different shots back to back (a real cut in the edit, not one continuous take), the speaker in both, and something dark and plain on the speaker to dive into. A cut in the middle of a word fights the move.",
+   "status": "ready"
+  },
+  {
+   "n": 18,
+   "key": "clone",
+   "name": "Clone",
+   "does": "More of you pop up beside you on the words, then sync up for the payoff.",
+   "say": "clone me when I say like this, like this",
+   "shot": [
+    "wide"
+   ],
+   "camera": [
+    "still"
+   ],
+   "wall": "both",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "room drift lock (bake.py)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "none",
+   "notes": "Needs room on both sides and a furniture edge (sofa back, desk, counter) with wall above it for the clones to stand behind. No close-ups, no moving camera.",
+   "status": "ready"
+  },
+  {
+   "n": 19,
+   "key": "before-and-after",
+   "name": "Before and After",
+   "does": "A wipe line sweeps across your raw clip to reveal the edited version.",
+   "say": "do a before/after wipe on this line",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (measure.py finds the head; both sides are the same frames)",
+   "extra": [],
+   "material": "nothing needed. Optional: the buyer's own finished version of the same frames",
+   "notes": "Any shot, any camera. Needs a line that is about a change. Weak when the payoff word comes in the first 0.3 s or less than 1.5 s of slot follows the sweep. On footage that is already dark the default grade may be too quiet: raise AFTER_GRADE. The buyer's own after file must be the same take with no punch-in, reframe or speed change.",
+   "status": "ready"
+  },
+  {
+   "n": 20,
+   "key": "chart-grow",
+   "name": "Chart Grow",
+   "does": "A line chart draws on the wall behind you and kicks up on your word.",
+   "say": "draw a growth chart behind me that takes off when I say scale",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "both",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "wall track for a drifting or handheld shot (measure.py); pinned on a still camera",
+   "extra": [
+    "scipy"
+   ],
+   "material": "nothing needed. Optional: the buyer's own real figures and labels for the chart",
+   "notes": "Needs open wall beside or above the head, best up and to the right where the line ends. A tight selfie stops with NO OPEN WALL. Breaks on a walking or panning camera, a wall with no texture on a handheld shot, hands flying through the top right during the kick, and a kick word in the first second of the slot.",
+   "status": "ready"
+  },
+  {
+   "n": 21,
+   "key": "pointer-callout",
+   "name": "Pointer Callout",
+   "does": "Cards tied to you by lines that stretch and swing as you move.",
+   "say": "put callout cards on these three things and tie them to me",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "head, chest, shoulders and hands followed frame by frame from the cutout (track.py)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "the card texts",
+   "notes": "Best wide or medium with clear background beside or above the speaker, and a speaker who moves or points. A tight selfie fits 1 or 2 short cards (build.py stops and says how many fit). Breaks on a hood or long hair hiding the neck, a hand on the head, a second person. Hand anchors fail with gloves, bare arms or skin-coloured clothes: tie those cards to head, chest or shoulder.",
+   "status": "ready"
+  },
+  {
+   "n": 22,
+   "key": "blackout",
+   "name": "Blackout",
+   "does": "The room dims on your line while you stay lit, the punch word slams in behind your head, and the lights snap back on the next line.",
+   "say": "dim the room when I say X and bring the lights back on the next line",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (prep.py measures the head while the room is dim; the word is fixed on screen)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "",
+   "notes": "One person, a line of 1 to 3 s that ends on one punch word, then a cut or the next line. Best wide or medium with room above the head; on a close shot the word sits just above the head. Needs a clean cutout: background the cutout keeps stays lit, lost hair or fingers dim with the room. Breaks on a hand above the head, two people, a head that reaches the top of the safe zone (no room for the word: move it or turn it off) and a room that is already dark.",
+   "status": "ready"
+  },
+  {
+   "n": 23,
+   "key": "timeline-burn",
+   "name": "Timeline Burn",
+   "does": "A video-editing timeline assembles in front of you, overheats, catches fire on your word and crumbles into embers.",
+   "say": "put an editing timeline on screen and burn it when I say X",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (build.py reads the head box from the cutout; the timeline is a screen overlay)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "",
+   "notes": "Wide or medium shot with the chin above about y 980 (y 1100 without a caption line): the timeline sits under the chin in the lower third. A tight selfie stops with 'No room for the timeline'. Needs 1 s or more of the slot before the burn word and 1 s after it. Reads best on a dark or dimmed picture (DIM). Only a wide shot on a still camera was tested.",
+   "status": "ready"
+  },
+  {
+   "n": 24,
+   "key": "pull-back-reveal",
+   "name": "Pull-Back Reveal",
+   "does": "The live video shrinks into a card inside an app window: a checklist of the real edit ticks off, the shot timeline plays, a counter rolls up to the number you say.",
+   "say": "pull back and show this video being edited",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (the whole picture goes into the card; nothing is measured)",
+   "extra": [],
+   "material": "the reel's own edit list (steps really done, each shot's length in frames) and, for the counter, a number the speaker says",
+   "notes": "Any shot, any camera, no cutout. The checklist covers up to 170 px of the card's left edge: a face in the left quarter of the picture at mid height needs FACE set or shorter steps. The title bar covers the top 68 px of the clip, the timeline strip the bottom 240 px. Needs a slot of about 3.5 s or more. Only a handheld close-up was tested.",
+   "status": "ready"
+  },
+  {
+   "n": 25,
+   "key": "knockout-tiles",
+   "name": "Knockout Tiles",
+   "does": "Name tiles slam onto the wall behind you one per word, each gets struck out and knocked away; receipts can then stack up with a running total.",
+   "say": "put these names on the wall behind me and knock each one out as I say it",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "beside",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (prep.py reads the head, its movement and the clear wall from the cutout)",
+   "extra": [],
+   "material": "the names the speaker lists; for receipts, the amounts they say",
+   "notes": "Wide or medium shot with about 400 x 150 px of clear wall beside the head, inside the safe zone. Still camera: the pieces are not tracked to the room. Needs the clean cutout. The running total needs about 150 px of wall above the head. A close-up stops with 'no clear wall'. Only a still wide shot was tested.",
+   "status": "ready"
+  },
+  {
+   "n": 26,
+   "key": "green-screen",
+   "name": "Green Screen",
+   "does": "You are cut out and shrunk to the bottom of the frame, and the whole screen behind you becomes the thing you are talking about.",
+   "say": "green screen me over this video",
+   "shot": [
+    "medium",
+    "wide"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (prep.py reads head top, chin, head width and the body's cut-off row from the cutout)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "the buyer's own video or picture of the thing they are talking about (at least one file in bg/)",
+   "notes": "Medium is best (head, shoulders and chest). Wide works but the speaker is enlarged and turns soft above 1.3x. A close-up with less than about one head height of body under the chin stops with 'too tight'. Needs a clean cutout (the new background shows every matte fault), one speaker, a slot of 36 frames or more. Only a still camera was tested.",
+   "status": "ready"
+  },
+  {
+   "n": 27,
+   "key": "shatter-3d",
+   "name": "Shatter 3D",
+   "does": "The frame fractures into tiles at different depths, jolts on your key word, then shatters like glass to reveal the clean shot.",
+   "say": "shatter the frame when I say X",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "the face tile follows the head measured on the cutout",
+   "extra": [
+    "opencv-python-headless"
+   ],
+   "material": "",
+   "notes": "Needs about 0.6 to 1.5 s between the break word and the punch word and about 1.2 s after it. The face tile always stays whole. Declines on a zoom while the frame is fractured.",
+   "status": "ready"
+  },
+  {
+   "n": 28,
+   "key": "paper-cut",
+   "name": "Paper Cut",
+   "does": "The room rips away to torn paper, you stay live as a white-edged cutout, and your phrase lands in cut-out letters before the collage tears back.",
+   "say": "turn this line into a paper collage and spell X in cut-out letters",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "the cutout is live; the paper replaces the room",
+   "extra": [
+    "opencv-python-headless"
+   ],
+   "material": "",
+   "notes": "Picks above / below / beside from the head and chin. Declines when the face fills the frame both ways or the source zooms inside the slot.",
+   "status": "ready"
+  },
+  {
+   "n": 29,
+   "key": "doodle-boil",
+   "name": "Doodle Boil",
+   "does": "A hand-drawn chalk line traces your outline and boils, and chalk doodles draw on the words you pick.",
+   "say": "draw a chalk outline around me and doodle a heart when I say X",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "the outline and the doodles follow the cutout every frame",
+   "extra": [
+    "opencv-python-headless"
+   ],
+   "material": "",
+   "notes": "Pick a doodle per word from the library in effect.md. build.py places them in open space off the face; it stops only when no space fits anywhere.",
+   "status": "ready"
+  },
+  {
+   "n": 30,
+   "key": "code-scan",
+   "name": "Code Scan",
+   "does": "The picture resolves into readable code with you as a brighter figure, a small terminal types your two lines, and it resolves back.",
+   "say": "turn me into code when I say X",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "every frame is redrawn from the cutout",
+   "extra": [
+    "opencv-python-headless"
+   ],
+   "material": "",
+   "notes": "Hook or a 'this is how' beat. Without a cutout the whole picture becomes room code (voice-over). Declines on a hold under 0.6 s or a zoom inside the beat.",
+   "status": "ready"
+  },
+  {
+   "n": 31,
+   "key": "word-pile",
+   "name": "Word Pile",
+   "does": "The things you name drop as solid slabs with real physics, glance off your head, land on a line with a thud, then blow away.",
+   "say": "drop these three names as blocks and pile them on a line",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "the head is re-measured every frame (colliders)",
+   "extra": [
+    "opencv-python-headless"
+   ],
+   "material": "",
+   "notes": "Fill the slab words with the things the speaker names. Declines when the chin is so low no slab fits above the line.",
+   "status": "ready"
+  },
+  {
+   "n": 32,
+   "key": "vertigo",
+   "name": "Vertigo",
+   "does": "A dolly zoom from one locked-off shot: you stay still while the room stretches away behind you, then it snaps back.",
+   "say": "do a vertigo zoom on this line",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "beside",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "drift is tracked; a moving camera gets a gentler stretch",
+   "extra": [
+    "opencv-python-headless"
+   ],
+   "material": "",
+   "notes": "Needs a room with lines or things in it beside or above the head (a plain wall declines). Best on a still camera.",
+   "status": "ready"
+  },
+  {
+   "n": 33,
+   "key": "inside-out",
+   "name": "Inside Out",
+   "does": "Your body becomes a window showing a clip you choose, then it flips: you are solid and the clip becomes the room.",
+   "say": "play this clip inside me, then swap the room to it",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "the window follows the cutout every frame",
+   "extra": [
+    "opencv-python-headless"
+   ],
+   "material": "one b-roll clip or picture from the buyer",
+   "notes": "Needs the buyer's own b-roll in fill/ (never a person). Needs the chest in shot. Declines on a zoom inside the slot.",
+   "status": "ready"
+  },
+  {
+   "n": 34,
+   "key": "scene-text",
+   "name": "Scene Text",
+   "does": "A word prints across your real wall like wallpaper, behind you and the things on the wall, then two big words land on it.",
+   "say": "print X all over my wall and paint Y on it",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "beside",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "camera track pins the print to the wall",
+   "extra": [
+    "opencv-python-headless"
+   ],
+   "material": "",
+   "notes": "Needs some plain wall behind or beside the speaker. Goes behind things on the wall by itself. Declines on a camera that travels.",
+   "status": "ready"
+  },
+  {
+   "n": 35,
+   "key": "cover-story",
+   "name": "Cover Story",
+   "does": "The live shot becomes a magazine cover: a serif masthead behind your head, a hairline border, small labels and one italic cover line.",
+   "say": "make this line a magazine cover",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "above",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (the page is fixed to the screen; the cutout follows the speaker)",
+   "extra": [
+    "opencv-python-headless"
+   ],
+   "material": "",
+   "notes": "Hook line said to camera. Picks the layout from the head: behind the head (medium), above it (selfie), clear above (wide). Declines when the head reaches the very top of the frame.",
+   "status": "ready"
+  },
+  {
+   "n": 36,
+   "key": "neon-sign",
+   "name": "Neon Sign",
+   "does": "Your phrase as a neon tube on your wall: it flickers on, the room dims and the sign lights the wall.",
+   "say": "hang a neon sign that says X on my wall",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "beside",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "camera track (shift, roll, scale) pins the sign to the wall",
+   "extra": [
+    "opencv-python-headless"
+   ],
+   "material": "",
+   "notes": "Needs plain wall beside or above the speaker that stays clear. Tries beside, above, a corner, one line, then declines. A punch-in zoom inside the slot breaks the tracking.",
+   "status": "ready"
+  },
+  {
+   "n": 37,
+   "key": "spatial-glass",
+   "name": "Spatial Glass",
+   "does": "Three frosted glass panes float at different depths around you, one behind you, one for each step you name.",
+   "say": "float three glass panels around me for these three steps",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "beside",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "the room is tracked and the panes ride it",
+   "extra": [
+    "opencv-python-headless"
+   ],
+   "material": "",
+   "notes": "Three steps the speaker names. Wide or medium gets three panes, a tight shot two smaller ones. Declines when the face fills the frame with no wall either side, or when the camera swings so far the face would cross the panes.",
+   "status": "ready"
+  },
+  {
+   "n": 38,
+   "key": "rack-focus",
+   "name": "Rack Focus",
+   "does": "A title starts as soft lens bokeh, focus pulls to it while you and the room go into real lens blur, then racks back.",
+   "say": "rack focus to a title when I say X",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "the title is glued to the lens",
+   "extra": [
+    "opencv-python-headless"
+   ],
+   "material": "",
+   "notes": "The title goes to the darkest calm spot off the face. Declines when the face fills every spot or the title would be sharp for under 0.55 s.",
+   "status": "ready"
+  },
+  {
+   "n": 39,
+   "key": "god-rays",
+   "name": "God Rays",
+   "does": "The room drops a stop and beams of light fan out from behind your head, with two small lines of type. For one reveal line.",
+   "say": "backlight me with light rays when I say X",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "above",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "the light is locked to the head every frame",
+   "extra": [
+    "opencv-python-headless"
+   ],
+   "material": "",
+   "notes": "Once per reel, on a reveal or turning-point line. Declines with nobody in shot or the speaker filling the frame.",
+   "status": "ready"
+  },
+  {
+   "n": 40,
+   "key": "glass-type",
+   "name": "Glass Type",
+   "does": "One word as thick clear glass letters on your wall, bending the light behind them.",
+   "say": "put the word X in glass on my wall",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "above",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "camera track pins the glass to the wall",
+   "extra": [
+    "opencv-python-headless"
+   ],
+   "material": "",
+   "notes": "Needs some open wall above or beside the head. Best with something behind to bend (window, lamp, panels); a plain wall still reads. Declines on a zoom inside the slot or a camera that travels.",
+   "status": "ready"
+  },
+  {
+   "n": 41,
+   "key": "depth-scatter",
+   "name": "Depth Scatter",
+   "does": "Your opening words land one by one at different sizes and heights, and each earlier word goes soft as the next one lands.",
+   "say": "scatter my opening words",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (a spoken opening phrase of 2 to 6 words)",
+   "notes": "Any framing. Close-up selfie with a low chin: the cluster moves above the head; no room above or below the face: it declines.",
+   "status": "ready"
+  },
+  {
+   "n": 42,
+   "key": "stat-stack",
+   "name": "Stat Stack",
+   "does": "The number you say lands huge over your chest, and a tiny caps line under it swaps on the words that follow.",
+   "say": "make the number huge on this line",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (a number the speaker says)",
+   "notes": "Any framing. A number that is only passing (a year, 'one of the') is not a stat: leave it out.",
+   "status": "ready"
+  },
+  {
+   "n": 43,
+   "key": "dot-counter",
+   "name": "Dot Counter",
+   "does": "A row of dots pops in when you say how many things are coming; filled dots show how far along you are.",
+   "say": "pop a dot for each of the 3 things",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (a spoken count from 2 to 8)",
+   "notes": "Any framing. Needs a real count ('3 things', 'five steps').",
+   "status": "ready"
+  },
+  {
+   "n": 44,
+   "key": "chip-row",
+   "name": "Chip Row",
+   "does": "As you list things, an outlined pill pops in for each one in a row under your captions.",
+   "say": "pop a pill for each thing I list",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (a spoken list of 2 to 4 short things)",
+   "notes": "Any framing. Long items shrink the row to the safe width.",
+   "status": "ready"
+  },
+  {
+   "n": 45,
+   "key": "prompt-box",
+   "name": "Prompt Box",
+   "does": "A glass input box appears over your chest and what you say you type into it types itself in, caret and all.",
+   "say": "type my prompt on screen",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (a spoken instruction of up to about 60 characters)",
+   "notes": "Any framing. A plain glass field, never a real app's screen.",
+   "status": "ready"
+  },
+  {
+   "n": 46,
+   "key": "serif-flow",
+   "name": "Serif Flow",
+   "does": "The picture cuts to a dark card and your process builds down it: serif italic steps, bold steps, thin lines drawing between them.",
+   "say": "draw the process on a card",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (a line that describes 2 to 4 steps)",
+   "notes": "Any framing: the card is full frame, so the face is never covered.",
+   "status": "ready"
+  },
+  {
+   "n": 47,
+   "key": "hook-stack",
+   "name": "Hook Stack",
+   "does": "Your opening line lands letter by letter in a big serif behind your head, the room flips to a solid green backdrop, heavy words push through a two-line stack with a running timecode, and a serif italic line lands with a coloured last word.",
+   "say": "give my opening the serif and green backdrop stack",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (fixed on screen, sized from layout.json so the lines end at the top of the head)",
+   "extra": [],
+   "material": "none (an opening line of about 8 to 14 words, in the speaker's own words)",
+   "notes": "The reel's opening line, about 3 to 6 s, on one continuous shot. Needs room above the head and a clean cutout: anything the cutout loses disappears against the backdrop. Declines when the head starts too high for the lines. On a very close shot the lines get small.",
+   "status": "ready"
+  },
+  {
+   "n": 48,
+   "key": "letter-stamp",
+   "name": "Letter Stamp",
+   "does": "One huge serif word lands letter by letter behind your head, stamped in or dropped with a squash and bounce.",
+   "say": "stamp the word X letter by letter behind my head",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "clear wall above the head",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (build.py reads the head from the cutout; the word is fixed on screen)",
+   "extra": [],
+   "material": "none (one word the speaker says)",
+   "notes": "Needs about 200 px between the top of the safe zone and the head. A head that reaches the safe zone top declines. The dark parts of the word come from one picture of the room, so a camera that travels shows them sliding: set TWO_TONE = False there.",
+   "status": "ready"
+  },
+  {
+   "n": 49,
+   "key": "frame-sheet",
+   "name": "Frame Sheet",
+   "does": "The shot shrinks into the first cell of a flat colour grid, the numbered cells fill with real frames of your clip as you speak, then the camera snaps into the last cell and you are back.",
+   "say": "fill a grid with frames of my video",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (the cells are the clip's own frames; the crop is placed from layout.json)",
+   "extra": [],
+   "material": "none (a continuous shot of 3 to 5 s)",
+   "notes": "Any framing. The speaker is off screen while the sheet is up, so it works best as a hook or on a line about time or amount. Needs one continuous shot of about 3 s with a phrase of about 1.5 s.",
+   "status": "ready"
+  },
+  {
+   "n": 50,
+   "key": "feed-flick",
+   "name": "Feed Flick",
+   "does": "A phone feed flicks past your own videos, faster and faster with motion blur, then brakes hard on you.",
+   "say": "flick through a feed of my videos and stop on me",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "any",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none",
+   "extra": [],
+   "material": "a folder of the buyer's own videos: at least 8, each 0.3 s or longer after the skipped start",
+   "notes": "Any framing works: it cuts away from the speaker and back. The buttons are plain line drawings, no real app, no made-up numbers. Without the buyer's own videos the effect is left out.",
+   "status": "ready"
+  },
+  {
+   "n": 51,
+   "key": "phone-dive",
+   "name": "Phone Dive",
+   "does": "A dark title card with a small running timecode and a big serif line, then you cut in full frame, shrink into a plain phone on a flat colour, and dive back in until you fill the frame again.",
+   "say": "title card, then shrink me into a phone",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none",
+   "extra": [],
+   "material": "none (a short line for the card, in the speaker's own words)",
+   "notes": "Any framing. One continuous shot of about 3 s or more. A plain phone frame, never a real device's or app's look. Best on a time-jump or a 'now look' line.",
+   "status": "ready"
+  },
+  {
+   "n": 52,
+   "key": "iris-card",
+   "name": "Iris Card",
+   "does": "An iris closes on your face to black, a framed title card sets your line word by word, then the iris reopens through the card onto you.",
+   "say": "close on my face and put that line on a title card",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (headtrack.py measures the head on every frame; the iris follows it)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "none (a short line of up to about 8 words)",
+   "notes": "Any framing with the head in the picture. The speaker is off screen while the card is up, so it wants a line that lands on its own. May start on the end of the line before, across a cut.",
+   "status": "ready"
+  },
+  {
+   "n": 53,
+   "key": "picture-loop",
+   "name": "Picture Loop",
+   "does": "The wall behind you shrinks into a framed picture of the live shot, with you in it, and the same picture again inside it, several levels deep, then it bursts back out to full frame.",
+   "say": "put a picture of me inside a picture of me",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "beside",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (the side comes from layout.json; the speaker stays in front through the cutout)",
+   "extra": [],
+   "material": "none",
+   "notes": "One continuous shot of about 2 s or more, with some wall on one side of the head. A speaker who fills the frame hides the picture. A moving camera is fine for the look only when the cutout holds.",
+   "status": "ready"
+  },
+  {
+   "n": 54,
+   "key": "plate-word",
+   "name": "Plate Word",
+   "does": "Your words stack up in bigger and bigger boxes, then the picture cuts to a paper plate with one giant word cut out of it and your video playing through the letters.",
+   "say": "stack my captions and cut to a plate with the word X cut out of it",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (a line that ends on one payoff word)",
+   "notes": "Any framing. The stack sits under the chin: with no room there it declines, or CAPTIONS=0 gives the plate alone. The shorter the word, the bigger the letters and the more of the video shows.",
+   "status": "ready"
+  },
+  {
+   "n": 55,
+   "key": "grid-snap",
+   "name": "Grid Snap",
+   "does": "On a solid green backdrop you shrink into the middle of a 3x3 grid of your own videos, then the grid clears and you snap back full frame.",
+   "say": "shrink me into a grid of my videos",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "any",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none",
+   "extra": [],
+   "material": "a folder of the buyer's own videos: at least 8, each 1.7 s or longer",
+   "notes": "Any framing works because the whole picture shrinks. Without the buyer's own videos the effect is left out.",
+   "status": "ready"
+  },
+  {
+   "n": 56,
+   "key": "slab-caption",
+   "name": "Slab Caption",
+   "does": "Your key word springs into a big dark slab at the top with a serif italic word opening under it, small tags pop in under your chin, and the payoff lands on a tilted paper strip.",
+   "say": "put the word X in a big slab at the top and land the payoff under my chin",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (one spoken line: a key word, then a payoff)",
+   "notes": "Needs about 110 px between the top of the safe zone and the head, and about 200 px under the chin; it declines without them. Less room above the head gives a smaller slab.",
+   "status": "ready"
+  },
+  {
+   "n": 57,
+   "key": "lens-readout",
+   "name": "Lens Readout",
+   "does": "A lens-distance strip above your head spins from tight to wide numbers while the picture pulls out to full, then the next words build letter by letter.",
+   "say": "do the lens strip and pull out when I say X",
+   "shot": [
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (the pull is centred on the head from layout.json)",
+   "extra": [],
+   "material": "none (a line said after the pull)",
+   "notes": "Needs about 130 px above the head inside the safe zone, and a slot of 2 s or more. The opening punch-in is an upscale, so a 1080 source looks a little soft for its first half second.",
+   "status": "ready"
+  },
+  {
+   "n": 58,
+   "key": "split-grade",
+   "name": "Split Grade",
+   "does": "A tilted divider with a handle splits your face between the plain picture and a new color grade, then sweeps the grade across the whole shot on the word.",
+   "say": "split the grade across my face",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (the line is placed from layout.json)",
+   "extra": [],
+   "material": "none",
+   "notes": "Any framing. Needs a line about a change, with the change word at least 0.45 s into the slot.",
+   "status": "ready"
+  },
+  {
+   "n": 59,
+   "key": "grade-curtain",
+   "name": "Grade Curtain",
+   "does": "On the word a moody grade falls from the top of the frame like a curtain, holds with grain and a vignette, and lifts again at the end.",
+   "say": "drop a moody curtain on this line",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none",
+   "extra": [],
+   "material": "none",
+   "notes": "Any framing. Weak on footage that is already very dark: use the film look there.",
+   "status": "ready"
+  },
+  {
+   "n": 60,
+   "key": "film-cut",
+   "name": "Film Cut",
+   "does": "A hard wipe turns the shot into a film look with deep blacks, teal shadows and warm highlights for one line, then it cuts back.",
+   "say": "make this line look like a film",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none",
+   "extra": [],
+   "material": "none",
+   "notes": "Any framing. Very dark rooms lose shadow detail in the look.",
+   "status": "ready"
+  },
+  {
+   "n": 61,
+   "key": "film-gate",
+   "name": "Film Gate",
+   "does": "Your shot becomes running 35mm film, with sprocket rails, a roll into place, a soundtrack strip drawn from your real voice, flicker and dust.",
+   "say": "make this look like old film",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (head place read from layout.json)",
+   "extra": [],
+   "material": "none",
+   "notes": "Needs a head clear of the rails and a voice in the slot. A very tight close-up declines.",
+   "status": "ready"
+  },
+  {
+   "n": 62,
+   "key": "color-picker",
+   "name": "Color Picker",
+   "does": "An eyedropper cursor pulls five real colors off your shot into a small palette card, and the swatches shift as the grade goes dark and drained.",
+   "say": "pick the colors off my shot with an eyedropper",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "any",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (the face place comes from layout.json, samples from the frames)",
+   "extra": [],
+   "material": "none",
+   "notes": "Needs room beside the face for the card. Declines on a tight close-up with no room either side.",
+   "status": "ready"
+  },
+  {
+   "n": 63,
+   "key": "receipt-print",
+   "name": "Receipt Print",
+   "does": "A thin printer bar above your head prints what you say as a paper receipt, line by line in step with your words, then the paper tears off and flies away.",
+   "say": "print what I say as a receipt",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (a spoken sentence of up to about 70 characters)",
+   "notes": "Needs about 250 px between the top of the safe zone and the head: a tight selfie declines. Plain paper and bar, never a real product's name.",
+   "status": "ready"
+  },
+  {
+   "n": 64,
+   "key": "app-delete",
+   "name": "App Delete",
+   "does": "A panel of plain tiles above your head jiggles, each tile is deleted as you name it while the rest close the gap, and on your last word one big word takes the panel over.",
+   "say": "delete these apps one by one as I name them",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (2 to 6 things the speaker names and a closing word); the buyer's own tile images are optional",
+   "notes": "Needs about 200 px between the top of the safe zone and the head: a tight selfie declines. Plain lettered tiles by default, never a real product's logo.",
+   "status": "ready"
+  },
+  {
+   "n": 65,
+   "key": "strike-tiles",
+   "name": "Strike Tiles",
+   "does": "Plain tiles pop up above your head as you name them, a red pen line strikes through each, and on your last word they fall out of frame while one italic word rises in their place.",
+   "say": "cross these out with a red pen as I name them",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (1 to 4 things the speaker names and a closing word); the buyer's own tile images are optional",
+   "notes": "Needs about 150 px between the top of the safe zone and the head: a tight selfie declines. Plain lettered tiles by default, never a real product's logo.",
+   "status": "ready"
+  },
+  {
+   "n": 66,
+   "key": "key-rain",
+   "name": "Key Rain",
+   "does": "Keyboard keycaps with shortcut glyphs rain down and pile up on your head with real weight, then a gold ruler bar sweeps the whole pile out of the frame.",
+   "say": "rain keyboard keys on my head",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "head top measured per frame from the cutout; the pile follows it",
+   "extra": [],
+   "material": "none (a line about hard or fiddly work, and a word to clear the pile on)",
+   "notes": "Needs about 130 px between the top of the safe zone and the head: a tight selfie declines. Beside the head the keys rest on an invisible shelf level with it.",
+   "status": "ready"
+  },
+  {
+   "n": 67,
+   "key": "note-thread",
+   "name": "Note Thread",
+   "does": "A small card pops in at the top of the frame, a note types itself out under a name, and a reply line slides in under it.",
+   "say": "show a note and a reply at the top",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (a name, a note and a reply in the buyer's words); pictures for the two badges are optional",
+   "notes": "Needs about 200 px between the top of the safe zone and the head: a tight selfie declines. Plain cards and lettered badges, never a real product's interface.",
+   "status": "ready"
+  },
+  {
+   "n": 68,
+   "key": "marked-sheet",
+   "name": "Marked Sheet",
+   "does": "A cream paper sheet with two film strips of real frames from your reel drops in above you, the frames develop from black, and a red pencil circles and crosses some of them with a short handwritten word.",
+   "say": "mark up my takes on a film strip",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (the slide of the shot is worked out from layout.json)",
+   "extra": [],
+   "material": "none (the frames, the file name and its length come from the reel itself)",
+   "notes": "Medium or wide shot, one continuous shot of about 3 s. The shot slides down while the sheet is up so the sheet stays off the face. Fails when the chin would land under y 1500 after the slide (a tight close-up).",
+   "status": "ready"
+  },
+  {
+   "n": 69,
+   "key": "board-deal",
+   "name": "Board Deal",
+   "does": "Cards made from real shots of your reel, each with its line underneath, deal out one by one behind you, gather into a deck beside your head, and the top card flips over to a note that underlines itself.",
+   "say": "deal my storyboard out behind me",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "beside",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (the deck's side and size come from layout.json; the speaker stays in front through the cutout)",
+   "extra": [],
+   "material": "none (the cards come from the reel's own shots and lines; the note is the speaker's own words)",
+   "notes": "One continuous shot of about 5.5 s or more. Needs about 300 px of wall beside the head for the deck: fails on a speaker who fills the frame width.",
+   "status": "ready"
+  },
+  {
+   "n": 70,
+   "key": "file-drop",
+   "name": "File Drop",
+   "does": "A drop-zone card appears above your head, a file card with your raw clip's real name and length falls in and opens into a small player of that clip, and red rubber stamps slam onto it.",
+   "say": "show my raw file dropping in",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "above",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (the raw clip, its name and length come from the reel; the stamp words in the buyer's language)",
+   "notes": "Needs about 240 px of wall above the head for the card. The player goes on the side with more wall, or stays small above the head when there is none. A plain generic card, never a real app's screen.",
+   "status": "ready"
+  },
+  {
+   "n": 71,
+   "key": "script-page",
+   "name": "Script Page",
+   "does": "Cream paper rises over the shot and your line becomes a typewritten screenplay page, with a marker highlighting each word as you say it.",
+   "say": "turn this line into a screenplay page",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (the page covers the frame)",
+   "extra": [],
+   "material": "none (the speaker's own words, and the name to put over them)",
+   "notes": "Any framing. The speaker is off screen while the page is up, so keep it to one line of 2 to 6 s. Needs good word timings: the marker follows them.",
+   "status": "ready"
+  },
+  {
+   "n": 72,
+   "key": "pencil-mark",
+   "name": "Pencil Mark",
+   "does": "The shot snaps to black and white and a red pencil circles your head, then writes a short word with an arrow pointing at you.",
+   "say": "circle me in red pencil and write a word with an arrow",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "some, above and beside the head, for the word",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none (headtrack.py measures the head; the circle follows it slowly)",
+   "extra": [
+    "scipy"
+   ],
+   "material": "none (one short word)",
+   "notes": "Needs room for the word above and beside the head. A head that fills the frame stops with a reason. One continuous shot of about 1.6 s from the snap. The picture goes grey, so it either ends on a cut or snaps back to colour inside the slot.",
+   "status": "ready"
+  },
+  {
+   "n": 73,
+   "key": "wipe-set",
+   "name": "Wipe Set",
+   "does": "A cut becomes a shape wipe with a thin light edge, chosen by name: iris from your face, blinds, barn doors or a clock sweep.",
+   "say": "make that cut an iris wipe (or blinds, barn doors, clock wipe)",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 2,
+   "cutout": "none",
+   "tracking": "none (iris and clock centre on the head from layout.json)",
+   "extra": [],
+   "material": "none",
+   "notes": "One slot per cut, about 0.5 s each side of it. Holds a frame of each shot for a few frames, so a cut in a gap between words looks best.",
+   "status": "ready"
+  },
+  {
+   "n": 74,
+   "key": "camera-cuts",
+   "name": "Camera Cuts",
+   "does": "A cut becomes one fast camera move with real motion blur, chosen by name: whip, zoom, spin, push or drop.",
+   "say": "make that cut a whip pan (or zoom, spin, push, drop)",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 2,
+   "cutout": "none",
+   "tracking": "none (zoom and spin centre on the head from layout.json)",
+   "extra": [],
+   "material": "none",
+   "notes": "One slot per cut, about 0.5 s each side. Needs nothing from the shots. For a dive through dark clothes into the next shot, use Zoom-Through Cut.",
+   "status": "ready"
+  },
+  {
+   "n": 75,
+   "key": "comment-flow",
+   "name": "Comment Flow",
+   "does": "A headline lands over a comment field, your keyword types itself in and posts, a reply card and a like arrive under it, then a follow pill rises at your chest and its button presses.",
+   "say": "show my comment keyword being typed, answered and a follow button pressed",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "the buyer's handle, optionally their round picture (a plain letter tile otherwise)",
+   "notes": "The call to action, 4 to 7 s, with a keyword the speaker says. Needs room above the head for the cards: declines on a tight close-up. Plain generic cards, never a real app's screen. Keeps the reel's captions on.",
+   "status": "ready"
+  },
+  {
+   "n": 76,
+   "key": "comment-letters",
+   "name": "Comment Letters",
+   "does": "The big letters of your keyword drop in one by one in 3D above a comment box, fall into it and become typed text, then it posts and reply cards stack under it with a like.",
+   "say": "drop my comment keyword into a comment box letter by letter",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json; the two-tone mask is one still of the slot)",
+   "extra": [],
+   "material": "the buyer's handle, optionally their round picture (a plain letter tile otherwise)",
+   "notes": "The call to action, 3 to 5 s, with a short keyword of 2 to 8 letters. Needs room above the head: declines on a tight close-up. The two-tone letters follow a still of the background, so a moving camera should turn TWO_TONE off. Plain generic cards, never a real app's screen.",
+   "status": "ready"
+  },
+  {
+   "n": 77,
+   "key": "prompt-send",
+   "name": "Prompt Send",
+   "does": "A cream bar opens from a dot at the top, what you tell the AI types in as you say it, the send button presses and spins, the result rolls in, and the bar collapses back into a dot.",
+   "say": "show my prompt being typed and sent, then the result",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (a spoken instruction of up to about 60 characters and a short result)",
+   "notes": "Any line where the speaker tells an AI what to do and says what comes back, about 3 to 5 s. Needs room above the head: declines on a tight close-up. A plain bar, never a real app's screen.",
+   "status": "ready"
+  },
+  {
+   "n": 78,
+   "key": "cover-build",
+   "name": "Cover Build",
+   "does": "A full magazine cover builds itself behind your head on your line: thin frame, masthead dropping letter by letter, small lines, coverlines on your words, a barcode and a slapped round sticker, then the picture blurs into the next shot.",
+   "say": "build a magazine cover behind me on this line",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "clear wall above the head",
+   "segments": 2,
+   "cutout": "clean",
+   "tracking": "none (the page is fixed to the screen and placed from layout.json; the cutout follows the speaker)",
+   "extra": [],
+   "material": "none (a masthead word and two short coverlines from the line; a buyer's own text is welcome)",
+   "notes": "The slot crosses the cut after the line, about 0.4 s into the next shot, because the exit is a zoom blur through that cut. Needs about 1.8 s before the cut and the top of the head at y 360 or lower. Declines when there is no room above the head. Hands raised above the head pass in front of the page.",
+   "status": "ready"
+  },
+  {
+   "n": 79,
+   "key": "edit-timeline",
+   "name": "Edit Timeline",
+   "does": "A dark editing panel opens above your head and builds this reel's own timeline layer by layer, with real shots, cut lengths, waveform and word blocks, as a playhead tears across and the panel flattens away.",
+   "say": "build this reel's timeline above my head",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed above the head from layout.json)",
+   "extra": [],
+   "material": "none (the panel reads the reel's own segments, words and audio)",
+   "notes": "Needs about 250 px between the safe zone top and the top of the head; declines without it. Needs a reel project, because it shows the reel's own edit, so build it after the cuts are final. Fits a line about how the video was made.",
+   "status": "ready"
+  },
+  {
+   "n": 80,
+   "key": "counter-dive",
+   "name": "Counter Dive",
+   "does": "A green plaque above your head rolls from your raw footage length down to the finished reel length, then the live frame shrinks into a smaller copy of itself, again and again, and pushes through into the next shot.",
+   "say": "count my raw length down to this reel and shrink the frame into itself",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 2,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "none (the real raw and finished lengths come from the reel project, or the buyer types them)",
+   "notes": "The slot crosses the cut after the line, about 0.4 s into the next shot, with about 2.8 s before the cut (2.1 s at least). Needs about 190 px above the head for the plaque and room for the small frame above or beside the head. Declines without them, and never shows made-up lengths.",
+   "status": "ready"
+  },
+  {
+   "n": 81,
+   "key": "page-roll",
+   "name": "Page Roll",
+   "does": "A dark page slides up as your picture drops under it, scrolls like a screen recording through rows of your reel's real frames and lines, zooms in on one row, and its lines light up as you name them.",
+   "say": "scroll a page above me and light up these lines as I name them",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json; the picture is moved down by a fixed amount)",
+   "extra": [],
+   "material": "the things the speaker names, for the lit lines. Optional: the buyer's own long screenshot in page/",
+   "notes": "One continuous shot of about 4 s or more with the listed words at least 1.6 s after the start. The panel crosses the face for about 3 frames on the way up and down, and rests clear of it. Needs a wall or plain top in the first 220 px, because the top of the picture stays still while the rest drops. A buyer's screenshot gets the scroll but no zoom and no lit lines. Declines when the face is too large to fit under the panel.",
+   "status": "ready"
+  },
+  {
+   "n": 82,
+   "key": "reel-rain",
+   "name": "Reel Rain",
+   "does": "The room dims and eight of your own videos tumble in out of the dark in 3D, settling into a wall behind you.",
+   "say": "my best videos tumble in behind me",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "above",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none",
+   "extra": [],
+   "material": "a folder of the buyer's own videos: at least 8, each 2 s or longer",
+   "notes": "The wall sits in the upper frame behind the speaker: the lower middle tiles are hidden by the head on a medium shot, and a close-up hides most of it. Without the buyer's own videos the effect is left out.",
+   "status": "ready"
+  },
+  {
+   "n": 83,
+   "key": "live-grid",
+   "name": "Live Grid",
+   "does": "Six of your own videos, all playing, drop into a grid behind you with real weight, then lift back out.",
+   "say": "drop my videos in a grid behind me",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "above",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none",
+   "extra": [],
+   "material": "a folder of the buyer's own videos: at least 6, each 2 s or longer",
+   "notes": "The grid sits in the upper frame behind the speaker: on a medium shot the head hides much of the middle tile of the lower row, and a close-up hides most of it. Without the buyer's own videos the effect is left out.",
+   "status": "ready"
+  },
+  {
+   "n": 84,
+   "key": "walk-card",
+   "name": "Walk Card",
+   "does": "A card unfolds above your head, a play button presses on the word, and titled chapters skip by with your own walkthrough video playing inside.",
+   "say": "show my walkthrough video in a card above my head",
+   "shot": [
+    "wide",
+    "medium",
+    "close"
+   ],
+   "camera": [
+    "still",
+    "drifting",
+    "moving"
+   ],
+   "wall": "above",
+   "segments": 1,
+   "cutout": "none",
+   "tracking": "none (screen-fixed, placed from layout.json)",
+   "extra": [],
+   "material": "the buyer's own walkthrough video, plus a title and 2 to 5 chapter names",
+   "notes": "Full size above the head needs a wide shot with the head top below about y 820. On a medium shot it sits beside the head, smaller, and on a shot with no room either side it declines. Without the buyer's own video the effect is left out.",
+   "status": "ready"
+  },
+  {
+   "n": 85,
+   "key": "room-swap",
+   "name": "Room Swap",
+   "does": "Your own walkthrough video slides in and replaces the room behind you, with chapter labels changing and large captions.",
+   "say": "put my walkthrough video behind me with chapters",
+   "shot": [
+    "wide",
+    "medium"
+   ],
+   "camera": [
+    "still",
+    "drifting"
+   ],
+   "wall": "none",
+   "segments": 1,
+   "cutout": "clean",
+   "tracking": "none",
+   "extra": [],
+   "material": "the buyer's own walkthrough video, plus 2 to 5 chapter names",
+   "notes": "Needs a clean cutout and room for the chapter plate between the chin and the captions. Without the buyer's own video the effect is left out.",
+   "status": "ready"
+  }
  ]
 }

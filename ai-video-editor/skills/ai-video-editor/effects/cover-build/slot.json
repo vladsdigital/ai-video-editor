@@ -1,0 +1,25 @@
+{
+ "key": "cover-build",
+ "pack": "cover-build",
+ "imported": "2026-11-07",
+ "cutout": "layer",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the page sits above the head and the reel's captions stay on the chest band over it, the same as in a normal shot",
+ "reel_env": [],
+ "in_a_reel": [
+  "make the slot ACROSS the cut after the line: from just before the line to about 0.4 s into the next shot. The exit is a zoom blur that peaks on the cut; nothing of the page stays after it",
+  "MASTHEAD, coverlines and sticker are words from the line, or the buyer's own: no real publication's name or logo",
+  "the buyer's style wins: set the STYLE block at the top of build.py to the reel's caption style for the coverlines (line_font, line_weight, line_ink) before the first build; keep a display serif for the masthead unless the style has its own"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit the CLIP block: MASTHEAD, TOP_LINE, LEFT, RIGHT, TICKET, STICKER and the AT_ words",
+  "run build.py SAFE=1      # prints the page's place, the times and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

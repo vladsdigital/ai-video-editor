@@ -540,6 +540,318 @@ window.STUDIO_CATALOG = {
    "line": "Tamna kartica crta tvoj proces korak po korak serif slovima.",
    "preview": "previews/effects/serif-flow.mp4",
    "poster": "previews/posters/effects/serif-flow.jpg"
+  },
+  {
+   "n": 47,
+   "key": "hook-stack",
+   "name": "Hook Stack",
+   "line": "Prvi red pada slovo po slovo iza tvoje glave, soba postaje zelena, a sledeće reči se guraju jedna za drugom.",
+   "preview": "previews/effects/hook-stack.mp4",
+   "poster": "previews/posters/effects/hook-stack.jpg"
+  },
+  {
+   "n": 48,
+   "key": "letter-stamp",
+   "name": "Letter Stamp",
+   "line": "Jedna ogromna reč slovo po slovo iza tvoje glave, utisnuta ili pala uz odskok.",
+   "preview": "previews/effects/letter-stamp.mp4",
+   "poster": "previews/posters/effects/letter-stamp.jpg"
+  },
+  {
+   "n": 49,
+   "key": "frame-sheet",
+   "name": "Frame Sheet",
+   "line": "Kadar se smanji u mrežu, polja se pune tvojim kadrovima jedno po jedno, pa uroniš nazad.",
+   "preview": "previews/effects/frame-sheet.mp4",
+   "poster": "previews/posters/effects/frame-sheet.jpg"
+  },
+  {
+   "n": 50,
+   "key": "feed-flick",
+   "name": "Feed Flick",
+   "line": "Fid leti sve brže i zakoči tačno na tebi.",
+   "preview": "previews/effects/feed-flick.mp4",
+   "poster": "previews/posters/effects/feed-flick.jpg"
+  },
+  {
+   "n": 51,
+   "key": "phone-dive",
+   "name": "Phone Dive",
+   "line": "Naslovna kartica, pa se kadar smanji u telefon i uroni nazad.",
+   "preview": "previews/effects/phone-dive.mp4",
+   "poster": "previews/posters/effects/phone-dive.jpg"
+  },
+  {
+   "n": 52,
+   "key": "iris-card",
+   "name": "Iris Card",
+   "line": "Iris se zatvori na tvom licu, a kartica kao iz nemog filma slaže tvoju rečenicu.",
+   "preview": "previews/effects/iris-card.mp4",
+   "poster": "previews/posters/effects/iris-card.jpg"
+  },
+  {
+   "n": 53,
+   "key": "picture-loop",
+   "name": "Picture Loop",
+   "line": "Smanjiš se u uramljenu sliku samog sebe, nekoliko nivoa duboko, pa izletiš nazad.",
+   "preview": "previews/effects/picture-loop.mp4",
+   "poster": "previews/posters/effects/picture-loop.jpg"
+  },
+  {
+   "n": 54,
+   "key": "plate-word",
+   "name": "Plate Word",
+   "line": "Titlovi rastu, pa jedna ogromna reč iseče papir, a video se vrti kroz slova.",
+   "preview": "previews/effects/plate-word.mp4",
+   "poster": "previews/posters/effects/plate-word.jpg"
+  },
+  {
+   "n": 55,
+   "key": "grid-snap",
+   "name": "Grid Snap",
+   "line": "Smanjiš se u sredinu mreže 3x3 od tvojih videa, pa se vratiš preko celog kadra.",
+   "preview": "previews/effects/grid-snap.mp4",
+   "poster": "previews/posters/effects/grid-snap.jpg"
+  },
+  {
+   "n": 56,
+   "key": "slab-caption",
+   "name": "Slab Caption",
+   "line": "Reč izraste u veliku ploču na vrhu, a ispod brade legne završna rečenica.",
+   "preview": "previews/effects/slab-caption.mp4",
+   "poster": "previews/posters/effects/slab-caption.jpg"
+  },
+  {
+   "n": 57,
+   "key": "lens-readout",
+   "name": "Lens Readout",
+   "line": "Skala objektiva se vrti dok se kadar širi, pa sledeće reči niču slovo po slovo.",
+   "preview": "previews/effects/lens-readout.mp4",
+   "poster": "previews/posters/effects/lens-readout.jpg"
+  },
+  {
+   "n": 58,
+   "key": "split-grade",
+   "name": "Split Grade",
+   "line": "Nagnuta linija deli lice na staru i novu boju, pa prebriše ceo kadar.",
+   "preview": "previews/effects/split-grade.mp4",
+   "poster": "previews/posters/effects/split-grade.jpg"
+  },
+  {
+   "n": 59,
+   "key": "grade-curtain",
+   "name": "Grade Curtain",
+   "line": "Na reč, tamna boja padne preko kadra kao zavesa, sa zrnom i tamnim ivicama.",
+   "preview": "previews/effects/grade-curtain.mp4",
+   "poster": "previews/posters/effects/grade-curtain.jpg"
+  },
+  {
+   "n": 60,
+   "key": "film-cut",
+   "name": "Film Cut",
+   "line": "Oštar prelaz u filmsku boju za jednu rečenicu: duboke crne, hladne senke, topla svetla.",
+   "preview": "previews/effects/film-cut.mp4",
+   "poster": "previews/posters/effects/film-cut.jpg"
+  },
+  {
+   "n": 61,
+   "key": "film-gate",
+   "name": "Film Gate",
+   "line": "Kadar postaje 35mm film: perforacije, zvučni trag od tvog glasa, treperenje i prašina.",
+   "preview": "previews/effects/film-gate.mp4",
+   "poster": "previews/posters/effects/film-gate.jpg"
+  },
+  {
+   "n": 62,
+   "key": "color-picker",
+   "name": "Color Picker",
+   "line": "Kapaljka uzima pet pravih boja iz kadra u paletu, a one se menjaju sa bojom snimka.",
+   "preview": "previews/effects/color-picker.mp4",
+   "poster": "previews/posters/effects/color-picker.jpg"
+  },
+  {
+   "n": 63,
+   "key": "receipt-print",
+   "name": "Receipt Print",
+   "line": "Štampač iznad glave štampa tvoje uputstvo kao račun, otcepi ga i baci.",
+   "preview": "previews/effects/receipt-print.mp4",
+   "poster": "previews/posters/effects/receipt-print.jpg"
+  },
+  {
+   "n": 64,
+   "key": "app-delete",
+   "name": "App Delete",
+   "line": "Pločice se tresu i brišu se jedna po jedna kako ih imenuješ.",
+   "preview": "previews/effects/app-delete.mp4",
+   "poster": "previews/posters/effects/app-delete.jpg"
+  },
+  {
+   "n": 65,
+   "key": "strike-tiles",
+   "name": "Strike Tiles",
+   "line": "Pločice iskaču na imena, crvena olovka ih precrtava, padnu, a ostane jedna reč.",
+   "preview": "previews/effects/strike-tiles.mp4",
+   "poster": "previews/posters/effects/strike-tiles.jpg"
+  },
+  {
+   "n": 66,
+   "key": "key-rain",
+   "name": "Key Rain",
+   "line": "Tasteri padaju i gomilaju se na tvojoj glavi, pa ih nešto počisti.",
+   "preview": "previews/effects/key-rain.mp4",
+   "poster": "previews/posters/effects/key-rain.jpg"
+  },
+  {
+   "n": 67,
+   "key": "note-thread",
+   "name": "Note Thread",
+   "line": "Kartica iskoči, tvoja beleška se ispiše, a odgovor stigne ispod nje.",
+   "preview": "previews/effects/note-thread.mp4",
+   "poster": "previews/posters/effects/note-thread.jpg"
+  },
+  {
+   "n": 68,
+   "key": "marked-sheet",
+   "name": "Marked Sheet",
+   "line": "List filmskih traka sa tvojim kadrovima, a crvena olovka zaokružuje šta je izbačeno.",
+   "preview": "previews/effects/marked-sheet.mp4",
+   "poster": "previews/posters/effects/marked-sheet.jpg"
+  },
+  {
+   "n": 69,
+   "key": "board-deal",
+   "name": "Board Deal",
+   "line": "Storibord od tvojih pravih kadrova se deli kao karte, okreće se i dobija belešku.",
+   "preview": "previews/effects/board-deal.mp4",
+   "poster": "previews/posters/effects/board-deal.jpg"
+  },
+  {
+   "n": 70,
+   "key": "file-drop",
+   "name": "File Drop",
+   "line": "Tvoj sirovi fajl upadne u polje, otvori se kao plejer, a pečati udaraju po lošim delovima.",
+   "preview": "previews/effects/file-drop.mp4",
+   "poster": "previews/posters/effects/file-drop.jpg"
+  },
+  {
+   "n": 71,
+   "key": "script-page",
+   "name": "Script Page",
+   "line": "Kadar postaje scenario sa tvojim rečima, a reči se označavaju dok ih izgovaraš.",
+   "preview": "previews/effects/script-page.mp4",
+   "poster": "previews/posters/effects/script-page.jpg"
+  },
+  {
+   "n": 72,
+   "key": "pencil-mark",
+   "name": "Pencil Mark",
+   "line": "Kadar postane crno-beo, crvena olovka zaokruži tvoju glavu i dopiše reč sa strelicom.",
+   "preview": "previews/effects/pencil-mark.mp4",
+   "poster": "previews/posters/effects/pencil-mark.jpg"
+  },
+  {
+   "n": 73,
+   "key": "wipe-set",
+   "name": "Wipe Set",
+   "line": "Prelaz na rezu u obliku po izboru: iris, roletne, vrata ili sat.",
+   "preview": "previews/effects/wipe-set.mp4",
+   "poster": "previews/posters/effects/wipe-set.jpg"
+  },
+  {
+   "n": 74,
+   "key": "camera-cuts",
+   "name": "Camera Cuts",
+   "line": "Pokret kamere na rezu po izboru: trzaj, zum, okret, guranje ili pad.",
+   "preview": "previews/effects/camera-cuts.mp4",
+   "poster": "previews/posters/effects/camera-cuts.jpg"
+  },
+  {
+   "n": 75,
+   "key": "comment-flow",
+   "name": "Comment Flow",
+   "line": "Polje za komentar ukuca ključnu reč i objavi je, stigne odgovor, pa se pritisne dugme za praćenje.",
+   "preview": "previews/effects/comment-flow.mp4",
+   "poster": "previews/posters/effects/comment-flow.jpg"
+  },
+  {
+   "n": 76,
+   "key": "comment-letters",
+   "name": "Comment Letters",
+   "line": "Slova ključne reči padaju u 3D u polje za komentar, pa se objavi.",
+   "preview": "previews/effects/comment-letters.mp4",
+   "poster": "previews/posters/effects/comment-letters.jpg"
+  },
+  {
+   "n": 77,
+   "key": "prompt-send",
+   "name": "Prompt Send",
+   "line": "Traka ukuca šta tražiš od AI, pošalje, i stigne rezultat.",
+   "preview": "previews/effects/prompt-send.mp4",
+   "poster": "previews/posters/effects/prompt-send.jpg"
+  },
+  {
+   "n": 78,
+   "key": "cover-build",
+   "name": "Cover Build",
+   "line": "Cela naslovna strana magazina se slaže iza tvoje glave: naslov, linije, bar kod, nalepnica.",
+   "preview": "previews/effects/cover-build.mp4",
+   "poster": "previews/posters/effects/cover-build.jpg"
+  },
+  {
+   "n": 79,
+   "key": "edit-timeline",
+   "name": "Edit Timeline",
+   "line": "Tamni panel slaže pravi tajmlajn ovog rilsa sloj po sloj, a glava preleti preko njega.",
+   "preview": "previews/effects/edit-timeline.mp4",
+   "poster": "previews/posters/effects/edit-timeline.jpg"
+  },
+  {
+   "n": 80,
+   "key": "counter-dive",
+   "name": "Counter Dive",
+   "line": "Brojač se vrti od dužine sirovog snimka do gotovog rilsa, pa kadar uroni u samog sebe.",
+   "preview": "previews/effects/counter-dive.mp4",
+   "poster": "previews/posters/effects/counter-dive.jpg"
+  },
+  {
+   "n": 81,
+   "key": "page-roll",
+   "name": "Page Roll",
+   "line": "Stranica se podigne, skroluje kao snimak ekrana i osvetljava redove koje pominješ.",
+   "preview": "previews/effects/page-roll.mp4",
+   "poster": "previews/posters/effects/page-roll.jpg"
+  },
+  {
+   "n": 82,
+   "key": "reel-rain",
+   "name": "Reel Rain",
+   "line": "Osam tvojih videa se prevrće iz mraka i slaže u zid iza tebe.",
+   "preview": "previews/effects/reel-rain.mp4",
+   "poster": "previews/posters/effects/reel-rain.jpg"
+  },
+  {
+   "n": 83,
+   "key": "live-grid",
+   "name": "Live Grid",
+   "line": "Šest tvojih videa, svi puštaju, padaju u mrežu iza tebe sa pravom težinom.",
+   "preview": "previews/effects/live-grid.mp4",
+   "poster": "previews/posters/effects/live-grid.jpg"
+  },
+  {
+   "n": 84,
+   "key": "walk-card",
+   "name": "Walk Card",
+   "line": "Kartica se otvori, plej se pritisne na reč, a poglavlja tvog videa promiču unutra.",
+   "preview": "previews/effects/walk-card.mp4",
+   "poster": "previews/posters/effects/walk-card.jpg"
+  },
+  {
+   "n": 85,
+   "key": "room-swap",
+   "name": "Room Swap",
+   "line": "Tvoj video zameni sobu iza tebe, poglavlje po poglavlje.",
+   "preview": "previews/effects/room-swap.mp4",
+   "poster": "previews/posters/effects/room-swap.jpg"
   }
  ],
  "styles": [

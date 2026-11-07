@@ -1,0 +1,30 @@
+{
+ "key": "note-thread",
+ "pack": "note-thread",
+ "imported": "2026-11-07",
+ "cutout": "none",
+ "layer": "overlay",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the note sits above the head and the reel's captions stay on over the chest",
+ "reel_env": [],
+ "buyer_folder": {
+  "name": "avatars",
+  "what": "optional: pictures for the two round name badges (plain lettered badges are the default)",
+  "min": 0
+ },
+ "in_a_reel": [
+  "NAME, NOTE, REPLY_NAME and REPLY are the buyer's own words; everything shown is generic, no real product's name or interface",
+  "the buyer's style wins: set the STYLE block at the top of build.py to the reel's caption style before the first build (effects/INDEX.md, Restyling an effect's own words)"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit NAME, NOTE, REPLY_NAME and REPLY in the CLIP block",
+  "run build.py SAFE=1      # prints the card size, the timing and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}

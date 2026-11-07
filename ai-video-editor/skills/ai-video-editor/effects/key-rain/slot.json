@@ -1,0 +1,25 @@
+{
+ "key": "key-rain",
+ "pack": "key-rain",
+ "imported": "2026-11-07",
+ "cutout": "measure",
+ "layer": "overlay",
+ "hi": "no",
+ "reel_captions": "keep",
+ "captions_note": "the pile sits above the head and the reel's captions stay on over the chest",
+ "reel_env": [],
+ "in_a_reel": [
+  "set the tiny words on the keys in KEYS to the reel's language, and T_SWEEP to the word the pile is cleared on",
+  "the cutout is only measured here, so the pile rides the head; nothing is layered"
+ ],
+ "sounds": {},
+ "steps": [
+  "edit KEYS, T_RAIN and T_SWEEP in the CLIP block",
+  "run build.py SAFE=1      # runs the physics, prints the pile size, the timing and the snapshot times",
+  "hf lint",
+  "hf snapshot --at <times build.py printed>",
+  "run build.py      # guide off",
+  "hf render",
+  "run check.py      # frame count, work/check/sheet.jpg, phone copy"
+ ]
+}
