@@ -149,11 +149,12 @@ def main():
             if not record.get('rvm_model'):
                 todo.append('one-time setup of the clean cutout: setup.py --matting (about 105 MB)')
             if not have_cut and ready:
-                todo.append('a clean cutout of the effect\'s own frames: fx_new.py makes it, about 1.2 s per frame on an '
-                            'Apple Silicon Mac (a 3 second slot is about 2 minutes). Tell the buyer before starting')
+                todo.append('a clean cutout: start rvm_cut.py on the whole reel in the background now (about 4 min for a '
+                            '60 second reel on an Apple Silicon Mac); fx_new.py waits for it and cuts each slot out of it')
             elif not have_cut:
-                todo.append(f'a clean cutout (rvm_cut.py): about {frames * 1.2 / 60:.0f} min for the whole reel on an Apple '
-                            'Silicon Mac, less if you only matte the frames of the effect (--src)')
+                todo.append(f'a clean cutout (rvm_cut.py): about {max(1, round(frames * .1 / 60))} min for the whole reel on an '
+                            'Apple Silicon Mac (several times that on the CPU only), less if you only matte the frames of '
+                            'the effect (--src)')
         elif e['cutout'] == 'quick' and not have_cut:
             todo.append('a cutout (cutout.py is enough)')
         missing = [p for p in e['extra'] if importlib.util.find_spec(MODULES.get(p, p)) is None]

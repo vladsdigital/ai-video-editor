@@ -29,13 +29,15 @@ buyer the one line it prints.
 ## 2. The cutout: quick or clean
 | | Quick: `cutout.py` | Clean: `rvm_cut.py` |
 |---|---|---|
-| Time | about 7s per second of footage on Apple Silicon, a few times that on other machines | about 1.2s per FRAME: a 20s reel is about 12 minutes |
+| Time | about 7s per second of footage on Apple Silicon, a few times that on other machines | on Apple Silicon (CoreML, two workers) about 0.13s per FRAME: a 60s reel is about 4 minutes, plus about 1 minute of head check. CPU only (Windows, Intel Mac): about 0.5s per frame or more |
 | Good for | measuring (layout.py does its own small one), Sticky Text | anything BEHIND the speaker or popping out of a card: Bold, Chalk Talk (`--hard`), Show and Tell, most effects. Every ready effect uses this one |
 | Weak spot | can take a face in a painting or poster for the speaker; rough hands | slow; needs `setup.py --matting` once (about 105 MB). It can keep a face or skull picture behind the head too: its head check takes that off (below) |
 
-Prefer the clean one whenever an edge will be seen. Tell the buyer the time BEFORE starting, run it in the
-background, keep working. One cutout at a time. Only an effect's own frames need matting: `fx_new.py` does that
-for a ready effect (a 3 second slot is about 2 minutes), `rvm_cut.py --src` for a recipe.
+Prefer the clean one whenever an edge will be seen. Start it in the background right after `assemble.py` and
+keep working (SKILL.md, workflow step 3): it prints its own time estimate and a progress line every 30 seconds.
+One cutout at a time. While it runs, `assets/subject.webm.running` exists and `subject.webm` is not there yet;
+`fx_new.py` waits for it and cuts each slot out of it. On a CPU-only machine an effect's own frames are enough:
+`fx_new.py` mattes only those when the reel has no cutout, `rvm_cut.py --src` for a recipe.
 Both write `assets/subject.webm` and stop with FRAME MISMATCH if it is not frame-for-frame with the cut: then
 re-run `assemble.py` and cut again.
 

@@ -9,7 +9,8 @@ Inside a reel project (the normal way):
       footage       the frames of <project>/assets/aroll.mp4 between --from and --to (reel seconds)
       words         the reel's own cleaned words.json, cut to the slot, times counted from the slot start
       cutout        cut from <project>/assets/subject.webm when the reel has one, else only the slot's frames are
-                    matted with the clean cutout (rvm_cut.py: about 1.2 s per frame, say so before starting)
+                    matted with the clean cutout (rvm_cut.py: about 0.15 s per frame on Apple Silicon); while the
+                    reel's cutout is being made in the background, this waits for it and cuts from it
 
 Any clip (same inputs and outputs as the effects were packaged with):
   PY fx_new.py <effect key> <slot_dir> --src <video> (--frame F | --in SEC) --frames N
@@ -39,6 +40,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 
 sys.dont_write_bytecode = True
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -58,6 +60,7 @@ SHIM = '''#!/usr/bin/env python3
 """Forwards to the skill's clean cutout (written by fx_new.py; effects call _shared/rvm_cut.py from the slot)."""
 import subprocess
 import sys
+import time
 
 sys.exit(subprocess.call([sys.executable, {script!r}] + sys.argv[1:]))
 '''
@@ -344,6 +347,22 @@ def main():
     need = meta.get('cutout', 'layer')
     full = a.cutout_from or (os.path.join(proj, 'assets', 'subject.webm') if proj else None)
     status = 0
+    running = (full or '') + '.running'
+    if full and not a.cutout_from and not a.no_cutout and need != 'none' and os.path.isfile(running):
+        # the reel's own cutout is being made in the background (rvm_cut.py): wait for it and cut this slot out of it
+        t_say = 0.0
+        while os.path.isfile(running):
+            try:
+                with open(running, encoding='utf-8') as fh:
+                    info = json.load(fh)
+                os.kill(int(info['pid']), 0)
+            except (OSError, ValueError, KeyError):
+                break                      # the cutout run is gone: matte the slot's own frames below
+            if time.time() - t_say >= 30:
+                t_say = time.time()
+                print(f"cutout: waiting for the reel's cutout ({info.get('done', 0)}/{info.get('frames', '?')} frames)",
+                      flush=True)
+            time.sleep(2)
     if a.no_cutout or need == 'none':
         print('cutout: skipped (' + ('--no-cutout' if a.no_cutout else 'this effect does not use one') + ')')
     elif os.path.isfile(sub) and os.path.isfile(os.path.join(slot, 'assets', '.cutout_done')) and not a.force \
@@ -358,7 +377,7 @@ def main():
         print(f'cutout: cut {c} frames out of {os.path.basename(full)}' + ('' if c == n else '  !! FRAME MISMATCH'))
         status = 0 if c == n else 2
     else:
-        print(f'cutout: matting {n} frames with the clean cutout, about {n * 1.2 / 60:.1f} min on an Apple Silicon Mac ...', flush=True)
+        print(f'cutout: matting {n} frames with the clean cutout ...', flush=True)
         r = subprocess.run([sys.executable, os.path.join(HERE, 'rvm_cut.py'), slot])
         c = fxlib.probe_frames(sub) if r.returncode == 0 and os.path.isfile(sub) else 0
         if c == n:

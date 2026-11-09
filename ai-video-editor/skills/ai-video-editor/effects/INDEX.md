@@ -54,7 +54,8 @@ the effect applied (1080x1920, 30fps). The reel build lays that render over the 
        Reel seconds. Start about 0.1s before the first word the effect reacts to, end about 1.5s after it lands
        (or on a cut). It makes <project>/fx/<key>/ with the effect's scripts, the slot's frames, the reel's own
        words cut to the slot, fonts, sounds, and the speaker cutout (cut from the reel's cutout when there is one,
-       else it mattes only the slot's frames: about 1.2s per frame, tell the buyer first).
+       while the reel's cutout is still being made in the background it waits for it; with neither it mattes only
+       the slot's frames, about 0.15s per frame on Apple Silicon).
        It prints the commands for this effect with the real paths filled in, and saves them as RUN.txt in the slot.
        Example snapshot times that would run past the end of this slot are spread over the slot for you.
        A line starting with CHECK layout.json means the slot's clean cutout and layout.json disagree about where
@@ -130,7 +131,8 @@ no room under the chin they move above the head, and with no room either side th
   read from the slot and replayed in the reel. `--no-sfx` leaves them out.
 - **An overall style.** A slot laid over an overall style gets the style's colour grade but not its push-ins or
   reframing. Look at both edges of the slot. If it jumps, drop the effect for that reel.
-- **Cutouts.** "clean" means `rvm_cut.py` (about 1.2 seconds per frame; `fx_new.py` mattes only the slot's frames).
+- **Cutouts.** "clean" means `rvm_cut.py` (about 0.13 seconds per frame on Apple Silicon, a 60 second reel in about 4 minutes; `fx_new.py` cuts each slot
+  out of the reel's cutout, or mattes only the slot's frames when the reel has none).
   "quick" means `cutout.py` is enough. The clean one needs `setup.py --matting` once.
 - Everything shown on screen is real (the buyer's own numbers and reels) or a generic placeholder. Never a real
   person, never made-up proof, no like or view counts that were not given.

@@ -338,6 +338,10 @@ none named, and the clips could suit more than one: ask which, in one line. Read
        look at work/sheets.jpg, read transcript.txt
 2. write <project>/edl.json                      best take of every line, dead air out (references/cutting.md)
 3. PY "SK/scripts/assemble.py" "<project>"       -> assets/aroll.mp4 (clean 30fps) + segments.json
+   cutout needed? (a look behind the speaker, or effects picked that use the clean cutout, effects/INDEX.md)
+   PY "SK/scripts/rvm_cut.py" "<project>"         start it NOW in the background and go on with step 4. On a Mac
+       where .platform.json says CoreML a 60s reel takes about 4 to 5 minutes. On CPU only, start it here only for
+       the looks behind the speaker; effects then matte just their own frames in fx_new.py
 4. PY "SK/scripts/transcribe_cut.py" "<project>" "<names and keywords said in the reel, comma-separated>"
        fix mishearings in words.json by hand, then:
    PY "SK/scripts/marks.py" "<project>"          first guess at the word marks; then apply the marking rule yourself
@@ -385,10 +389,11 @@ as picked (no room above the head, a look that needs a cutout, a caption swap th
 each one on to the buyer in plain words, in their language, and fix what can be fixed.
 
 A look that goes behind the speaker or lifts them out of the room (Bold captions, Chalk Talk, Show and Tell) needs
-a person cutout of the whole reel first. Use the clean one, `rvm_cut.py`, and tell the buyer how long it takes
-before you start (`references/checks.md`). Almost every effect needs the clean cutout too (`effects/INDEX.md` says which do not), but only of its own frames:
-`fx_new.py` does that (about 1.2 to 1.8 seconds per frame on an Apple Silicon Mac, so about 2 minutes for a 3
-second effect). Both need `setup.py --matting` once. Every clean cutout ends with a `head check:` line (a picture
+a person cutout of the whole reel. Use the clean one, `rvm_cut.py`, started in the background right after step 3
+(its first line says how long; tell the buyer in one line, `references/checks.md`). Almost every effect needs the
+clean cutout too (`effects/INDEX.md` says which do not): `fx_new.py` cuts each slot out of the reel's cutout, and
+waits for it while it is still being made. With no reel cutout it mattes only the slot's own frames. Both need
+`setup.py --matting` once. Every clean cutout ends with a `head check:` line (a picture
 behind the head taken off the cutout, or not): pass it on as `references/checks.md` says.
 
 Look at one reel snapshot inside every slot: one caption look, nothing doubled, no spoken word without a

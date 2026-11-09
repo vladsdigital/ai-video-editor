@@ -3,6 +3,7 @@ Ažurirano: 09.11.2026.
 Faza: razvoj
 
 ## Gde smo stali
+- 09.11 (3): brži čisti izrez (tačka 3 plana). `rvm_cut.py` na Macu ide na CoreML i deli posao na 2 radnika: 60 s rilsa „svi 7” za 4 min umesto 15 (plus 1 min provera glave), ivice iste (razlika ispod 2%). Pola rezolucije odbačeno: nije brže bez slabije ivice. Izrez se pokreće u pozadini odmah posle assemble, `fx_new.py` ga čeka i iz njega seče slotove. Fajl dobija pravo ime tek kad je gotov (`subject.webm.running` dok radi). Bez CoreML-a (Windows) ostaje oko 0,4 s po frejmu. Nova verzija još nije izbačena.
 - 09.11 (2): plan ubrzanja u `docs/plan-ubrzanja.md`, na merenjima. Montaža traje 15 do 35 min: pola je Claude (110 do 130 koraka, 12 do 22 slike), pola skripte. Jedini spor alat je čisti izrez (0,5 s po frejmu; 15 min za 60 s rilsa). CoreML 2x, pola rezolucije 4x brže. Kod još nije menjan.
 - 09.11: verzija 1.2.1. Setup sad kupcu kaže kako stižu ažuriranja (pitanje u četu, "ažuriraj AI Video Editor"); korisnicima Claude Code-a u terminalu i kako da uključe auto-update (`/plugin` → Marketplaces → ai-video-editor → Enable auto-update). Isto u README-u. Najava za kupce: `docs/najava-1.2.0.md`. Vladimirov plugin ažuriran na 1.2.0 (08.11).
 - 07.11 (3): grana spojena u main i pushovana, verzija 1.2.0 (85 efekata). Spisak za landing: `docs/efekti-za-sajt.json`.
@@ -21,13 +22,13 @@ Faza: razvoj
 
 ## Sledeći korak
 0. Aktivirati licencu i izrenderovati pun rils sa novim efektima (ivice, titlovi, zvuk). Landing stranica sa svih 85 efekata.
-1. Ubrzanje po `docs/plan-ubrzanja.md`: prvo brži izrez (CoreML, pola rezolucije, jedan izrez za ceo rils), pa `montaza.py` (jedna komanda za celu montažu), pa automatsko popunjavanje efekata.
+1. Ubrzanje po `docs/plan-ubrzanja.md`: brži izrez je gotov; sledi `montaza.py` (jedna komanda za celu montažu i jedna kontrolna slika), pa automatsko popunjavanje efekata. Brži izrez izbaciti kao 1.2.2 kad Vladimir kaže.
 2. Po želji: pravi b-roll za Inside Out i Green Screen, širi kadar za Clone.
 3. Test instalacije iz Claude aplikacije (repo je sada javan).
 4. Ugrađeni stil "Vladsdigital" (Archivo Black + Inter, boje iz reel-animacije).
 
 ## Šta fali od Vladimira
-- Odluka o redosledu ubrzanja; 2 do 3 sirova klipa za merenje pre i posle.
+- Da li da brži izrez odmah izbacimo kupcima (1.2.2); 2 do 3 sirova klipa za merenje pre i posle.
 - Kod za aktivaciju licence (stiže na mejl) za probu u rilsu; da pogleda 39 novih primera u pickeru i presluša zvuk.
 - Snimci i materijal (spisak u poslednjoj poruci u chatu).
 - Pismena dozvola autora.
