@@ -1,8 +1,9 @@
 # Status: AI Video Editor
-Ažurirano: 07.11.2026.
+Ažurirano: 09.11.2026.
 Faza: razvoj
 
 ## Gde smo stali
+- 09.11: verzija 1.2.1. Setup sad kupcu kaže kako stižu ažuriranja (pitanje u četu, "ažuriraj AI Video Editor"); korisnicima Claude Code-a u terminalu i kako da uključe auto-update (`/plugin` → Marketplaces → ai-video-editor → Enable auto-update). Isto u README-u. Najava za kupce: `docs/najava-1.2.0.md`. Vladimirov plugin ažuriran na 1.2.0 (08.11).
 - 07.11 (3): grana spojena u main i pushovana, verzija 1.2.0 (85 efekata). Spisak za landing: `docs/efekti-za-sajt.json`.
 - 07.11 (2): zelena izbačena: novi efekti su podrazumevano narandžasti (`#FF6A1A`), a u pickeru je dodat izbor boje (8 boja + svoja, `accentColor` u picks, `fxlib.apply_accent`). Svih 38 efekata izrenderovano na probnom snimku `svi 7` (osim key-rain, nema mesta iznad glave), spojeno u `~/Desktop/svi7-svi-efekti.mp4`. Efekti sad umeju na grudi kad iznad glave nema mesta.
 - 07.11: 39 novih efekata (ukupno 85), rekreirani jedan na jedan po javnim demo klipovima sa justyn.ai/masterclass, sa našim kodom i našim nazivima, svi u listi i pickeru sa pregledom na Vladimirovom snimku. Verzija 1.2.0. Grana `feat/novi-efekti`, nije spojena ni pushovana. Upisano u plan rilsa: 7 efekata (`fx_add`); pun rils nije izrenderovan jer licenca nije aktivna na ovom Macu (probni projekat `~/reel-edits/efekti-proba`). Zvuk nije slušan.
@@ -30,6 +31,7 @@ Faza: razvoj
 - Pismena dozvola autora.
 
 ## Otvorena pitanja / rizici
+- Kupci u Claude aplikaciji nemaju prekidač za auto-update; ažuriranje vide tek kad pokrenu plugin. Ključ `extraKnownMarketplaces` sa `"autoUpdate": true` u settings.json možda radi, ali nije potvrđeno ni testirano.
 - layout.py brada: na svi 7 kaže 676, a stvarna je oko 780 do 830; agenti su ručno zaobilazili. Treba popraviti merenje.
 - Odstupanja od dema: ništa preko lica (key-rain, page-roll, marked-sheet, walk-card, file-drop, plate-word, color-picker). Bez pravih logoa. wipe-set (blinds, barn, clock) i pokreti u camera-cuts nisu vidljivi u demu pa su pravljeni po nazivu. cover-build i counter-dive traže rez u slotu.
 - Sačuvani picks: efekat van izbora kupca ne ulazi u rils dok ga ne štiklira.

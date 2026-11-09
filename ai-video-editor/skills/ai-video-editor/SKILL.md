@@ -222,6 +222,12 @@ styles, picks or folders.
    - `speech.py use whisper|soniox|auto` picks the engine later (auto, the default: Soniox when a key is saved, else
      Whisper). `speech.py key --forget` removes the key. `speech.py status` shows the state at any time (it never
      prints the key).
+6. Updates, one short message, no question to answer: "Kad izađe nova verzija (popravke, novi efekti), javiću ti
+   ovde u četu i pitati da li da je instaliram. Možeš i sam bilo kad da kažeš: ažuriraj AI Video Editor."
+   Only when they run Claude Code in a terminal (not the Claude app), add the switch that updates it by itself:
+   "Ako hoćeš da se ažurira i bez pitanja: ukucaj /plugin, otvori karticu Marketplaces, izaberi ai-video-editor i
+   klikni Enable auto-update." The Claude app has no such switch: there, the update question is the way.
+   Never edit Claude's own settings or plugin files to turn it on.
 
 No saved style yet (`my_styles.py list` says so) and no picks: build their first style. Ask in ONE message:
 

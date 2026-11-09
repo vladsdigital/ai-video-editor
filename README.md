@@ -105,6 +105,11 @@ claude plugin update ai-video-editor@ai-video-editor
 
 Posle ažuriranja otvori novi čet, da Claude učita novu verziju.
 
+**Da se ažurira samo (samo Claude Code u terminalu):** ukucaj `/plugin`, otvori karticu **Marketplaces**, izaberi
+**ai-video-editor** i klikni **Enable auto-update**. Nova verzija tada stiže sama, a Claude ti javi da je učitaš
+(`/reload-plugins` ili novi čet). U Claude aplikaciji tog prekidača nema: tamo ti Claude javi u četu kad izađe nova
+verzija.
+
 ## Pomoć
 
 Piši na podrska@vladsdigital.com. Napiši šta si radio ili radila i šta se desilo. Snimak ekrana mnogo pomaže.
